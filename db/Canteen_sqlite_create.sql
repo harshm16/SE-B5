@@ -1,20 +1,20 @@
 /*Creating database and tables*/
 CREATE TABLE Owner 
 (
-	Owner_id integer PRIMARY KEY AUTOINCREMENT,
+	Owner_id integer PRIMARY KEY,
 	Owner_name text
 );
 
 CREATE TABLE Canteen 
 (
-	Canteen_id integer PRIMARY KEY AUTOINCREMENT,
+	Canteen_id integer PRIMARY KEY,
 	Canteen_name text,
 	Owner_id integer
 );
 
 CREATE TABLE Items 
 (
-	Items_id integer PRIMARY KEY AUTOINCREMENT,
+	Items_id integer PRIMARY KEY,
 	Items_name text,
 	Item_type text
 );
