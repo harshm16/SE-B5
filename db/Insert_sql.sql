@@ -1,35 +1,3 @@
-/*Creating database and tables*/
-CREATE TABLE Owner 
-(
-	Owner_id integer PRIMARY KEY,
-	Owner_name text
-);
-
-CREATE TABLE Canteen 
-(
-	Canteen_id integer PRIMARY KEY,
-	Canteen_name text,
-	Owner_id integer
-);
-
-CREATE TABLE Items 
-(
-	Items_id integer PRIMARY KEY,
-	Items_name text,
-	Item_type text
-);
-
-CREATE TABLE Has 
-(
-	Canteen_id integer,
-	Items_id integer,
-	Has_quantity integer,
-	PRIMARY KEY (Canteen_id,Items_id),
-	FOREIGN KEY (Canteen_id) REFERENCES Canteen(Canteen_id),
-	FOREIGN KEY (Items_id) REFERENCES Items(Items_id)
-);
-
-/*Insert values */
 insert into Owner(Owner_name) values ("Owner1");
 insert into Owner(Owner_name) values ("Owner2");
 insert into Owner(Owner_name) values ("Owner3");
@@ -46,7 +14,7 @@ insert into Items(Items_name,item_type) values ("Parle","Biscuit");
 insert into Items(Items_name,item_type) values ("Fruit bowl","Fruit Salad");
 insert into Items(Items_name,item_type) values ("Maggi","Noodles");
 insert into Items(Items_name,item_type) values ("Yippe","Noodles");
-insert into Items(Items_name,item_type) values ("Samosa","Fried snack");
+insert into Items(Items_name,item_type) values ("Samosa","Fried dish");
 insert into Items(Items_name,item_type) values ("Lays", "Snack");
 insert into Items(Items_name,item_type) values ("Munch","Chocolate");
 
