@@ -15,8 +15,8 @@ CREATE TABLE Items (
 	Ingredients text,
 	Image blob,
 	Description text,
-	Item_type text PRIMARY KEY AUTOINCREMENT,
-	Price float PRIMARY KEY AUTOINCREMENT
+	Item_type text,
+	Price float 
 );
 
 CREATE TABLE Has (
@@ -26,7 +26,7 @@ CREATE TABLE Has (
 );
 
 CREATE TABLE Users (
-	User_id text PRIMARY KEY AUTOINCREMENT,
+	User_id integer PRIMARY KEY AUTOINCREMENT,
 	User_name text
 );
 
@@ -35,13 +35,13 @@ CREATE TABLE Purchases (
 	Quantity integer,
 	User_id integer,
 	Purchase_basket_id integer,
-	PRIMARY KEY (Item_id,User_id,Pruchase_basket_id) 
+	PRIMARY KEY (Item_id,User_id,Purchase_basket_id) 
 );
 
 CREATE TABLE Transactions (
 	Transaction_timestamp datetime ,
 	Transaction_amount float,
-	Transaction_id PRIMARY KEY AUTOINCREMENT,
+	Transaction_id integer PRIMARY KEY AUTOINCREMENT,
 	Hash string,
 	FOREIGN KEY (Transaction_id) REFERENCES Purchases(Purchase_basket_id)
 );
