@@ -2,6 +2,10 @@ from flask import Flask, render_template
 import db
 app = Flask(__name__)
 
+@app.route('/page-profile.html')
+def page_profile():
+	return render_template('canteen_owner/page-profile.html')
+
 @app.route('/panels.html')
 def panels():
 	return render_template('canteen_owner/panels.html')
@@ -10,7 +14,7 @@ def panels():
 def elements():
 	return render_template('canteen_owner/elements.html')
 
-@app.route('/owner_main')
+@app.route('/index.html')
 def owner_index():
 	return render_template('canteen_owner/index.html')
 
