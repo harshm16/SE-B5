@@ -2,6 +2,10 @@ from flask import Flask, render_template
 import db
 app = Flask(__name__)
 
+@app.route('/page-login.html')
+def page_login():
+	return render_template('canteen_owner/page-login.html')
+
 @app.route('/page-profile.html')
 def page_profile():
 	return render_template('canteen_owner/page-profile.html')
