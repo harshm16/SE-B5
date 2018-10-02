@@ -2,6 +2,14 @@ from flask import Flask, render_template
 import db
 app = Flask(__name__)
 
+@app.route('/icons.html')
+def icons():
+	return render_template('canteen_owner/icons.html')
+
+@app.route('/tables.html')
+def tables():
+	return render_template('canteen_owner/tables.html')
+
 @app.route('/notifications.html')
 def notifications():
 	return render_template('canteen_owner/notifications.html')
