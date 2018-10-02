@@ -1,17 +1,36 @@
-/*$(".panel").click(function(e)
+$(".AddItem").click(function()
 {
-        alert("Collapse");
-        var $_target =  $(e.currentTarget);
-        var $_panelBody = $_target.find(".panel");
-        if($_panelBody)
-        {
-          $_panelBody.collapse('toggle');
-        }
-});*/
+    var content = '<tr> \
+    <td><input type="text" class="form-control" placeholder="Item Name"></td> \
+    <td><input type="number" class="form-control" placeholder="0"></td> \
+    <td><input type="number" class="form-control" placeholder="0"></td> \
+    <td><textarea class="form-control" placeholder="Item Description" rows="1"></textarea></td> \
+    <td> \
+            <button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button> </td>\
+    </tr>';
+    $(".table > tbody").append(content); 
+    $("#delete").bind("click",remove);
 
-$("#AddItem").click(function()
-{
-    var content= $('.panel').html();
-    $(".col-md-7").append("<div class='panel'>"+content+"</div>"); 
-    $('.panel').collapse({ parent: true, toggle: true });
 }) ;
+
+$(".AddCanteen").click(function()
+{
+    var content = '<tr> \
+    <td><input type="text" class="form-control" placeholder="Name"></td> \
+    <td><input type="text" class="form-control" placeholder="XYZ"></td> \
+    <td><input type="text" class="form-control" placeholder="ABC"></td> \
+    <td><textarea class="form-control" placeholder="Example:Juice Center" rows="1"></textarea></td> \
+    <td> \
+            <button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button> </td>\
+    </tr>';
+    $(".table > tbody").append(content);
+    
+}) ;
+
+$(".SaveList").click(function()
+{
+    
+});
+
+$('.table > tbody').on('click','.delete',function(){$(this).parent().parent().remove();});
+
