@@ -9,7 +9,7 @@
 
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.2.4/css/simple-line-icons.min.css'>
 
-      <link rel="stylesheet" href="{{url_for('static', filename='canteen-items.css') }}">
+      <link rel="stylesheet" href="{{url_for('static', filename='canteen-items/canteen-items.css') }}">
 
   
 </head>
@@ -43,7 +43,7 @@
   
   {% for d in data %}
   <div class='product'>
-    <img src='https://placeimg.com/200/100'>
+    <img src='https://placeimg.com/100/100'>
     <h2 class='header'>{{ d.Items_name }}</h2>
     <p class='description'>Nullam posuere turpis vel lacinia luctus. Donec in efficitur neque. Curabitur consectetur non ipsum in eleifend. Praesent id velit in nisi maximus porta nec vitae odio. Proin vitae magna a massa accumsan venenatis. Donec semper, sem in ullamcorper bibendum, mauris sem imperdiet lorem, tempor aliquet ligula lorem sit amet nibh. Suspendisse potenti.</p>
     <p class='price'>231,-</p>
@@ -61,7 +61,7 @@
   <img src='https://placeimg.com/100/100'>
 </div>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
-  <script src="{{url_for('static', filename='canteen-items.js')}}"></script>
+  <script src="{{url_for('static', filename='canteen-items/canteen-items.js')}}"></script>
 
 </body>
 
