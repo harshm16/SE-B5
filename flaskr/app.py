@@ -53,4 +53,4 @@ def items_index():
 	return render_template('canteen-items/index.html', data = db.get_items('Items', dbase))
 
 if __name__ == "__main__":
-	app.run(port="2999")
+	app.run()
