@@ -2,6 +2,10 @@ from flask import Flask, render_template
 import db
 app = Flask(__name__)
 
+@app.route('/typography.html')
+def typography():
+	return render_template('canteen_owner/typography.html')
+
 @app.route('/icons.html')
 def icons():
 	return render_template('canteen_owner/icons.html')
