@@ -2,6 +2,10 @@ from flask import Flask, render_template
 import db
 app = Flask(__name__)
 
+@app.route('/charts.html')
+def charts():
+	return render_template('canteen_owner/charts.html')
+
 @app.route('/page-lockscreen.html')
 def page_lockscreen():
 	return render_template('canteen_owner/page-lockscreen.html')
@@ -33,4 +37,4 @@ def items_index():
 	return render_template('canteen-items/index.html', data = db.get_items('Items', dbase))
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run()
