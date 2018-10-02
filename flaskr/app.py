@@ -2,6 +2,10 @@ from flask import Flask, render_template
 import db
 app = Flask(__name__)
 
+@app.route('/notifications.html')
+def notifications():
+	return render_template('canteen_owner/notifications.html')
+
 @app.route('/charts.html')
 def charts():
 	return render_template('canteen_owner/charts.html')
