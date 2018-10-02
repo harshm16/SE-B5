@@ -2,6 +2,10 @@ from flask import Flask, render_template
 import db
 app = Flask(__name__)
 
+@app.route('/panels.html')
+def panels():
+	return render_template('canteen_owner/panels.html')
+
 @app.route('/elements.html')
 def elements():
 	return render_template('canteen_owner/elements.html')
