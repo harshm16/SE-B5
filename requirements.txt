@@ -1,0 +1,6 @@
+Flask==1.0.2
+pytest_flask==0.13.0
+requests==2.19.1
+pytest==3.8.2
+Werkzeug==0.14.1
+pycrypto==2.6.1

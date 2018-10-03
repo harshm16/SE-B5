@@ -1,5 +1,7 @@
 # 7th Sem Software-Engineering Project #
 
+[![Build Status](https://travis-ci.org/ganesh-k13/SE-B5.svg?branch=master)](https://travis-ci.org/ganesh-k13/SE-B5)
+
 ### How to contribute to the project: ###
 
 * Fork this repo.
