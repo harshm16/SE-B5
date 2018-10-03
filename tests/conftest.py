@@ -1,6 +1,11 @@
-import pytest
-import pytest_flask
+import sys
+sys.path.append("..")
 
-@pytest.mark.options(debug=False)
-def test_app(app):
-  assert not app.debug, 'Ensure the app not in debug mode'
+import pytest
+from flaskr.app import create_app
+
+@pytest.fixture
+def app():
+    app = create_app()
+    app.debug = True
+    return app

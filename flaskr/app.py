@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from db import *
+import db
 from werkzeug.datastructures import ImmutableMultiDict
 import sqlite3
 # import Checksum
