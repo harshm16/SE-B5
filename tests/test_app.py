@@ -1,4 +1,5 @@
 import pytest
+import pytest_flask
 from flask import url_for
 
 class TestApp:
