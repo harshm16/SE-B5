@@ -2,7 +2,7 @@
 <!-- {{url_for('static', filename='canteen-items/canteen-items.js')}} -->
 <!--COMMON IN ALL-->
 <head>
-	<title>Dashboard | {% block title %}{% end block %} </title>
+	<title>Dashboard |  </title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -114,6 +114,7 @@
 		</div>
 		<!-- END LEFT SIDEBAR -->
 		<!--END COMMON IN ALL-->
-		{% block content %}{% endblock %}
+		<div class="main"></div>
+		<script> window.onload = function () {$('.main').load('indx.html .main'); }</script>
 	</body>
 	</html>

@@ -9,7 +9,7 @@ $(".AddItem").click(function()
             <button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button> </td>\
     </tr>';
     $(".table > tbody").append(content); 
-    $("#delete").bind("click",remove);
+    //$("#delete").bind("click",remove);
 
 }) ;
 
@@ -33,4 +33,5 @@ $(".SaveList").click(function()
 });
 
 $('.table > tbody').on('click','.delete',function(){$(this).parent().parent().remove();});
+
 
