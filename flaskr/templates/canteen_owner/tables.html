@@ -27,7 +27,7 @@
 												<td><input type="text" class="form-control" placeholder="Name"></td>
 												<td><input type="text" class="form-control" placeholder="XYZ"></td>
 												<td><input type="text" class="form-control" placeholder="ABC"></td>
-												<td><textarea class="form-control" placeholder="Example: Juice center" rows="1"></textarea></td>
+												<td><input type="text" class="form-control" placeholder="Ex:Juice center"></td>
 												<td>
 														<!--button id="edit" type="button" class="btn btn-warning"><i class="lnr lnr-pencil"></i></button-->
 														<button id="delete" type="button" class="btn btn-danger"><i class="lnr lnr-trash"></i></button>
@@ -49,11 +49,8 @@
 			</div>
 			<!-- END MAIN CONTENT -->	
 	<!-- Javascript -->
-	<script src="{{url_for('static', filename='canteen-owner/vendor/jquery/jquery.min.js')}}"></script>
-	<script src="{{url_for('static', filename='canteen-owner/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-	<script src="{{url_for('static', filename='canteen-owner/vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-	<script src="{{url_for('static', filename='canteen-owner/scripts/klorofil-common.js')}}"></script>
-	<script src="{{url_for('static', filename='canteen-owner/scripts/dynamicElem.js')}}"></script>
+	<script>
+			$.getScript("{{url_for('static', filename='canteen-owner/scripts/dynamicElem.js')}}");
+	</script>		
 </body>
-
 </html>

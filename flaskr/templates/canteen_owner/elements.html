@@ -27,7 +27,7 @@
 												<td><input type="text" class="form-control" placeholder="Item Name"></td>
 												<td><input type="number" class="form-control" placeholder="0"></td>
 												<td><input type="number" class="form-control" placeholder="0"></td>
-												<td><textarea class="form-control" placeholder="Item Description" rows="1"></textarea></td>
+												<td><input type="text" class="form-control" placeholder="Item Description"></td>
 												<td>
 														<!--button id="edit" type="button" class="btn btn-warning"><i class="lnr lnr-pencil"></i></button-->
 														<button id="delete" type="button" class="btn btn-danger"><i class="lnr lnr-trash"></i></button>
@@ -42,8 +42,8 @@
 						</div>
 						<!--END MENU FOR THE DAY-->
 						<div class="col-md-14">
-								<button type="button"  class="btn btn-default AddItem"><i class="fa fa-plus-square"></i> Add Item </button>
-								<button type="button"  class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Save List </button>
+								<button type="button" class="btn btn-default AddItem"><i class="fa fa-plus-square"></i> Add Item </button>
+								<button type="button" class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Save List </button>
 						</div>
 					</div>
 				</div>
@@ -52,15 +52,7 @@
 		
 		<!-- END MAIN -->
 		<script>
-			var url = ["{{url_for('static', filename='canteen-owner/scripts/dynamicElem.js')}}",
-						"{{url_for('static', filename='canteen-owner/vendor/bootstrap/js/bootstrap.min.js')}}",
-						"{{url_for('static', filename='canteen-owner/scripts/klorofil-common.js')}}",
-						"{{url_for('static', filename='canteen-owner/vendor/jquery/jquery.min.js')}}"];
-			
-			for (var i=0;i< url.length;i++)
-			{
-						$.getScript(url[i]);
-			}
+			$.getScript("{{url_for('static', filename='canteen-owner/scripts/dynamicElem.js')}}");
 		</script>
 		
 </body>

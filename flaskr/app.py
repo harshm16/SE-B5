@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import db
+import json
 app = Flask(__name__)
 
 @app.route('/typography.html')
@@ -45,6 +46,10 @@ def elements():
 @app.route('/index.html')
 def owner_index():
 	return render_template('canteen_owner/index.html')
+
+"""@app.route('/save',methods=['POST'])
+def saveData():
+    return json.dumps({'status':'OK'});"""
 
 @app.route('/items')
 def items_index():
