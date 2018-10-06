@@ -50,12 +50,18 @@
 			</div>
 			<!-- END MAIN CONTENT -->
 		
-		<script src="{{url_for('static', filename='canteen-owner/vendor/jquery/jquery.min.js')}}"></script>
-		<script src="{{url_for('static', filename='canteen-owner/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-		<script src="{{url_for('static', filename='canteen-owner/vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
-		<script src="{{url_for('static', filename='canteen-owner/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js')}}"></script>
-		<script src="{{url_for('static', filename='canteen-owner/vendor/chartist/js/chartist.min.js')}}"></script>
-		<script src="{{url_for('static', filename='canteen-owner/scripts/klorofil-common.js')}}"></script>
-		<script src="{{url_for('static', filename='canteen-owner/scripts/dynamicElem.js')}}"></script>
+		<!-- END MAIN -->
+		<script>
+			var url = ["{{url_for('static', filename='canteen-owner/scripts/dynamicElem.js')}}",
+						"{{url_for('static', filename='canteen-owner/vendor/bootstrap/js/bootstrap.min.js')}}",
+						"{{url_for('static', filename='canteen-owner/scripts/klorofil-common.js')}}",
+						"{{url_for('static', filename='canteen-owner/vendor/jquery/jquery.min.js')}}"];
+			
+			for (var i=0;i< url.length;i++)
+			{
+						$.getScript(url[i]);
+			}
+		</script>
+		
 </body>
 </html>
