@@ -2,7 +2,7 @@ import pytest
 import pytest_flask
 from flask import url_for
 
-@pytest.mark.skip(reason="no way of currently testing this")
+# @pytest.mark.skip(reason="no way of currently testing this")
 class TestApp:
 	# User View Start
 	def test_items_index(self, client):
