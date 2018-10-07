@@ -1,10 +1,15 @@
+from flask import Flask, render_template
+from flask import jsonify
+from flask import request
+from flask import Response
+from flask import json
 import os, sys
-from flask import Flask, render_template, request, redirect
 import flaskr.db_utils as db_utils
 from werkzeug.datastructures import ImmutableMultiDict
 import sqlite3
 import flaskr.Checksum as Checksum
 import requests
+
 
 CURR_PATH = os.path.dirname(__file__)
 
@@ -68,6 +73,18 @@ def create_app():
 	def page_login():
 		return render_template('canteen_owner/page-login.html')
 
+  @app.route('/postreq',methods=['POST'])
+  def saveData():
+    data = {'msg': 'Successfull'}
+    return jsonify(data)
+
+  @app.route('/getreq',methods=['GET'])
+  def sendData():
+      items = [{'Item Name': 'Sandwich','Quantity':'20','Price':'12','Description':'Indian snack'},
+        {'Item Name': 'Samosa','Quantity':'20','Price':'10','Description':'Indian snack'}]
+      #return jsonify(items)
+      return Response(json.dumps(items),  mimetype='application/json')
+
 	@app.route('/page-profile.html')
 	def page_profile():
 		return render_template('canteen_owner/page-profile.html')
@@ -91,6 +108,7 @@ def create_app():
 		return render_template('canteen-items/index.html', data = db_utils.get_items('Items', dbase))
 	
 	return app
+
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))
