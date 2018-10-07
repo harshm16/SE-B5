@@ -1,5 +1,31 @@
+function PopulateData(data)
+{
+    for(var eachrow = 0 ; eachrow < data.length; eachrow++)
+    {
+        if(eachrow){AddItem();}
+        $(".table tr:last").each(function()
+        {
+            $(this).find("td:eq(0) > input").val(data[eachrow]["Item Name"]);
+            $(this).find("td:eq(1) > input").val(data[eachrow]["Quantity"]);
+            $(this).find("td:eq(2) > input").val(data[eachrow]["Price"]);
+            $(this).find("td:eq(3) > input").val(data[eachrow]["Description"]);
+        });  
+    }
+}
+function LoadMenu()
+{
+    $.getJSON({
+        url:'/getreq',
+        type:'GET',
+        success: PopulateData,
+        error: function(error) {alert("Failed saving menu");}
+    });
+}
+$(document).ready(LoadMenu);
+
+
 //Creates dynamic element for add item functionality in menu page
-$(".AddItem").click(function()
+function AddItem()
 {
     var content = '<tr> \
     <td><input type="text" class="form-control" placeholder="Item Name"></td> \
@@ -10,11 +36,11 @@ $(".AddItem").click(function()
             <button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button> </td>\
     </tr>';
     $(".table > tbody").append(content); 
-}) ;
-
+};
+$(".AddItem").click(AddItem);
 
 //Creates dynamic element for add canteen functionality in canteen page
-$(".AddCanteen").click(function()
+function AddCanteen()
 {
     var content = '<tr> \
     <td><input type="text" class="form-control" placeholder="Name"></td> \
@@ -24,12 +50,12 @@ $(".AddCanteen").click(function()
     <td> \
             <button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button> </td>\
     </tr>';
-    $(".table > tbody").append(content);
-    
-}) ;
+    $(".table > tbody").append(content);    
+} ;
+$(".AddCanteen").click(AddCanteen);
 
 //Get all values from table and return a JSON string 
-function tableTodata()
+function TableToData()
 {
     var row=[];
     var header_values=[];
@@ -59,16 +85,17 @@ function tableTodata()
 //Get data from and post the data to server
 $(".SaveList").click(function()
 {
-    var data = tableTodata();
+    var data = TableToData();
     //console.log(data);
-    $.ajax({
-        url:'/save',
+    $.getJSON({
+        url:'/postreq',
         data: data,
         type:'POST',
-        success: function(response) {alert("Saved Menu",response);},
+        success: function(response) {alert("Response:" + response.msg);},
         error: function(error) {alert("Failed saving menu");}
     });
 });
+
 
 //function which deletes element dynamically
 $('.table > tbody').on('click','.delete',function(){

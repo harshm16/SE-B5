@@ -1,6 +1,9 @@
 from flask import Flask, render_template
 import db
-import json
+from flask import jsonify
+from flask import request
+from flask import Response
+from flask import json
 app = Flask(__name__)
 
 @app.route('/typography.html')
@@ -47,9 +50,18 @@ def elements():
 def owner_index():
 	return render_template('canteen_owner/index.html')
 
-"""@app.route('/save',methods=['POST'])
+@app.route('/postreq',methods=['POST'])
 def saveData():
-    return json.dumps({'status':'OK'});"""
+	data = {'msg': 'Successfull'}
+	return jsonify(data)
+
+@app.route('/getreq',methods=['GET'])
+def sendData():
+    items = [{'Item Name': 'Sandwich','Quantity':'20','Price':'12','Description':'Indian snack'},
+			{'Item Name': 'Samosa','Quantity':'20','Price':'10','Description':'Indian snack'}]
+    #return jsonify(items)
+    return Response(json.dumps(items),  mimetype='application/json')
+
 
 @app.route('/items')
 def items_index():
