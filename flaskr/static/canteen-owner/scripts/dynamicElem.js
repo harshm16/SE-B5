@@ -56,7 +56,7 @@ function tableTodata()
     return (JSON.stringify(row));
 }
 
-//Get data and post the data to server
+//Get data from and post the data to server
 $(".SaveList").click(function()
 {
     var data = tableTodata();
