@@ -2,6 +2,10 @@
 # TABLE STRUCTURE FOR: Canteen
 #
 
+DROP DATABASE IF EXISTS `canteen`;
+CREATE DATABASE `canteen`;
+USE `canteen`;
+
 DROP TABLE IF EXISTS `Canteen`;
 
 CREATE TABLE `Canteen` (

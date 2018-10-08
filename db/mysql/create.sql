@@ -148,15 +148,6 @@ CREATE TABLE `Users` (
 -- Table structure for table `sqlite_sequence`
 --
 
-DROP TABLE IF EXISTS `sqlite_sequence`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sqlite_sequence` (
-  `name` blob,
-  `seq` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Dumping data for table `sqlite_sequence`
 --
