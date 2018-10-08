@@ -9,7 +9,7 @@ def get_conn(db_name):
 			)
 
 	return conn.cursor(dictionary=True)
-	
+
 def get_items(table_name, db_name):
 	conn = mysql.connector.connect(
 				host="localhost",
