@@ -104,8 +104,8 @@ def create_app():
 	@app.route('/items')
 	def items_index():
 		#table_name = 'Items'
-		dbase = db_utils.get_conn(os.path.join(CURR_PATH, 'data/canteen.db'))
-		return render_template('canteen-items/index.html', data = db_utils.get_items('Items', dbase))
+		# cursor = db_utils.get_conn('canteen')
+		return render_template('canteen-items/index.html', data = db_utils.get_items('Items', 'canteen'))
 	return app
 
 
