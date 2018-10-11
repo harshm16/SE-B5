@@ -73,18 +73,6 @@ def create_app():
 	def page_login():
 		return render_template('canteen_owner/page-login.html')
 
-	@app.route('/postreq',methods=['POST'])
-	def saveData():
-		data = {'msg': 'Successfull'}
-		return jsonify(data)
-
-	@app.route('/getreq',methods=['GET'])
-	def sendData():
-		items = [{'Item Name': 'Sandwich','Quantity':'20','Price':'12','Description':'Indian snack'},
-		{'Item Name': 'Samosa','Quantity':'20','Price':'10','Description':'Indian snack'}]
-		#return jsonify(items)
-		return Response(json.dumps(items),  mimetype='application/json')
-
 	@app.route('/page-profile.html')
 	def page_profile():
 		return render_template('canteen_owner/page-profile.html')
@@ -95,7 +83,7 @@ def create_app():
 
 	@app.route('/elements.html')
 	def elements():
-		return render_template('canteen_owner/elements.html')
+		return render_template('canteen_owner/elements.html', data = db_utils.get_items('Items', 'canteen'))
 
 	@app.route('/index.html')
 	def owner_index():
