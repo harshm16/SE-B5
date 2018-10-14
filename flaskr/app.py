@@ -57,6 +57,10 @@ def create_app():
 	def tables():
 		return render_template('canteen_owner/tables.html')
 
+	@app.route('/parent_template.html')
+	def parent_template():
+		return render_template('canteen_owner/parent_template.html')
+
 	@app.route('/notifications.html')
 	def notifications():
 		return render_template('canteen_owner/notifications.html')
@@ -101,4 +105,5 @@ if __name__ == "__main__":
 	print(os.path.abspath(__file__))
 	print(os.path.dirpath(__file__))
 	app = create_app()
+	app.jinja_env.cache = {}
 	app.run(debug=True, port=5000)
