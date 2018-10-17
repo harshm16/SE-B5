@@ -55,7 +55,7 @@ def create_app():
 
 	@app.route('/tables.html')
 	def tables():
-		return render_template('canteen_owner/tables.html')
+		return render_template('canteen_owner/tables.html', data = db_utils.get_canteen_details('canteen'))
 
 	@app.route('/parent_template.html')
 	def parent_template():
