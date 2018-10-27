@@ -45,61 +45,116 @@ def create_app():
 		if request.method=='GET':
 			return 'Done'
 
-	@app.route('/typography.html')
-	def typography():
+	@app.route('/canteen_owner/typography.html')
+	def canteen_owner_typography():
 		return render_template('canteen_owner/typography.html')
 
-	@app.route('/icons.html')
-	def icons():
+	@app.route('/canteen_owner/icons.html')
+	def canteen_owner_icons():
 		return render_template('canteen_owner/icons.html')
 
-	@app.route('/tables.html')
-	def tables():
+	@app.route('/canteen_owner/tables.html')
+	def canteen_owner_tables():
 		return render_template('canteen_owner/tables.html')
 
-	@app.route('/parent_template.html')
-	def parent_template():
+	@app.route('/canteen_owner/parent_template.html')
+	def canteen_owner_parent_template():
 		return render_template('canteen_owner/parent_template.html')
 
-	@app.route('/notifications.html')
-	def notifications():
+	@app.route('/canteen_owner/notifications.html')
+	def canteen_owner_notifications():
 		return render_template('canteen_owner/notifications.html')
 
-	@app.route('/charts.html')
-	def charts():
+	@app.route('/canteen_owner/charts.html')
+	def canteen_owner_charts():
 		return render_template('canteen_owner/charts.html')
 
-	@app.route('/page-lockscreen.html')
-	def page_lockscreen():
+	@app.route('/canteen_owner/page-lockscreen.html')
+	def canteen_owner_page_lockscreen():
 		return render_template('canteen_owner/page-lockscreen.html')
 
-	@app.route('/page-login.html')
-	def page_login():
+	@app.route('/canteen_owner/page-login.html')
+	def canteen_owner_page_login():
 		return render_template('canteen_owner/page-login.html')
 
-	@app.route('/page-profile.html')
-	def page_profile():
+	@app.route('/canteen_owner/page-profile.html')
+	def canteen_owner_page_profile():
 		return render_template('canteen_owner/page-profile.html')
 
-	@app.route('/panels.html')
-	def panels():
+	@app.route('/canteen_owner/panels.html')
+	def canteen_owner_panels():
 		return render_template('canteen_owner/panels.html')
 
-	@app.route('/elements.html')
-	def elements():
+	@app.route('/canteen_owner/elements.html')
+	def canteen_owner_elements():
 		return render_template('canteen_owner/elements.html', data = db_utils.get_items('Items', 'canteen'))
 
-	@app.route('/index.html')
-	def owner_index():
+	@app.route('/canteen_owner/index.html')
+	def canteen_owner_owner_index():
 		return render_template('canteen_owner/index.html')
 
-	@app.route('/items')
+	@app.route('/canteen_owner/items')
 	def items_index():
 		#table_name = 'Items'
 		# cursor = db_utils.get_conn('canteen')
-		return render_template('canteen-items/index.html', data = db_utils.get_items('Items', 'canteen'))
+		return render_template('customer/oldindex.html', data = db_utils.get_items('Items', 'canteen'))
+	
+
+	#Changed 
+	@app.route('/customer/typography.html')
+	def customer_typography():
+		return render_template('customer/typography.html')
+
+	@app.route('/customer/icons.html')
+	def customer_icons():
+		return render_template('customer/icons.html')
+
+	@app.route('/customer/tables.html')
+	def customer_tables():
+		return render_template('customer/tables.html')
+
+	@app.route('/customer/parent_template.html')
+	def customer_parent_template():
+		return render_template('customer/parent_template.html')
+
+	@app.route('/customer/notifications.html')
+	def customer_notifications():
+		return render_template('customer/notifications.html')
+
+	@app.route('/customer/charts.html')
+	def customer_charts():
+		return render_template('customer/charts.html')
+
+	@app.route('/customer/page-lockscreen.html')
+	def customer_page_lockscreen():
+		return render_template('customer/page-lockscreen.html')
+
+	@app.route('/customer/page-login.html')
+	def customer_page_login():
+		return render_template('customer/page-login.html')
+
+	@app.route('/customer/page-profile.html')
+	def customer_page_profile():
+		return render_template('customer/page-profile.html')
+
+	@app.route('/customer/panels.html')
+	def customer_panels():
+		return render_template('customer/panels.html')
+
+	@app.route('/customer/elements.html')
+	def customer_elements():
+		return render_template('customer/elements.html')
+
+	@app.route('/customer/index.html')
+	def customer_owner_index():
+		return render_template('customer/index.html')
+
+	###End changed
+
 	return app
 
+
+	
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))

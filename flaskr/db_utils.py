@@ -21,3 +21,4 @@ def get_items(table_name, db_name):
 	cursor = conn.cursor(dictionary=True)
 	cursor.execute('select * from %s' % table_name)
 	return cursor.fetchall()
+
