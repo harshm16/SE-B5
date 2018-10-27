@@ -93,7 +93,7 @@ def create_app():
 	def canteen_owner_owner_index():
 		return render_template('canteen_owner/index.html')
 
-	@app.route('/canteen_owner/items')
+	@app.route('/customer/items')
 	def items_index():
 		#table_name = 'Items'
 		# cursor = db_utils.get_conn('canteen')
@@ -148,6 +148,8 @@ def create_app():
 	@app.route('/customer/index.html')
 	def customer_owner_index():
 		return render_template('customer/index.html')
+
+	
 
 	###End changed
 
