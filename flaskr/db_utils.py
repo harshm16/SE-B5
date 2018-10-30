@@ -52,3 +52,17 @@ def get_item_user_details(db_name, item_name):
 		if(item_name == item['Items_name']):
 			cursor.execute('select * from Users where User_id in (select User_id from Purchases where Item_id = %s)' % item['Items_id'])
 			print(cursor.fetchall())
+
+def get_user_details(db_name, table, field):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	
+	cursor = conn.cursor(dictionary=True)
+	cursor.execute('select %s, count(*) from %s group by %s'%(field, table, field))
+
+	return cursor.fetchall()
+	
