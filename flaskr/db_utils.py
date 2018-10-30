@@ -1,5 +1,14 @@
 import mysql.connector
 
+def replace_key(old_list, new_key, old_key):
+	new_list = list()
+	
+	for i in old_list:
+		i[new_key] = i.pop(old_key)
+		new_list.append(i)
+
+	return new_list
+
 def get_conn(db_name):
 	conn = mysql.connector.connect(
 				host="localhost",
@@ -63,6 +72,5 @@ def get_user_details(db_name, table, field):
 	
 	cursor = conn.cursor(dictionary=True)
 	cursor.execute('select %s, count(*) from %s group by %s'%(field, table, field))
-
-	return cursor.fetchall()
+	return replace_key(cursor.fetchall(), 'count', 'count(*)')
 	
