@@ -1,0 +1,126 @@
+{% extends 'customer/parent_template.html' %}
+<title > {% block title %} Items {% endblock %} </title>
+
+{% block content %}
+		<!-- MAIN -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
+		<div class="main" ng-app="fosapp">
+			
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid"> 
+					<h3 class="page-title">Select items </h3>
+					<div class="row"  ng-controller="fosctrl as ctrl">
+						<!--item-->
+						<div class="col-md-3" ng-repeat="(itemnumber,item) in ctrl.items">
+						<div class="panel" >
+								<div class="panel-heading">
+									<h3 class="panel-title" >{a item.itemname a}</h3>
+									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
+								</div>
+								<div class="panel-body" >
+									<p class='description'>{a item.itemdescription a}</p>
+									<p class='price'><span class="icon"><i class="fa fa-inr"></i></span>{a item.price a}</p>
+									<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(itemnumber)" ng-disabled="item.disabled">Add to cart</button>
+								</div>
+						</div>
+						</div>
+						<!--item end-->
+
+
+						<!--your orders-->
+						<div class="col-md-5" style="float:right;" >
+						<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Your orders</h3>
+								</div>
+								<div class="panel-body cart" ng-model="ctrl.cart">
+									<!--add-item-to-cart></add-item-to-cart-->
+								</div>
+						</div>
+						</div>
+						<!--your orders end here -->
+					</div>
+					<button type="checkbox" class="btn btn-success placeorder" style="float:right;"><i class="fa fa-check-circle"></i> Place order </button>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+			<script type="text/javascript">
+				
+
+
+				var app=angular.module('fosapp',[]);
+				app.config(['$interpolateProvider',function($interpolateProvider)
+				{
+					$interpolateProvider.startSymbol('{a');
+					$interpolateProvider.endSymbol('a}');
+				}]);
+
+				app.controller('fosctrl',['$http',function($http)
+				{
+					
+					
+					this.items = {
+						item1 : 
+						{
+							itemname:'Samosa',
+							itemdescription:'A hot and tasty potato samosa',
+							price:20
+						},
+						item2 : 
+						{
+							itemname:'Sandwich',
+							itemdescription:'A hot and crispy onion and capsicum sandwich',
+							price:20
+						}
+					};
+
+					console.log(this.items);
+					this.cart = {};
+					this.currentcartitem = null;
+					this.addTocart  = function(itemindex)
+					{
+						//to remove
+						console.log("Add to cart",this.items[itemindex]);
+						
+						var item = this.items[itemindex];
+						item.disabled = true;
+						
+						//Add to cart
+						this.cart[itemindex] = item;
+						this.currentcartitem = itemindex;
+								
+						//select element to append	
+						var item  = angular.element(document.querySelector(".cart"));
+						
+						//Create cart directive element and append
+						var directive = document.createElement("add-item-to-cart");
+						item.append(directive);
+
+
+					}
+
+				}]);
+
+				app.directive('addItemToCart',function ($compile) {
+					// body...
+					return {
+						restrict: 'E',
+						replace :true,
+						scope: {},
+						template: '<div ng-model="ctrl.cart">' +
+								  '<p> {a ctrl.cart.items[itemindex].itemname a}</p>' +
+								  '<div class="btn-group">' +
+								  '<button class="btn btn-secondary" ng-click="count=count-1">-</button>' +
+								  '<button class="btn btn-secondary" ng-init="count=1">{a count a}</button>'+ 
+								  '<button class="btn btn-secondary" ng-init="count=count-1">+</button> </div>' +
+								   '<p> <span class="icon"><i class="fa fa-inr"></i></span> {a ctrl.cart.items[itemindex].price * count a} </p>' +
+								   '</div>'
+					}
+				});
+				
+			</script>
+			
+		</div>
+		<!--END MAIN -->
+{% endblock %}

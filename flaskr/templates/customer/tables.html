@@ -1,0 +1,34 @@
+{% extends 'customer/parent_template.html' %}
+<title > {% block title %} Canteens {% endblock %} </title>
+
+{% block content %}
+		<!-- MAIN -->
+		
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+
+				<div class="container-fluid"> <h3 class="page-title">Select canteen</h3>
+					<div class="row">
+						<!--MENU FOR THE DAY-->
+						<div class="col-md-4" >
+						<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">Canteen name</h3>
+									<img src="{{url_for('static', filename='customer/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
+								</div>
+								<div data-toggle="toggle" class="panel-body">
+									<p>Canteen description</p>
+									<button type="button" class="btn btn-default btn-block"><i class="fa fa-plus-square"></i> Select </button>	
+								</div>
+						</div>
+						</div>
+					</div>
+					<button type="checkbox" class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Select items </button>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+			
+		</div>
+		<!--END MAIN -->
+{% endblock %}
