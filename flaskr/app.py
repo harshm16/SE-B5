@@ -149,8 +149,6 @@ def create_app():
 	def customer_owner_index():
 		return render_template('customer/index.html')
 
-	
-
 	###End changed
 
 	return app

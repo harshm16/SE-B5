@@ -6,47 +6,47 @@ class TestApp:
 
 	# Canteen View Start
 	def test_index(self, client):
-		res = client.get(url_for('owner_index'))
+		res = client.get(url_for('canteen_owner_owner_index'))
 		assert res.status_code == 200
 	
 	def test_elements(self, client):
-		res = client.get(url_for('elements'))
+		res = client.get(url_for('canteen_owner_elements'))
 		assert res.status_code == 200
 	
 	def test_panels(self, client):
-		res = client.get(url_for('panels'))
+		res = client.get(url_for('canteen_owner_panels'))
 		assert res.status_code == 200
 		
 	def test_page_profile(self, client):
-		res = client.get(url_for('page_profile'))
+		res = client.get(url_for('canteen_owner_page_profile'))
 		assert res.status_code == 200
 		
 	def test_page_login(self, client):
-		res = client.get(url_for('page_login'))
+		res = client.get(url_for('canteen_owner_page_login'))
 		assert res.status_code == 200
 		
 	def test_page_lockscreen(self, client):
-		res = client.get(url_for('page_lockscreen'))
+		res = client.get(url_for('canteen_owner_page_lockscreen'))
 		assert res.status_code == 200
 		
 	def test_charts(self, client):
-		res = client.get(url_for('charts'))
+		res = client.get(url_for('canteen_owner_charts'))
 		assert res.status_code == 200
 		
 	def test_notifications(self, client):
-		res = client.get(url_for('notifications'))
+		res = client.get(url_for('canteen_owner_notifications'))
 		assert res.status_code == 200
 		
 	def test_tables(self, client):
-		res = client.get(url_for('tables'))
+		res = client.get(url_for('canteen_owner_tables'))
 		assert res.status_code == 200
 		
 	def test_icons(self, client):
-		res = client.get(url_for('icons'))
+		res = client.get(url_for('canteen_owner_icons'))
 		assert res.status_code == 200
 	
 	def test_typography(self, client):
-		res = client.get(url_for('typography'))
+		res = client.get(url_for('canteen_owner_typography'))
 		assert res.status_code == 200
 	# Canteen View Start
 
