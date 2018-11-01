@@ -29,13 +29,26 @@
 
 
 						<!--your orders-->
-						<div class="col-md-5" style="float:right;" >
+						<div class="col-md-3" style="float:right;" >
 						<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Your orders</h3>
 								</div>
-								<div class="panel-body cart" ng-model="ctrl.cart">
-									<!--add-item-to-cart></add-item-to-cart-->
+								<div class="panel-body cart" ng-repeat="(itemnumber, item) in ctrl.cart" >
+									<p> {a item.itemname a}</p> 
+									<div class="btn-group" style="display:inline-block">
+								  	<button class="btn btn-secondary" ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
+								  	<button class="btn btn-secondary" >{a item.count a}</button> 
+								 	<button class="btn btn-secondary" ng-click="item.count < item.max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
+								 	</div>
+								 	<p> <span class="icon"><i class="fa fa-inr"></i></span> 
+								 	{a item.price * item.count a} </p>
+								 	<button type="button" class="btn btn-danger" ng-click="ctrl.removeFromcart(itemnumber)"><i class="lnr lnr-trash"></i></button>
+								 	<hr>
+								</div>
+
+								<div class="panel-footer" >
+									<h2>Total price : {a ctrl.carttotal a}</h2>
 								</div>
 						</div>
 						</div>
@@ -65,59 +78,75 @@
 						{
 							itemname:'Samosa',
 							itemdescription:'A hot and tasty potato samosa',
-							price:20
+							price:20,
+							max: 20
 						},
 						item2 : 
 						{
 							itemname:'Sandwich',
 							itemdescription:'A hot and crispy onion and capsicum sandwich',
-							price:20
+							price:20,
+							max:5
 						}
 					};
 
 					console.log(this.items);
 					this.cart = {};
-					this.currentcartitem = null;
+					this.carttotal = 0;
 					this.addTocart  = function(itemindex)
 					{
 						//to remove
 						console.log("Add to cart",this.items[itemindex]);
 						
+						//disable add button
 						var item = this.items[itemindex];
 						item.disabled = true;
-						
-						//Add to cart
+
+						//Add item to cart
 						this.cart[itemindex] = item;
-						this.currentcartitem = itemindex;
-								
-						//select element to append	
-						var item  = angular.element(document.querySelector(".cart"));
+
+						//Since added to cart initial items is 1
+						this.cart[itemindex].count = 1; 
+
+						//find total price initiallly
+						this.total();
+
+					}
+
+					this.removeFromcart = function(itemindex)
+					{
 						
-						//Create cart directive element and append
-						var directive = document.createElement("add-item-to-cart");
-						item.append(directive);
+						//enable add button
+						var item = this.items[itemindex];
+						item.disabled = false;
 
+						//Since added to cart initial items is 1
+						this.cart[itemindex].count = 0;
 
+						//delete item from cart
+						delete this.cart[itemindex];
+
+						//find total price after removing
+						this.total();
+					}
+
+					this.total=function()
+					{
+						//this.carttotal = 0;
+						//console.log(this.carttotal);
+						var total =0;
+						angular.forEach(this.cart, function(value,key)
+						{
+							
+							total  += value.price * value.count ;
+							console.log(value.price,value.count,total);
+							
+						});
+						this.carttotal=total;
+						console.log("Cart total",this.cart,this.carttotal);
 					}
 
 				}]);
-
-				app.directive('addItemToCart',function ($compile) {
-					// body...
-					return {
-						restrict: 'E',
-						replace :true,
-						scope: {},
-						template: '<div ng-model="ctrl.cart">' +
-								  '<p> {a ctrl.cart.items[itemindex].itemname a}</p>' +
-								  '<div class="btn-group">' +
-								  '<button class="btn btn-secondary" ng-click="count=count-1">-</button>' +
-								  '<button class="btn btn-secondary" ng-init="count=1">{a count a}</button>'+ 
-								  '<button class="btn btn-secondary" ng-init="count=count-1">+</button> </div>' +
-								   '<p> <span class="icon"><i class="fa fa-inr"></i></span> {a ctrl.cart.items[itemindex].price * count a} </p>' +
-								   '</div>'
-					}
-				});
 				
 			</script>
 			
