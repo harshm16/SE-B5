@@ -11,6 +11,7 @@
 				<div class="container-fluid"> 
 					<h3 class="page-title">Select items </h3>
 					<div class="row"  ng-controller="fosctrl as ctrl">
+						
 						<!--item-->
 						<div class="col-md-3" ng-repeat="(itemnumber,item) in ctrl.items">
 						<div class="panel" >
@@ -37,13 +38,24 @@
 								<div class="panel-body cart" ng-repeat="(itemnumber, item) in ctrl.cart" >
 									<p> {a item.itemname a}</p> 
 									<div class="btn-group" style="display:inline-block">
-								  	<button class="btn btn-secondary" ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
-								  	<button class="btn btn-secondary" >{a item.count a}</button> 
-								 	<button class="btn btn-secondary" ng-click="item.count < item.max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
+									  	<button class="btn btn-secondary" 
+									  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
+									  	<button class="btn btn-secondary" >
+									  		{a item.count a}
+									  	</button> 
+									 	<button class="btn btn-secondary" 
+									 			ng-click="item.count < item.max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
 								 	</div>
-								 	<p> <span class="icon"><i class="fa fa-inr"></i></span> 
-								 	{a item.price * item.count a} </p>
-								 	<button type="button" class="btn btn-danger" ng-click="ctrl.removeFromcart(itemnumber)"><i class="lnr lnr-trash"></i></button>
+								 	<p> 
+								 		<span class="icon">
+								 		<i class="fa fa-inr"></i>
+								 		</span> {a item.price * item.count a} 
+								 	</p>
+								 	<button type="button" 
+								 			class="btn btn-danger" 
+								 			ng-click="ctrl.removeFromcart(itemnumber)">
+								 			<i class="lnr lnr-trash"></i>
+								 	</button>
 								 	<hr>
 								</div>
 
@@ -60,6 +72,7 @@
 			<!-- END MAIN CONTENT -->
 			<script type="text/javascript">
 				
+				console.log("Data from flask",'{{data}}' );
 
 
 				var app=angular.module('fosapp',[]);
@@ -139,11 +152,11 @@
 						{
 							
 							total  += value.price * value.count ;
-							console.log(value.price,value.count,total);
+							//console.log(value.price,value.count,total);
 							
 						});
 						this.carttotal=total;
-						console.log("Cart total",this.cart,this.carttotal);
+						//console.log("Cart total",this.cart,this.carttotal);
 					}
 
 				}]);

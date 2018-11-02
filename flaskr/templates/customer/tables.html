@@ -15,7 +15,7 @@
 						<div class="panel">
 								<div class="panel-heading">
 									<h3 class="panel-title">Canteen name</h3>
-									<img src="{{url_for('static', filename='customer/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
+									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
 								</div>
 								<div data-toggle="toggle" class="panel-body">
 									<p>Canteen description</p>
@@ -24,7 +24,13 @@
 						</div>
 						</div>
 					</div>
-					<button type="checkbox" class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Select items </button>
+					<button type="checkbox" class="btn btn-success selectitems" style="float:right;"><i class="fa fa-check-circle" ></i> Select items </button>
+					<script type="text/javascript">
+						$(".selectitems").click(function()
+							{
+								location.href="typography.html";
+							});
+					</script>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
