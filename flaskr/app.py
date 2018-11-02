@@ -103,7 +103,7 @@ def create_app():
 	#Changed 
 	@app.route('/customer/typography.html')
 	def customer_typography():
-		return render_template('customer/typography.html',data = db_utils.get_items('Items', 'canteen'))
+		return render_template('customer/typography.html', data = db_utils.get_items('Items', 'canteen'))
 
 	@app.route('/customer/icons.html')
 	def customer_icons():

@@ -16,12 +16,12 @@
 						<div class="col-md-3" ng-repeat="(itemnumber,item) in ctrl.items">
 						<div class="panel" >
 								<div class="panel-heading">
-									<h3 class="panel-title" >{a item.itemname a}</h3>
+									<h3 class="panel-title" >{a item.Items_name a}</h3>
 									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
 								</div>
 								<div class="panel-body" >
-									<p class='description'>{a item.itemdescription a}</p>
-									<p class='price'><span class="icon"><i class="fa fa-inr"></i></span>{a item.price a}</p>
+									<p class='description'>{a item.Description a}</p>
+									<p class='price'><span class="icon"><i class="fa fa-inr"></i></span>{a item.Price a}</p>
 									<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(itemnumber)" ng-disabled="item.disabled">Add to cart</button>
 								</div>
 						</div>
@@ -36,7 +36,7 @@
 									<h3 class="panel-title">Your orders</h3>
 								</div>
 								<div class="panel-body cart" ng-repeat="(itemnumber, item) in ctrl.cart" >
-									<p> {a item.itemname a}</p> 
+									<p> {a item.Items_name a}</p> 
 									<div class="btn-group" style="display:inline-block">
 									  	<button class="btn btn-secondary" 
 									  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
@@ -44,12 +44,12 @@
 									  		{a item.count a}
 									  	</button> 
 									 	<button class="btn btn-secondary" 
-									 			ng-click="item.count < item.max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
+									 			ng-click="item.count < item.Max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
 								 	</div>
 								 	<p> 
 								 		<span class="icon">
 								 		<i class="fa fa-inr"></i>
-								 		</span> {a item.price * item.count a} 
+								 		</span> {a item.Price * item.count a} 
 								 	</p>
 								 	<button type="button" 
 								 			class="btn btn-danger" 
@@ -72,7 +72,7 @@
 			<!-- END MAIN CONTENT -->
 			<script type="text/javascript">
 				
-				console.log("Data from flask",'{{data}}' );
+				console.log("Data from flask",'{{data|tojson|safe}}' );
 
 
 				var app=angular.module('fosapp',[]);
@@ -86,22 +86,24 @@
 				{
 					
 					
-					this.items = {
-						item1 : 
-						{
-							itemname:'Samosa',
-							itemdescription:'A hot and tasty potato samosa',
-							price:20,
-							max: 20
-						},
-						item2 : 
-						{
-							itemname:'Sandwich',
-							itemdescription:'A hot and crispy onion and capsicum sandwich',
-							price:20,
-							max:5
-						}
-					};
+					<!-- this.items = { -->
+						<!-- item1 :  -->
+						<!-- { -->
+							<!-- itemname:'Samosa', -->
+							<!-- itemdescription:'A hot and tasty potato samosa', -->
+							<!-- price:20, -->
+							<!-- max: 20 -->
+						<!-- }, -->
+						<!-- item2 :  -->
+						<!-- { -->
+							<!-- itemname:'Sandwich', -->
+							<!-- itemdescription:'A hot and crispy onion and capsicum sandwich', -->
+							<!-- price:20, -->
+							<!-- max:5 -->
+						<!-- } -->
+					<!-- }; -->
+					
+					this.items = {{data|tojson|safe}};
 
 					console.log(this.items);
 					this.cart = {};
@@ -151,7 +153,7 @@
 						angular.forEach(this.cart, function(value,key)
 						{
 							
-							total  += value.price * value.count ;
+							total  += value.Price * value.count ;
 							//console.log(value.price,value.count,total);
 							
 						});
