@@ -36,18 +36,31 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
+											<!-- <tr>
 												<td><input type="text" class="form-control" placeholder="Name"></td>
 												<td><input type="text" class="form-control" placeholder="XYZ"></td>
 												<td><input type="text" class="form-control" placeholder="ABC"></td>
 												<td><input type="text" class="form-control" placeholder="Ex:Juice center"></td>
-												<td>
+											 -->	<!-- <td> -->
 														<!--button id="edit" type="button" class="btn btn-warning"><i class="lnr lnr-pencil"></i></button-->
+
 														<button  type="button" class="btn btn-danger"><i class="lnr lnr-trash delete"></i></button>
+
 														<!--button id="save" type="button" class="btn btn-success"><i class="fa fa-check-circle"></i></button-->
+												<!-- </td>
+											</tr> -->
+											{% for d in data %}
+											<tr>
+												<td><input type="text" class="form-control" placeholder="Name" value={{d.Canteen_id}}></td>
+												<td><input type="text" class="form-control" placeholder="XYZ" value="{{d.Owner_name}}"></td>
+												<td><input type="text" class="form-control" placeholder="ABC" value={{d.Canteen_name}}></td>
+												<td><input type="text" class="form-control" placeholder="Ex:Juice center"></td>
+												<td>
+															<button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button>
+															
 												</td>
 											</tr>
-											
+											{% endfor %}
 										</tbody>
 									</table>
 								</div>

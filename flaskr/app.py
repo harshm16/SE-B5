@@ -55,7 +55,7 @@ def create_app():
 
 	@app.route('/canteen_owner/tables.html')
 	def canteen_owner_tables():
-		return render_template('canteen_owner/tables.html')
+		return render_template('canteen_owner/tables.html', data = db_utils.get_canteen_details('canteen'))
 
 	@app.route('/canteen_owner/parent_template.html')
 	def canteen_owner_parent_template():
@@ -67,7 +67,7 @@ def create_app():
 
 	@app.route('/canteen_owner/charts.html')
 	def canteen_owner_charts():
-		return render_template('canteen_owner/charts.html')
+		return render_template('canteen_owner/charts.html', gender_data = db_utils.get_user_details('canteen', 'Users', 'Gender'), dept_data = db_utils.get_user_details('canteen', 'Users', 'Department'), sem_data = db_utils.get_user_details('canteen', 'Users', 'Semester'))
 
 	@app.route('/canteen_owner/page-lockscreen.html')
 	def canteen_owner_page_lockscreen():
@@ -152,9 +152,6 @@ def create_app():
 	###End changed
 
 	return app
-
-
-	
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))
