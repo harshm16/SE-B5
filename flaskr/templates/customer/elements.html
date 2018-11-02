@@ -1,18 +1,18 @@
-{% extends 'canteen_owner/parent_template.html' %}
-<title > {% block title %} Menu {% endblock %} </title>
+{% extends 'customer/parent_template.html' %}
+<title > {% block title %} Order History {% endblock %} </title>
 
 {% block content %}
 		<!-- MAIN -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
-				<div class="container-fluid"> <h3 class="page-title">Menu</h3>
+				<div class="container-fluid"> <h3 class="page-title">Order History</h3>
 					<div class="row">
 						<!--MENU FOR THE DAY-->
 						<div class="col-md-14" >
 							<div class="panel">
 									<div class="panel-heading">
-										<h3 class="panel-title">Menu for the day</h3>
+										<h3 class="panel-title">See your orders</h3>
 									</div>
 									<div class="panel-body table-responsive">
 										<table class="table" >
@@ -31,8 +31,9 @@
 													<th>Item Name</th>
 													<th>Quantity</th>
 													<th>Price</th>
-													<th>Description</th>
-													<th>Delete</th>
+													<th>Order id</th>
+													<th>Ordered on</th>
+													<th>Total price</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -45,6 +46,7 @@
 													<td>
 														<textarea id="text" class="form-control" placeholder="Item Description" rows="1">{{d.Description}}</textarea>
 													</td>
+													<td><input type="text" class="form-control" placeholder="Item Name" value={{d.Items_name}}></td>
 													<td>
 															<button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button>
 															
@@ -57,10 +59,7 @@
 							</div>
 						</div>
 						<!--END MENU FOR THE DAY-->
-						<div class="col-md-14">
-								<button type="button"  class="btn btn-default AddItem"><i class="fa fa-plus-square"></i> Add Item </button>
-								<button type="button"  class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Continue </button>
-						</div>
+						
 					</div>
 				</div>
 			</div>

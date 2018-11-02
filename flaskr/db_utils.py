@@ -73,4 +73,4 @@ def get_user_details(db_name, table, field):
 	cursor = conn.cursor(dictionary=True)
 	cursor.execute('select %s, count(*) from %s group by %s'%(field, table, field))
 	return replace_key(cursor.fetchall(), 'count', 'count(*)')
-	
+
