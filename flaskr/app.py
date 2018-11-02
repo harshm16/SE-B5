@@ -67,7 +67,7 @@ def create_app():
 
 	@app.route('/charts.html')
 	def charts():
-		return render_template('canteen_owner/charts.html')
+		return render_template('canteen_owner/charts.html', gender_data = db_utils.get_user_details('canteen', 'Users', 'Gender'), dept_data = db_utils.get_user_details('canteen', 'Users', 'Department'), sem_data = db_utils.get_user_details('canteen', 'Users', 'Semester'))
 
 	@app.route('/page-lockscreen.html')
 	def page_lockscreen():

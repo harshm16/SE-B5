@@ -136,7 +136,10 @@ DROP TABLE IF EXISTS `Users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Users` (
   `User_id` int(11) DEFAULT NULL,
-  `User_name` text
+  `User_name` text,
+  `Gender` ENUM('Male', 'Female'),
+  `Semester` enum('I', 'II', 'III', 'IV', 'V', 'VI', 'VIII', 'VII'),
+  `Department` enum('CSE', 'ECE', 'EEE', 'MECH', 'CIVIL', 'BT')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -152,3 +155,7 @@ CREATE TABLE `Users` (
 -- Dumping data for table `sqlite_sequence`
 --
 -- Dump completed on 2018-09-08 22:53:54
+
+  -- `Gender` enum('Male', 'Female'),
+  -- `Semester` enum(1,2,3,4,5,6,7,8),
+  -- `Department` enum('CSE', 'ECE', 'EEE', 'MECH', 'CIVIL', 'BT'),
