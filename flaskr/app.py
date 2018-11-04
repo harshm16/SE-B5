@@ -59,7 +59,8 @@ def create_app():
 			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			s.connect(("8.8.8.8", 80))
 			ip_addr = (s.getsockname()[0])
-			qr_code = ("http://"+ip_addr+"/canteen_owner/qr/"+hash)
+			# qr_code = ("http://"+ip_addr+":8000/canteen_owner/qr/"+hash)
+			qr_code = ("http://"+ip_addr+":8000/customer/index.html")
 			img = qrcode.make(qr_code).get_image()
 			
 			buffered = BytesIO()

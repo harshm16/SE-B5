@@ -1,7 +1,7 @@
 pytest_flask==0.13.0
-pytest==3.6.1
 Flask==1.0.2
+requests==2.18.4
 Werkzeug==0.14.1
-requests>=2.20.0
+pytest==3.6.1
 pycrypto==2.6.1
-mysql-connector-python-rf
+qrcode==6.0
