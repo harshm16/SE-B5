@@ -40,10 +40,11 @@ def create_app():
 
 	@app.route('/payment.status/',methods=['POST','GET'])
 	def status():
-		if request.method=='POST':
-			return 'Done'
-		if request.method=='GET':
-			return 'Done'
+		if request.method=='POST' or request.method=='GET':
+			# Load request details
+			# insert to sql
+			# Assume request is:
+			data = {'item_ids':[]}
 
 	@app.route('/canteen_owner/typography.html')
 	def canteen_owner_typography():
