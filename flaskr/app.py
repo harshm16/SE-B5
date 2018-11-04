@@ -151,6 +151,13 @@ def create_app():
 
 	###End changed
 
+	##test
+	@app.route('/customer/test',methods=['POST'])
+	def test():
+		data = json.loads(request.data)
+		print(data)
+		return "{status: 200, msg:ok}"
+
 	return app
 
 if __name__ == "__main__":
