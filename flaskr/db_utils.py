@@ -89,3 +89,28 @@ def get_cost(db_name, items, quantity):
 		cost+=(int(cursor.fetchall()[0]['Price'])*num)
 	
 	return cost
+
+def get_order(db_name, hash=None, id=None):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	transaction_id = id
+
+	if(hash is not None):
+		cursor.execute("select Transaction_id from Transactions where Hash='%s'"%hash)
+		transaction_id = cursor.fetchall()[0]['Transaction_id']
+
+	cursor.execute('select Item_id, Quantity from Purchases where Purchase_basket_id=%d'%transaction_id)
+
+	items = list()
+
+	for i, item in enumerate(cursor.fetchall()):
+		cursor.execute("select * from Items where Items_id=%d"%item['Item_id'])
+		items.append(cursor.fetchall()[0])
+		items[i]['quantity'] = item['Quantity']
+
+	return items
