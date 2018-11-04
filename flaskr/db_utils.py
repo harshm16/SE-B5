@@ -74,3 +74,18 @@ def get_user_details(db_name, table, field):
 	cursor.execute('select %s, count(*) from %s group by %s'%(field, table, field))
 	return replace_key(cursor.fetchall(), 'count', 'count(*)')
 
+def get_cost(db_name, items, quantity):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	
+	cursor = conn.cursor(dictionary=True)
+	cost = 0
+	for item, num in zip(items, quantity):
+		cursor.execute('select Price from Items where Items_id=%d'%item)
+		cost+=(int(cursor.fetchall()[0]['Price'])*num)
+	
+	return cost
