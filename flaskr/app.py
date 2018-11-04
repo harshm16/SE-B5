@@ -9,7 +9,12 @@ from werkzeug.datastructures import ImmutableMultiDict
 import sqlite3
 import flaskr.checksum as checksum
 import requests
-
+import hashlib
+import time
+import qrcode
+import socket
+import base64
+from io import BytesIO
 
 CURR_PATH = os.path.dirname(__file__)
 
@@ -42,16 +47,27 @@ def create_app():
 	def status():
 		if request.method=='POST' or request.method=='GET':
 			# Load request details
-			# insert to sql
 			# Assume request is:
 			data = {'item_ids':[214, 223, 250, 254, 261, 267, 268, 278, 279, 285, 291, 292],
 					'quantity':[27, 3, 25, 25, 13, 39, 28, 48, 19, 23, 42, 42],
 					'User_id':366}
 			
 			cost = db_utils.get_cost('canteen', data['item_ids'], data['quantity'])
-			
+			hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
 			# Update Purchases, Transactions
-
+			
+			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+			s.connect(("8.8.8.8", 80))
+			ip_addr = (s.getsockname()[0])
+			qr_code = ("http://"+ip_addr+"/canteen_owner/qr/"+hash)
+			img = qrcode.make(qr_code).get_image()
+			
+			buffered = BytesIO()
+			img.save(buffered, format="JPEG")
+			img_str = base64.b64encode(buffered.getvalue()).decode()
+			print(img_str)
+			return render_template("payment/qr.html", img={'base':img_str})
+			
 	@app.route('/canteen_owner/typography.html')
 	def canteen_owner_typography():
 		return render_template('canteen_owner/typography.html')
