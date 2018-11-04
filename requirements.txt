@@ -5,3 +5,4 @@ Werkzeug==0.14.1
 pytest==3.6.1
 pycrypto==2.6.1
 qrcode==6.0
+mysql-connector-python-rf==2.2.2
