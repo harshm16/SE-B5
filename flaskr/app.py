@@ -44,7 +44,13 @@ def create_app():
 			# Load request details
 			# insert to sql
 			# Assume request is:
-			data = {'item_ids':[]}
+			data = {'item_ids':[214, 223, 250, 254, 261, 267, 268, 278, 279, 285, 291, 292],
+					'quantity':[27, 3, 25, 25, 13, 39, 28, 48, 19, 23, 42, 42],
+					'User_id':366}
+			
+			cost = db_utils.get_cost('canteen', data['item_ids'], data['quantity'])
+			
+			# Update Purchases, Transactions
 
 	@app.route('/canteen_owner/typography.html')
 	def canteen_owner_typography():
