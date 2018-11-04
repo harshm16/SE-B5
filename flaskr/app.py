@@ -53,14 +53,15 @@ def create_app():
 					'User_id':366}
 			
 			cost = db_utils.get_cost('canteen', data['item_ids'], data['quantity'])
-			hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
+			# hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
+			hash = 'aba6a632901803216855a180d6221622481064b4'
 			# Update Purchases, Transactions
 			
 			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			s.connect(("8.8.8.8", 80))
 			ip_addr = (s.getsockname()[0])
-			# qr_code = ("http://"+ip_addr+":8000/canteen_owner/qr/"+hash)
-			qr_code = ("http://"+ip_addr+":8000/customer/index.html")
+			qr_code = ("http://"+ip_addr+":8000/canteen_owner/qr/"+hash)
+			# qr_code = ("http://"+ip_addr+":8000/customer/index.html")
 			img = qrcode.make(qr_code).get_image()
 			
 			buffered = BytesIO()
@@ -68,7 +69,15 @@ def create_app():
 			img_str = base64.b64encode(buffered.getvalue()).decode()
 			print(img_str)
 			return render_template("payment/qr.html", img={'base':img_str})
-			
+	
+	@app.route('/canteen_owner/qr/<hash>')
+	def canteen_owner_process_order_hash(hash):
+		return render_template('canteen_owner/order.html', data=db_utils.get_order('canteen', hash=hash))	
+
+	@app.route('/canteen_owner/id/<int:id>')
+	def canteen_owner_process_order_id(id):
+		return render_template('canteen_owner/order.html', data=db_utils.get_order('canteen', id=id))	
+
 	@app.route('/canteen_owner/typography.html')
 	def canteen_owner_typography():
 		return render_template('canteen_owner/typography.html')
