@@ -9,7 +9,12 @@ from werkzeug.datastructures import ImmutableMultiDict
 import sqlite3
 import flaskr.checksum as checksum
 import requests
-
+import hashlib
+import time
+import qrcode
+import socket
+import base64
+from io import BytesIO
 
 CURR_PATH = os.path.dirname(__file__)
 
@@ -40,10 +45,38 @@ def create_app():
 
 	@app.route('/payment.status/',methods=['POST','GET'])
 	def status():
-		if request.method=='POST':
-			return 'Done'
-		if request.method=='GET':
-			return 'Done'
+		if request.method=='POST' or request.method=='GET':
+			# Load request details
+			# Assume request is:
+			data = {'item_ids':[214, 223, 250, 254, 261, 267, 268, 278, 279, 285, 291, 292],
+					'quantity':[27, 3, 25, 25, 13, 39, 28, 48, 19, 23, 42, 42],
+					'User_id':366}
+			
+			cost = db_utils.get_cost('canteen', data['item_ids'], data['quantity'])
+			# hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
+			hash = 'aba6a632901803216855a180d6221622481064b4'
+			# Update Purchases, Transactions
+			
+			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+			s.connect(("8.8.8.8", 80))
+			ip_addr = (s.getsockname()[0])
+			qr_code = ("http://"+ip_addr+":8000/canteen_owner/qr/"+hash)
+			# qr_code = ("http://"+ip_addr+":8000/customer/index.html")
+			img = qrcode.make(qr_code).get_image()
+			
+			buffered = BytesIO()
+			img.save(buffered, format="JPEG")
+			img_str = base64.b64encode(buffered.getvalue()).decode()
+			print(img_str)
+			return render_template("payment/qr.html", img={'base':img_str})
+	
+	@app.route('/canteen_owner/qr/<hash>')
+	def canteen_owner_process_order_hash(hash):
+		return render_template('canteen_owner/order.html', data=db_utils.get_order('canteen', hash=hash))	
+
+	@app.route('/canteen_owner/id/<int:id>')
+	def canteen_owner_process_order_id(id):
+		return render_template('canteen_owner/order.html', data=db_utils.get_order('canteen', id=id))	
 
 	@app.route('/canteen_owner/typography.html')
 	def canteen_owner_typography():
@@ -103,7 +136,7 @@ def create_app():
 	#Changed 
 	@app.route('/customer/typography.html')
 	def customer_typography():
-		return render_template('customer/typography.html',data = db_utils.get_items('Items', 'canteen'))
+		return render_template('customer/typography.html', data = db_utils.get_items('Items', 'canteen'))
 
 	@app.route('/customer/icons.html')
 	def customer_icons():
@@ -150,6 +183,13 @@ def create_app():
 		return render_template('customer/index.html')
 
 	###End changed
+
+	##test
+	@app.route('/customer/test',methods=['POST'])
+	def test():
+		data = json.loads(request.data)
+		print(data)
+		return "{status: 200, msg:ok}"
 
 	return app
 

@@ -13,68 +13,86 @@
 					<div class="row"  ng-controller="fosctrl as ctrl">
 						
 						<!--item-->
-						<div class="col-md-3" ng-repeat="(itemnumber,item) in ctrl.items">
-						<div class="panel" >
-								<div class="panel-heading">
-									<h3 class="panel-title" >{a item.itemname a}</h3>
-									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
-								</div>
-								<div class="panel-body" >
-									<p class='description'>{a item.itemdescription a}</p>
-									<p class='price'><span class="icon"><i class="fa fa-inr"></i></span>{a item.price a}</p>
-									<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(itemnumber)" ng-disabled="item.disabled">Add to cart</button>
-								</div>
-						</div>
+						<div class="col-md-9">
+							<div class="col-md-4" ng-repeat="item in ctrl.items">
+							<div class="panel" >
+									<div class="panel-heading">
+										<h3 class="panel-title" >{a item.Items_name a}</h3>
+										<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
+									</div>
+									<div class="panel-body">
+										<p style="height: 25px;overflow-y: scroll;">{a item.Description a}</p>
+										<p><span class="icon"><i class="fa fa-inr"></i></span>{a item.Price a}</p>
+										<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(item.Items_id)" ng-disabled="item.disabled">Add to cart</button>
+									</div>
+							</div>
+							</div>
 						</div>
 						<!--item end-->
 
+						<!--your orders "
+							col-md-3  style="width:inherit;position:fixed;right:0;"
+							panel  style="max-height: 1500px;"
+							panel body style="max-height:200px;overflow-y:scroll;"
+						-->
 
-						<!--your orders-->
-						<div class="col-md-3" style="float:right;" >
-						<div class="panel">
+						<div class="col-md-3">
+						<div class="panel" >
 								<div class="panel-heading">
 									<h3 class="panel-title">Your orders</h3>
 								</div>
-								<div class="panel-body cart" ng-repeat="(itemnumber, item) in ctrl.cart" >
-									<p> {a item.itemname a}</p> 
-									<div class="btn-group" style="display:inline-block">
-									  	<button class="btn btn-secondary" 
-									  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
-									  	<button class="btn btn-secondary" >
-									  		{a item.count a}
-									  	</button> 
-									 	<button class="btn btn-secondary" 
-									 			ng-click="item.count < item.max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
-								 	</div>
-								 	<p> 
-								 		<span class="icon">
-								 		<i class="fa fa-inr"></i>
-								 		</span> {a item.price * item.count a} 
-								 	</p>
-								 	<button type="button" 
-								 			class="btn btn-danger" 
-								 			ng-click="ctrl.removeFromcart(itemnumber)">
-								 			<i class="lnr lnr-trash"></i>
-								 	</button>
-								 	<hr>
+								<div class="panel-body" >
+									<div ng-repeat="item in ctrl.cart">
+										<!--ng-repear template -->
+										<p> {a item.Items_name a}</p> 
+										<div class="btn-group btn-block" style="display:inline-block">
+										  	<button class="btn btn-secondary btn-info" 
+										  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
+										  	<button class="btn btn-secondary" >{a item.count a}</button> 
+										 	<button class="btn btn-secondary btn-info" 
+										 			ng-click="item.count < item.Max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
+									 	</div>
+									 	<p> 
+									 		<span class="icon"  >
+									 		<i class="fa fa-inr"></i>
+									 		{a item.Price a} 
+									 		</span> 
+									 		<span class="icon" style="float: right;">
+									 		<i class="fa fa-inr"></i> {a item.Price * item.count a} 
+									 		</span> 
+									 		
+									 	</p>
+									 	<button type="button" 
+									 			class="btn btn-danger" 
+									 			ng-click="ctrl.removeFromcart(item.Items_id)">
+									 			<i class="lnr lnr-trash"></i>
+									 	</button>
+									 	<hr>
+									 	<!--ng-repeat end-->
+								 	</div>	
 								</div>
 
-								<div class="panel-footer" >
-									<h2>Total price : {a ctrl.carttotal a}</h2>
+								<!--panel footer -->
+								<div class="panel-footer">
+									<h4>Total price <span class="icon" style="float: right;"><i class="fa fa-inr"></i>{a ctrl.carttotal a}</span>
+										
+								 	</h4>
 								</div>
 						</div>
+						<button class="btn btn-success btn-block"  ng-click="ctrl.placeorder()" style="float:right;"><i class="fa fa-check-circle"></i> Place order 
+						</button>
 						</div>
 						<!--your orders end here -->
 					</div>
-					<button type="checkbox" class="btn btn-success placeorder" style="float:right;"><i class="fa fa-check-circle"></i> Place order </button>
+					
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
+
+
 			<script type="text/javascript">
-				
-				console.log("Data from flask",'{{data}}' );
 
-
+				//Replace double flower  with {a a} for angular becuase it conflicts with jinja
 				var app=angular.module('fosapp',[]);
 				app.config(['$interpolateProvider',function($interpolateProvider)
 				{
@@ -84,42 +102,28 @@
 
 				app.controller('fosctrl',['$http',function($http)
 				{
-					
-					
-					this.items = {
-						item1 : 
-						{
-							itemname:'Samosa',
-							itemdescription:'A hot and tasty potato samosa',
-							price:20,
-							max: 20
-						},
-						item2 : 
-						{
-							itemname:'Sandwich',
-							itemdescription:'A hot and crispy onion and capsicum sandwich',
-							price:20,
-							max:5
-						}
-					};
-
-					console.log(this.items);
-					this.cart = {};
+						
+					//Global items
+					this.items = {{data|tojson|safe}};
+					this.cart = [];
 					this.carttotal = 0;
+
+
 					this.addTocart  = function(itemindex)
 					{
-						//to remove
-						console.log("Add to cart",this.items[itemindex]);
 						
 						//disable add button
-						var item = this.items[itemindex];
+						var index = this.items.findIndex(item=>item.Items_id == itemindex);
+						var item  = this.items[index];
 						item.disabled = true;
 
 						//Add item to cart
-						this.cart[itemindex] = item;
+						this.cart.push(item);
+
 
 						//Since added to cart initial items is 1
-						this.cart[itemindex].count = 1; 
+						var length = this.cart.length - 1;
+						this.cart[length].count = 1; 
 
 						//find total price initiallly
 						this.total();
@@ -130,14 +134,13 @@
 					{
 						
 						//enable add button
-						var item = this.items[itemindex];
+						var index = this.items.findIndex(item=>item.Items_id == itemindex);
+						var item = this.items[index];
 						item.disabled = false;
 
-						//Since added to cart initial items is 1
-						this.cart[itemindex].count = 0;
-
 						//delete item from cart
-						delete this.cart[itemindex];
+						var cartindex = this.cart.findIndex(cart=>cart.Items_id == itemindex);
+						this.cart.splice(cartindex);
 
 						//find total price after removing
 						this.total();
@@ -145,19 +148,42 @@
 
 					this.total=function()
 					{
-						//this.carttotal = 0;
-						//console.log(this.carttotal);
+						
 						var total =0;
 						angular.forEach(this.cart, function(value,key)
 						{
-							
-							total  += value.price * value.count ;
-							//console.log(value.price,value.count,total);
-							
+							total  += value.Price * value.count ;	
 						});
 						this.carttotal=total;
-						//console.log("Cart total",this.cart,this.carttotal);
+						
 					}
+
+					this.placeorder = function()
+					{
+						var final_orders = [];
+
+						angular.forEach(this.cart,function(value,key)
+						{
+							var each_order = {};
+							each_order['Items_id'] = value.Items_id;
+							each_order['Item_count'] = value.count;
+							final_orders.push(each_order);
+						});
+
+						$http.post("/customer/test",final_orders).
+							then(
+								function success(response)
+								{
+									console.log(response);
+								},
+								function error(err)
+								{
+									console.log(err);
+								}
+							);
+						console.log(final_orders);
+					}
+
 
 				}]);
 				
