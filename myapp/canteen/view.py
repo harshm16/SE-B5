@@ -1,6 +1,6 @@
 from . import canteen
 
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, redirect, url_for
 from flask import jsonify
 from flask import request
 from flask import Response
@@ -178,6 +178,12 @@ def customer_elements():
 def customer_owner_index():
 	# print(session['username'])
 	return render_template('customer/index.html')
+
+@canteen.route('/')
+def index():
+	# print(session['username'])
+	return redirect(url_for('canteen.customer_owner_index'))
+
 
 ###End changed
 
