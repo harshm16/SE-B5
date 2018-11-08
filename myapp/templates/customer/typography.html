@@ -1,0 +1,194 @@
+{% extends 'customer/parent_template.html' %}
+<title > {% block title %} Items {% endblock %} </title>
+
+{% block content %}
+		<!-- MAIN -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
+		<div class="main" ng-app="fosapp">
+			
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid"> 
+					<h3 class="page-title">Select items </h3>
+					<div class="row"  ng-controller="fosctrl as ctrl">
+						
+						<!--item-->
+						<div class="col-md-9">
+							<div class="col-md-4" ng-repeat="item in ctrl.items">
+							<div class="panel" >
+									<div class="panel-heading">
+										<h3 class="panel-title" >{a item.Items_name a}</h3>
+										<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
+									</div>
+									<div class="panel-body">
+										<p style="height: 25px;overflow-y: scroll;">{a item.Description a}</p>
+										<p><span class="icon"><i class="fa fa-inr"></i></span>{a item.Price a}</p>
+										<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(item.Items_id)" ng-disabled="item.disabled">Add to cart</button>
+									</div>
+							</div>
+							</div>
+						</div>
+						<!--item end-->
+
+						<!--your orders "
+							col-md-3  style="width:inherit;position:fixed;right:0;"
+							panel  style="max-height: 1500px;"
+							panel body style="max-height:200px;overflow-y:scroll;"
+						-->
+
+						<div class="col-md-3">
+						<div class="panel" >
+								<div class="panel-heading">
+									<h3 class="panel-title">Your orders</h3>
+								</div>
+								<div class="panel-body" >
+									<div ng-repeat="item in ctrl.cart">
+										<!--ng-repear template -->
+										<p> {a item.Items_name a}</p> 
+										<div class="btn-group btn-block" style="display:inline-block">
+										  	<button class="btn btn-secondary btn-info" 
+										  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
+										  	<button class="btn btn-secondary" >{a item.count a}</button> 
+										 	<button class="btn btn-secondary btn-info" 
+										 			ng-click="item.count < item.Max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
+									 	</div>
+									 	<p> 
+									 		<span class="icon"  >
+									 		<i class="fa fa-inr"></i>
+									 		{a item.Price a} 
+									 		</span> 
+									 		<span class="icon" style="float: right;">
+									 		<i class="fa fa-inr"></i> {a item.Price * item.count a} 
+									 		</span> 
+									 		
+									 	</p>
+									 	<button type="button" 
+									 			class="btn btn-danger" 
+									 			ng-click="ctrl.removeFromcart(item.Items_id)">
+									 			<i class="lnr lnr-trash"></i>
+									 	</button>
+									 	<hr>
+									 	<!--ng-repeat end-->
+								 	</div>	
+								</div>
+
+								<!--panel footer -->
+								<div class="panel-footer">
+									<h4>Total price <span class="icon" style="float: right;"><i class="fa fa-inr"></i>{a ctrl.carttotal a}</span>
+										
+								 	</h4>
+								</div>
+						</div>
+						<button class="btn btn-success btn-block"  ng-click="ctrl.placeorder()" style="float:right;"><i class="fa fa-check-circle"></i> Place order 
+						</button>
+						</div>
+						<!--your orders end here -->
+					</div>
+					
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+
+
+			<script type="text/javascript">
+
+				//Replace double flower  with {a a} for angular becuase it conflicts with jinja
+				var app=angular.module('fosapp',[]);
+				app.config(['$interpolateProvider',function($interpolateProvider)
+				{
+					$interpolateProvider.startSymbol('{a');
+					$interpolateProvider.endSymbol('a}');
+				}]);
+
+				app.controller('fosctrl',['$http',function($http)
+				{
+						
+					//Global items
+					this.items = {{data|tojson|safe}};
+					this.cart = [];
+					this.carttotal = 0;
+
+
+					this.addTocart  = function(itemindex)
+					{
+						
+						//disable add button
+						var index = this.items.findIndex(item=>item.Items_id == itemindex);
+						var item  = this.items[index];
+						item.disabled = true;
+
+						//Add item to cart
+						this.cart.push(item);
+
+
+						//Since added to cart initial items is 1
+						var length = this.cart.length - 1;
+						this.cart[length].count = 1; 
+
+						//find total price initiallly
+						this.total();
+
+					}
+
+					this.removeFromcart = function(itemindex)
+					{
+						
+						//enable add button
+						var index = this.items.findIndex(item=>item.Items_id == itemindex);
+						var item = this.items[index];
+						item.disabled = false;
+
+						//delete item from cart
+						var cartindex = this.cart.findIndex(cart=>cart.Items_id == itemindex);
+						this.cart.splice(cartindex);
+
+						//find total price after removing
+						this.total();
+					}
+
+					this.total=function()
+					{
+						
+						var total =0;
+						angular.forEach(this.cart, function(value,key)
+						{
+							total  += value.Price * value.count ;	
+						});
+						this.carttotal=total;
+						
+					}
+
+					this.placeorder = function()
+					{
+						var final_orders = [];
+
+						angular.forEach(this.cart,function(value,key)
+						{
+							var each_order = {};
+							each_order['Items_id'] = value.Items_id;
+							each_order['Item_count'] = value.count;
+							final_orders.push(each_order);
+						});
+
+						$http.post("/customer/test",final_orders).
+							then(
+								function success(response)
+								{
+									console.log(response);
+								},
+								function error(err)
+								{
+									console.log(err);
+								}
+							);
+						console.log(final_orders);
+					}
+
+
+				}]);
+				
+			</script>
+			
+		</div>
+		<!--END MAIN -->
+{% endblock %}

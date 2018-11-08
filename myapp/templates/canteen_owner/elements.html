@@ -1,0 +1,70 @@
+{% extends 'canteen_owner/parent_template.html' %}
+<title > {% block title %} Menu {% endblock %} </title>
+
+{% block content %}
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid"> <h3 class="page-title">Menu</h3>
+					<div class="row">
+						<!--MENU FOR THE DAY-->
+						<div class="col-md-14" >
+							<div class="panel">
+									<div class="panel-heading">
+										<h3 class="panel-title">Menu for the day</h3>
+									</div>
+									<div class="panel-body table-responsive">
+										<table class="table" >
+											<style type="text/css"> 
+												input[type="text"],
+												input[type="number"],textarea#text
+												{
+													border: none;
+													background-color: transparent;
+													box-shadow: none;
+												}
+												
+											</style>
+											<thead>
+												<tr>
+													<th>Item Name</th>
+													<th>Quantity</th>
+													<th>Price</th>
+													<th>Description</th>
+													<th>Delete</th>
+												</tr>
+											</thead>
+											<tbody>
+								
+												{% for d in data %}
+												<tr>
+													<td><input type="text" class="form-control" placeholder="Item Name" value={{d.Items_name}}></td>
+													<td><input type="number" class="form-control" placeholder="0" value={{d.Items_id}}></td>
+													<td><input type="number" class="form-control" placeholder="0" value={{d.Price}}></td>
+													<td>
+														<textarea id="text" class="form-control" placeholder="Item Description" rows="1">{{d.Description}}</textarea>
+													</td>
+													<td>
+															<button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button>
+															
+													</td>
+												</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+							</div>
+						</div>
+						<!--END MENU FOR THE DAY-->
+						<div class="col-md-14">
+								<button type="button"  class="btn btn-default AddItem"><i class="fa fa-plus-square"></i> Add Item </button>
+								<button type="button"  class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Continue </button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+{% endblock %}
