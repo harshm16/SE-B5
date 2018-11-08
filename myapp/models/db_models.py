@@ -1,5 +1,6 @@
 import random
 import string
+import enum
 
 from sqlalchemy.sql import func
 from flask_login import UserMixin
@@ -23,7 +24,9 @@ from myapp.utils.argon2 import generate_argon2_hash, check_argon2_hash
 # We are using SQLAlchemy's server_default / onupdate / server_onupdate
 # for our timestamps. On the frontend it needs some handling.
 # Another common way is using datetime.utcnow
-
+class UserEnum(enum.Enum):
+    customer = 1
+    owner = 2
 
 class User(UserMixin, db.Model):
 
@@ -47,7 +50,8 @@ class User(UserMixin, db.Model):
         timezone=True), server_default=func.now())
     updated_date = db.Column(db.DateTime(
         timezone=True), onupdate=func.now())
-    stores = db.relationship('Store', backref='user', lazy='dynamic')
+    # stores = db.relationship('Store', backref='user', lazy='dynamic')
+    user_type = db.Column(db.String)
 
     # __table_args__ value must be a tuple, dict, or None
     __table_args__ = (
@@ -96,7 +100,8 @@ class User(UserMixin, db.Model):
             'email_address': self.email_address,
             'username': self.username,
             'created_date': self.created_date,
-            'updated_date': self.updated_date
+            'updated_date': self.updated_date,
+            'user_type': self.user_type
         }
 
 

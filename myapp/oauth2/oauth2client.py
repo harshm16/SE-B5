@@ -33,7 +33,7 @@ class OAuth2Client(object):
         self.client_id = credentials['client_id']
         self.client_secret = credentials['client_secret']
 
-    def authorization(self):
+    def authorization(self, user_type=None):
         """
         The client will direct a user’s browser to the authorization server
         to begin the OAuth process. We are using the authorization code grant
@@ -43,7 +43,7 @@ class OAuth2Client(object):
         """
         pass
 
-    def get_redirect_uri(self):
+    def get_redirect_uri(self, user_type=None):
         """
         The get_redirect_uri() method builds the redirect_uri based on
         the provider name. It is meant to be provided to the authorize()
@@ -54,10 +54,16 @@ class OAuth2Client(object):
         Returns:
             Absolute path for redirect_uri
         """
+        if(user_type is None):
+            return url_for(
+                '.authorized',
+                provider=self.provider_name,
+                _external=True)
         return url_for(
-            '.authorized',
-            provider=self.provider_name,
-            _external=True)
+                '.authorized_type',
+                provider=self.provider_name,
+                user_type=user_type,
+                _external=True)
 
     @classmethod
     def signout(self):
@@ -128,7 +134,7 @@ class OAuth2Google(OAuth2Client):
         )
         self.google_remote_app.tokengetter(self.get_oauth2_token)
 
-    def authorization(self):
+    def authorization(self, user_type=None):
         """
         Building the authorization request url is done using Flask-OAuthlib's
         authorize(). To sign in with Google, we will call into authorize()
@@ -141,10 +147,13 @@ class OAuth2Google(OAuth2Client):
         to invoke after it completes the authentication.
         This Google redirect_uri should not have a next appended to it.
         """
+        if(user_type is None):
+            return self.google_remote_app.authorize(
+                callback=self.get_redirect_uri())
         return self.google_remote_app.authorize(
-            callback=self.get_redirect_uri())
+                callback=self.get_redirect_uri(user_type))
 
-    def authorized(self):
+    def authorized(self, user_type=None):
         """
         If the application redirects back, the remote application can fetch
         all relevant information in the oauth_authorized function with
@@ -174,6 +183,7 @@ class OAuth2Google(OAuth2Client):
         if userinfo.data.get('name'):
             username = userinfo.data.get('name')
             session['username'] = username
+            session['user_type'] = user_type
         return provider, social_id, email_address, username
 
     def get_oauth2_token(self, token=None):
