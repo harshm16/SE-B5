@@ -11,7 +11,7 @@ export WTF_CSRF_SECRET_KEY='\xc9\xcc\x91{\xd9\x9a\x18\x92\xaa\xb4\x9e\x80\x07\x1
 export OAUTHLIB_INSECURE_TRANSPORT=1
 export OAUTHLIB_RELAX_TOKEN_SCOPE=1
 export DEBUG=1
-
+export WTF_CSRF_ENABLED=False
 echo 'Starting myapp'
 
 # Python Virtual Environment using Pipenv

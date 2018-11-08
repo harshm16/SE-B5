@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, logout_user
 from . import oauth2
 from .forms import SignInForm
 from .oauth2client import OAuth2Client
-
+from myapp.canteen.db_utils import *
 
 from myapp.models.db_orm import db
 from myapp.models.db_models import User
@@ -140,14 +140,21 @@ def authorized_type(provider, user_type):
         print("auth:", user_type)
         login_user(user)
         flash('Signed in successfully.', 'info')
-        if(user_type == 'customer'):
-            session['try'] = True
-            return redirect(url_for('canteen.customer_owner_index'))
-        if(user_type == 'owner'):
-            session['try'] = True
-            return redirect(url_for('canteen.canteen_owner_owner_index'))
-
+        data = user_exists('canteen', social_id, user_type)
+        if(data):
+            session.update(data)
+            if(user_type == 'customer'):
+                return redirect(url_for('canteen.customer_owner_index'))
+            if(user_type == 'owner'):
+                return redirect(url_for('canteen.canteen_owner_owner_index'))
+        else:
+            session['username'] = username
+            session['social_id'] = social_id
+            session['email_address'] = email_address
+            # return redirect(url_for('canteen.%s_form'%user_type))
+            return redirect(url_for('canteen.customer_form'))
     else:
+
         flash('Authentication failed!', 'error')
         return redirect(url_for('main.index'))
 

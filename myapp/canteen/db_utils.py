@@ -114,3 +114,37 @@ def get_order(db_name, hash=None, id=None):
 		items[i]['quantity'] = item['Quantity']
 
 	return items
+
+def user_exists(db_name, social_id, user_type):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	if(user_type == 'customer'):
+		cursor.execute('select * from Users where Social_id=%s'%social_id)
+		try:
+			return cursor.fetchall()[0]
+		except(IndexError):
+			return False
+	if(user_type == 'owner'):
+		cursor.execute('select * from Owner where Social_id=%s'%social_id)
+		try:
+			return cursor.fetchall()[0]
+		except(IndexError):
+			return False
+
+def insert_customer(db_name, data):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	cursor.execute("insert into Users(`User_name`, `Gender`, `Semester`, `Department`, `Email`, `Social_id`) values('%s', '%s', '%s', '%s', '%s', '%s')"%(data['username'], data['gender'], data['semester'], data['department'], data['email_address'], data['social_id']))
+	conn.commit()

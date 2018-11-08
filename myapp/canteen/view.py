@@ -1,5 +1,7 @@
 from . import canteen
-
+from ..extensions import csrf
+from flask_wtf import FlaskForm
+from wtforms import TextField
 from flask import Flask, render_template, session, redirect, url_for
 from flask_login import login_required
 from flask import jsonify
@@ -19,11 +21,37 @@ import socket
 import base64
 from io import BytesIO
 
+@canteen.route('/customer_form')
+def customer_form():
+	return render_template('customer/customer_form.html')
+
+@canteen.route('/owner_form')
+def owner_form():
+	return render_template('customer/owner_form.html')
+
+@canteen.route('customer/customer_form_submit',methods=['POST'])
+@csrf.exempt
+def parse_customer_form():
+	data = dict()
+	data['gender'] = request.form['gender']
+	data['semester'] = request.form['semester']
+	data['department'] = request.form['department']
+	data['username'] = session['username']
+	data['social_id'] = session['social_id'] #110058041200100630475
+	data['email_address'] = session['email_address']
+	insert_customer('canteen', data)
+	return str(data)
+
+@canteen.route('/owner_form_submit',methods=['POST'])
+@csrf.exempt
+def parse_owner_form():
+	return request.form
+
 @canteen.route('/selectpayment/')
 def selectpayment():
 	return render_template('payment/payment.html')
 
-@canteen.route('/payment/',methods=['POST','GET'])
+@canteen.route('/payment/', methods=['POST','GET'])
 def payment():
 	if request.method=='POST':
 		MERCHANT_KEY = 'tG89dKDNQQWsrWjO';
@@ -179,14 +207,12 @@ def customer_elements():
 @login_required
 def customer_owner_index():
 	# print(session['username'])
-	print(session['try'])
-	print(session['user_type'])
+	print(session)
 	return render_template('customer/index.html')
 
 @canteen.route('/')
 @login_required
 def index():
-	
 	return redirect(url_for('canteen.customer_owner_index'))
 
 
