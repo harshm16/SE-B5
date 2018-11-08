@@ -146,5 +146,28 @@ def insert_customer(db_name, data):
 			)
 	cursor = conn.cursor(dictionary=True)
 
-	cursor.execute("insert into Users(`User_name`, `Gender`, `Semester`, `Department`, `Email`, `Social_id`) values('%s', '%s', '%s', '%s', '%s', '%s')"%(data['username'], data['gender'], data['semester'], data['department'], data['email_address'], data['social_id']))
+	cursor.execute("insert into Users(`User_name`, `Gender`, `Semester`, `Department`, `Email`, `Social_id`) values('%s', '%s', '%s', '%s', '%s', '%s')"%(data['User_name'], data['Gender'], data['Semester'], data['Department'], data['Email'], data['Social_id']))
 	conn.commit()
+	cursor.execute("select User_id from Users where `Social_id`='%s'"%data['Social_id'])
+	return int(cursor.fetchall()[0]['User_id'])
+
+def insert_owner(db_name, data):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	
+	cursor.execute("insert into Owner(`Owner_name`, `Social_id`, `Email`) values('%s', '%s', '%s')"%(data['Owner_name'], data['Social_id'], data['Email']))
+	conn.commit()
+	
+	cursor.execute("select Owner_id from Owner where `Social_id`='%s'"%data['Social_id'])
+	owner_id = int(cursor.fetchall()[0]['Owner_id'])
+	
+	cursor.execute("insert into Canteen(`Canteen_name`, `Owner_id`) values('%s', '%d')"%(data['Canteen_name'], owner_id))
+	conn.commit()
+	
+	return owner_id
+	

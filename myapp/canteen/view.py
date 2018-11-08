@@ -27,25 +27,31 @@ def customer_form():
 
 @canteen.route('/owner_form')
 def owner_form():
-	return render_template('customer/owner_form.html')
+	return render_template('canteen_owner/owner_form.html')
 
 @canteen.route('customer/customer_form_submit',methods=['POST'])
 @csrf.exempt
 def parse_customer_form():
 	data = dict()
-	data['gender'] = request.form['gender']
-	data['semester'] = request.form['semester']
-	data['department'] = request.form['department']
-	data['username'] = session['username']
-	data['social_id'] = session['social_id'] #110058041200100630475
-	data['email_address'] = session['email_address']
-	insert_customer('canteen', data)
-	return str(data)
+	data['Gender'] = request.form['gender']
+	data['Semester'] = request.form['semester']
+	data['Department'] = request.form['department']
+	data['User_name'] = session['username']
+	data['Social_id'] = session['social_id'] #110058041200100630475
+	data['Email'] = session['email_address']
+	session['User_id'] = insert_customer('canteen', data)
+	return str(session)
 
 @canteen.route('/owner_form_submit',methods=['POST'])
 @csrf.exempt
 def parse_owner_form():
-	return request.form
+	data = dict()
+	data['Owner_name'] = session['username']
+	data['Social_id'] = session['social_id'] #110058041200100630475
+	data['Email'] = session['email_address']
+	data['Canteen_name'] = request.form['canteen_name']
+	session['Owner_id'] = insert_owner('canteen', data)
+	return str(session)
 
 @canteen.route('/selectpayment/')
 def selectpayment():

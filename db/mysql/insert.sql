@@ -6,118 +6,139 @@ DROP DATABASE IF EXISTS `canteen`;
 CREATE DATABASE `canteen`;
 USE `canteen`;
 
-#
-# TABLE STRUCTURE FOR: Canteen
-#
+-- Generation time: Thu, 08 Nov 2018 12:43:08 +0000
+-- Host: mysql.hostinger.ro
+-- DB name: u574849695_24
+/*!40030 SET NAMES UTF8 */;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 DROP TABLE IF EXISTS `Canteen`;
-
 CREATE TABLE `Canteen` (
-  `Canteen_id` int(11) DEFAULT NULL,
+  `Canteen_id` int(11) NOT NULL AUTO_INCREMENT,
   `Canteen_name` text DEFAULT NULL,
-  `Owner_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `Owner_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Canteen_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (79, 'Cummerata-Watsica', 197);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (13, 'Gerhold, Mosciski and Hilpert', 200);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (19, 'Howell, Hudson and King', 195);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (76, 'Windler, Ondricka and Jenkins', 173);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (91, 'Cummerata-Crooks', 194);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (55, 'Luettgen-Hudson', 124);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (35, 'Kris-Lind', 164);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (34, 'Kirlin Inc', 108);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (47, 'Shields LLC', 154);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (7, 'Schuster, Russel and Christiansen', 171);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (25, 'Schuster LLC', 168);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (60, 'Hoppe, Predovic and Littel', 184);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (89, 'Rosenbaum, Gulgowski and Reichel', 130);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (3, 'Bruen, Pollich and Haag', 143);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (86, 'Ruecker, Heller and Cartwright', 161);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (58, 'Bradtke, O\'Keefe and Cummerata', 150);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (6, 'Fadel, Medhurst and Abshire', 138);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (29, 'Bosco-Kassulke', 181);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (96, 'Rolfson-Kris', 180);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (78, 'Yost-Lindgren', 147);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (99, 'Boyer-Pagac', 193);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (70, 'Prosacco Group', 128);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (30, 'Heller, Cruickshank and Turner', 115);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (22, 'Leuschke-Brown', 110);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (88, 'Weber LLC', 179);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (97, 'Cruickshank, Purdy and Crist', 126);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (82, 'Watsica-Hermiston', 183);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (38, 'Krajcik and Sons', 121);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (52, 'Klein-Parker', 165);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (27, 'Braun-Corwin', 155);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (65, 'Jakubowski, Skiles and Schmidt', 129);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (98, 'Mayert-Okuneva', 109);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (10, 'Pollich, Schneider and Kuhn', 111);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (17, 'Legros and Sons', 169);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (14, 'Wisoky Ltd', 120);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (51, 'Armstrong-Kris', 102);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (80, 'Balistreri, Douglas and Kihn', 107);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (83, 'Schimmel-Feeney', 145);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (72, 'Corkery, Olson and Goyette', 163);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (73, 'Nolan Ltd', 119);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (26, 'Mills-Gottlieb', 132);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (71, 'Hilll-Rogahn', 122);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (53, 'Abshire, Gorczany and Bergstrom', 118);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (24, 'Daniel, Wiegand and Quitzon', 149);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (46, 'Hessel PLC', 140);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (20, 'Donnelly and Sons', 151);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (1, 'Beier, VonRueden and Ledner', 137);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (28, 'Mohr-Huels', 141);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (48, 'Grady LLC', 139);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (40, 'Wolff Group', 172);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (5, 'Barrows-Franecki', 185);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (92, 'Bailey Inc', 182);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (63, 'Spencer, Powlowski and Lang', 190);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (56, 'Homenick, Raynor and Mante', 166);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (33, 'Zulauf PLC', 170);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (50, 'Bahringer PLC', 123);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (81, 'Wyman-Lang', 157);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (64, 'Murphy-Cormier', 158);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (11, 'Ritchie and Sons', 127);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (21, 'Roberts, Jenkins and McDermott', 146);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (12, 'Bergstrom-Douglas', 186);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (85, 'Stroman Ltd', 192);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (4, 'Paucek, Hermann and Bergnaum', 131);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (9, 'Gusikowski Ltd', 144);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (59, 'Cartwright LLC', 176);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (18, 'Wintheiser, Robel and Mills', 104);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (39, 'Wehner and Sons', 133);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (77, 'Walsh Inc', 117);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (2, 'Pfannerstill LLC', 116);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (15, 'Graham LLC', 156);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (69, 'Macejkovic, Herman and Maggio', 191);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (84, 'Von-Moore', 167);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (43, 'Graham Ltd', 142);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (36, 'Hartmann-Murray', 152);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (41, 'Fisher, Klein and Swift', 103);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (90, 'Blick, Marquardt and Hane', 113);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (66, 'Spinka-Grant', 105);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (62, 'Dickinson LLC', 188);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (67, 'Bode LLC', 101);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (54, 'Price PLC', 135);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (45, 'Huels, Durgan and Stokes', 177);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (32, 'Schroeder-Ferry', 189);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (16, 'Simonis, Lueilwitz and Jones', 160);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (75, 'Balistreri, Wolff and Bailey', 125);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (8, 'Kessler, Bradtke and King', 178);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (93, 'Mayert Ltd', 136);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (100, 'Collins, Erdman and Bosco', 134);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (74, 'Borer, Jones and Brown', 148);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (61, 'Haley-Moen', 187);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (94, 'Kiehn-Howell', 114);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (57, 'Hand, Hane and Lowe', 153);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (87, 'Dibbert-Hyatt', 196);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (42, 'King, Schowalter and Ryan', 175);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (49, 'Batz-O\'Hara', 199);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (23, 'O\'Hara, Reinger and Brekke', 162);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (31, 'Bechtelar PLC', 106);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (68, 'Kuhlman, Jerde and Ziemann', 112);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (37, 'Gerlach, Frami and Mayer', 159);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (95, 'Keeling-Labadie', 198);
-INSERT INTO `Canteen` (`Canteen_id`, `Canteen_name`, `Owner_id`) VALUES (44, 'Daniel, Christiansen and Mitchell', 174);
+INSERT INTO `Canteen` VALUES ('1','Aidan Courts','22'),
+('2','Reilly Fork','84'),
+('3','Mariah Roads','36'),
+('4','Kilback Skyway','39'),
+('5','Treutel Oval','76'),
+('6','Duane Ports','80'),
+('7','O\'Reilly Ports','73'),
+('8','Botsford Stravenue','86'),
+('9','Zack Lodge','9'),
+('10','Raymundo Street','54'),
+('11','Feest Camp','27'),
+('12','Noah Fords','38'),
+('13','Kris Shores','81'),
+('14','Walter Plain','75'),
+('15','Harley Plain','35'),
+('16','Batz Court','99'),
+('17','Davis Mountain','20'),
+('18','Lindgren Manors','55'),
+('19','Becker Heights','92'),
+('20','Monte Green','45'),
+('21','Gorczany Track','33'),
+('22','Maureen Plains','37'),
+('23','Erdman Throughway','72'),
+('24','Raina Curve','48'),
+('25','Stewart Crest','25'),
+('26','Reggie Squares','71'),
+('27','Leonel Lodge','51'),
+('28','Smith Stream','16'),
+('29','Osinski Mills','3'),
+('30','Murazik Cove','59'),
+('31','Bernhard Locks','32'),
+('32','Buckridge Hills','57'),
+('33','Ankunding Mall','30'),
+('34','Kadin Expressway','69'),
+('35','Lew Flat','14'),
+('36','Ankunding Inlet','62'),
+('37','Hailie Loop','85'),
+('38','Burley Cape','87'),
+('39','Windler Vista','8'),
+('40','Justine Spurs','18'),
+('41','Katheryn Falls','43'),
+('42','Benton Rue','68'),
+('43','Watsica Ferry','66'),
+('44','Kayden Rapids','70'),
+('45','Harber Crossing','49'),
+('46','Kautzer Brooks','41'),
+('47','Cathy Cliff','34'),
+('48','Kemmer Manor','90'),
+('49','Thiel Pike','23'),
+('50','Swift Prairie','24'),
+('51','Muller Trace','82'),
+('52','Emily Oval','7'),
+('53','Cletus Common','4'),
+('54','Isaiah Station','63'),
+('55','Fadel Ports','26'),
+('56','Breitenberg Forks','53'),
+('57','Wolf Motorway','79'),
+('58','Strosin Glens','21'),
+('59','Jacobi Plaza','52'),
+('60','Kovacek Motorway','97'),
+('61','Maxie Rapid','94'),
+('62','Robel Garden','31'),
+('63','Gottlieb Place','28'),
+('64','Jamarcus Gateway','11'),
+('65','Hayes Turnpike','95'),
+('66','Reece Grove','5'),
+('67','Becker Corners','89'),
+('68','Fleta Trace','47'),
+('69','Nasir Lodge','96'),
+('70','Gage Highway','61'),
+('71','Beahan Walks','78'),
+('72','Maryam Prairie','88'),
+('73','Littel Plaza','65'),
+('74','Renee Mill','67'),
+('75','Selina Meadows','77'),
+('76','Rhoda Parkway','98'),
+('77','Tristin Center','13'),
+('78','Gorczany Cliff','19'),
+('79','Jakayla Prairie','56'),
+('80','Roselyn Shoals','74'),
+('81','Ara Ramp','12'),
+('82','Nicolas Junction','100'),
+('83','Kuhlman Prairie','42'),
+('84','Carroll Centers','17'),
+('85','Mertz Crossing','93'),
+('86','Legros Forges','60'),
+('87','Wilhelm Route','15'),
+('88','Adolfo Key','50'),
+('89','Pfeffer Ford','44'),
+('90','Tillman Spring','2'),
+('91','Amaya Trace','83'),
+('92','Grimes Port','29'),
+('93','Camille Shores','46'),
+('94','Emil Skyway','40'),
+('95','Joy Isle','1'),
+('96','Johnpaul Wall','64'),
+('97','Osinski Overpass','91'),
+('98','Pasquale Port','10'),
+('99','Lynch Springs','6'),
+('100','Westley Ford','58'); 
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 
 #
@@ -381,6 +402,132 @@ INSERT INTO `Items` VALUES ('262','Cyan','embrace rich action-items','http://lor
 
 
 
+-- Generation time: Thu, 08 Nov 2018 12:42:32 +0000
+-- Host: mysql.hostinger.ro
+-- DB name: u574849695_24
+/*!40030 SET NAMES UTF8 */;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+DROP TABLE IF EXISTS `Owner`;
+CREATE TABLE `Owner` (
+  `Owner_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Owner_name` text DEFAULT NULL,
+  `Social_id` text DEFAULT NULL,
+  `Email` text DEFAULT NULL,
+  PRIMARY KEY (`Owner_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `Owner` VALUES ('1','Ebba Schumm','360397','malinda50@example.net'),
+('2','Prof. Eudora Friesen','711666','wgrant@example.net'),
+('3','Charles Orn V','287804','shannon12@example.net'),
+('4','Antoinette Wilkinson','235438','mccullough.gay@example.org'),
+('5','Charlotte Hamill','863251','gonzalo14@example.org'),
+('6','Rick Koss','28625','sanford.kiley@example.net'),
+('7','Major Stehr Jr.','388100','nhintz@example.net'),
+('8','Dr. Kenton Kilback I','383620','idach@example.org'),
+('9','Arielle Schmidt','781189','huels.twila@example.org'),
+('10','Miss Rebecca Dietrich Jr.','370666','fadel.dorian@example.net'),
+('11','Lon Weissnat DDS','460429','margie.hackett@example.com'),
+('12','Benton Daniel','972762','goyette.duane@example.com'),
+('13','Prof. Kendrick Padberg II','719499','cprosacco@example.org'),
+('14','Prof. Grant Brekke','5760','timothy.dibbert@example.com'),
+('15','Delores Bruen DVM','320517','florence27@example.com'),
+('16','Elta Kuvalis','51084','janice90@example.com'),
+('17','Dr. Sonya Gibson','276544','ctorphy@example.net'),
+('18','Joanne Rogahn','12991','mauricio35@example.com'),
+('19','Prof. Brisa Tremblay MD','869781','hilbert88@example.com'),
+('20','Marilyne Kemmer V','110683','demetris24@example.com'),
+('21','Telly VonRueden DDS','684788','mhoeger@example.org'),
+('22','Lilla Zulauf IV','759119','emiliano.waters@example.com'),
+('23','Dejon Volkman','777282','cesar06@example.com'),
+('24','Miss Idella Prohaska PhD','648746','quigley.robert@example.com'),
+('25','Dr. Giuseppe Bartell DDS','846697','axel.rippin@example.com'),
+('26','Rahul Schaden','571609','marquardt.elena@example.net'),
+('27','Noelia Nienow','426112','zsauer@example.com'),
+('28','Dr. Nicola Watsica','403254','syble10@example.org'),
+('29','Kassandra Russel','462505','rippin.josie@example.org'),
+('30','Loraine Jenkins','920449','abe.white@example.org'),
+('31','Dovie Thiel','908457','archibald34@example.net'),
+('32','Kurt Bode','822066','abbott.ollie@example.com'),
+('33','Prof. Donny Dietrich DDS','677338','dfarrell@example.org'),
+('34','Adam Grimes Sr.','108112','susan.lebsack@example.com'),
+('35','Mr. Davon Watsica','467809','pacocha.hattie@example.org'),
+('36','Karelle Franecki','429299','bnikolaus@example.com'),
+('37','Lawson Wisozk MD','354445','amanda60@example.net'),
+('38','Ofelia Gislason','742659','raymundo.rosenbaum@example.org'),
+('39','Ms. Pattie Murray','168367','dante.macejkovic@example.org'),
+('40','Wyman Hagenes','960550','wilfred53@example.net'),
+('41','Dr. Eduardo Volkman DDS','75723','eleanora37@example.org'),
+('42','Prof. Rod Schuppe','613081','zkihn@example.net'),
+('43','Mr. Dayne Von V','53390','jude.schroeder@example.net'),
+('44','Ethel Corwin','786533','lesly51@example.org'),
+('45','Mariah Kuhlman','588815','hsauer@example.net'),
+('46','Gisselle O\'Keefe','232211','gutmann.sally@example.org'),
+('47','Dr. Josiah Schaefer PhD','41559','pietro01@example.net'),
+('48','Jeramy Harris','460517','beer.katelynn@example.com'),
+('49','Angus Franecki','993847','gloria69@example.net'),
+('50','Mrs. Aglae Gaylord','55498','tod58@example.com'),
+('51','Chloe Kohler','806692','gaylord49@example.org'),
+('52','Prof. Linwood Osinski','515072','delbert98@example.org'),
+('53','Mr. Martin Funk','226599','jkshlerin@example.org'),
+('54','Cornell Murazik','784519','christina.hamill@example.net'),
+('55','Harmon Abshire','291130','felipe.ratke@example.com'),
+('56','Brett Rempel','516742','rico70@example.net'),
+('57','Devon Huels','101132','anya45@example.net'),
+('58','Eula Tromp','645001','weber.ella@example.net'),
+('59','Natalia Adams','347571','kaylee.donnelly@example.com'),
+('60','Dr. Clifford Zieme','847420','madaline.hettinger@example.com'),
+('61','Dr. Howard Berge','665511','arvel37@example.org'),
+('62','Liza Hills','599482','imorissette@example.net'),
+('63','Grace Wintheiser','371107','ocarter@example.net'),
+('64','Watson Wilderman','729406','cathryn72@example.org'),
+('65','Brianne Cummings','770018','mohammad12@example.org'),
+('66','Dejon Russel','635533','xmccullough@example.org'),
+('67','Everardo Bins','301618','odubuque@example.com'),
+('68','Rae Hessel','81367','will.zelda@example.org'),
+('69','Kyleigh Larson','962405','rex.lynch@example.org'),
+('70','Alyson Trantow PhD','766566','myrtis57@example.net'),
+('71','Prof. Destiny Weissnat','524945','judy10@example.net'),
+('72','Kareem Walsh','48306','ernestine99@example.org'),
+('73','Vita McGlynn','646350','kristoffer.gutkowski@example.net'),
+('74','Alta Doyle','789972','abigayle.o\'hara@example.net'),
+('75','Andrew Tromp V','249391','christophe.gleichner@example.org'),
+('76','Sandrine Ratke','91585','stehr.ciara@example.net'),
+('77','Prof. Karelle Tremblay DVM','651541','flesch@example.net'),
+('78','Waylon Stark','922732','kiana.bauch@example.net'),
+('79','Reinhold O\'Kon','921293','jarred.gislason@example.org'),
+('80','Prof. Raoul Goyette','947210','bria77@example.org'),
+('81','Augustine Nikolaus','376745','bart.tromp@example.com'),
+('82','Talia Bins Jr.','515621','kkoss@example.net'),
+('83','Wilber Fadel','67193','ashleigh.hoeger@example.org'),
+('84','Nella Walker','366489','theron73@example.com'),
+('85','Shana Hane','26512','fahey.alberta@example.org'),
+('86','Dr. Michel Greenfelder','320293','murray54@example.org'),
+('87','Jacques Gleason PhD','503413','kutch.joey@example.net'),
+('88','Linda Veum I','830614','gislason.earlene@example.net'),
+('89','Stanford Borer','778054','bhettinger@example.net'),
+('90','Jerod Cole','683791','fstreich@example.com'),
+('91','Coty Wilkinson','96094','strosin.paula@example.net'),
+('92','Schuyler McDermott IV','724107','eryn.kulas@example.net'),
+('93','Pinkie Schulist Jr.','911307','marisa01@example.org'),
+('94','Estrella Turcotte','787228','cordell.hickle@example.org'),
+('95','Murl Schroeder','148172','peggie.mosciski@example.org'),
+('96','Dr. Enola Bartell Sr.','177256','sophie.howell@example.org'),
+('97','Dr. Dashawn Heidenreich','494508','rsteuber@example.net'),
+('98','Prof. Alexis Hand V','230559','amccullough@example.org'),
+('99','Miss Lori Farrell','273775','grimes.saul@example.com'),
+('100','Deshawn Runolfsson II','823089','gmayer@example.net'); 
+
+
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -389,123 +536,6 @@ INSERT INTO `Items` VALUES ('262','Cyan','embrace rich action-items','http://lor
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
-
-
-#
-# TABLE STRUCTURE FOR: Owner
-#
-
-DROP TABLE IF EXISTS `Owner`;
-
-CREATE TABLE `Owner` (
-  `Owner_id` int(11) AUTO_INCREMENT,
-  `Owner_name` text DEFAULT NULL,
-  `Social_id` text DEFAULT NULL,
-  `Email` text DEFAULT NULL,
-  PRIMARY KEY (Owner_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (136, 'Maeve Auer');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (198, 'Prof. Filiberto Quigley');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (122, 'Elva Moore');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (125, 'Chase Labadie');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (151, 'Norbert Watsica');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (165, 'Elmer Hessel');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (191, 'Richie Corwin');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (188, 'Mr. Ethel Turcotte');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (152, 'Abby Kertzmann III');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (145, 'Javier Howell');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (113, 'Tom Yost IV');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (132, 'Jennifer Stroman V');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (139, 'Elmore Homenick');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (141, 'Tyrel Klein');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (128, 'Mr. Enrico Nicolas V');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (184, 'Aracely Wiza V');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (143, 'Wendy Botsford');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (118, 'Lexus Prohaska Sr.');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (156, 'Bessie Lesch');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (192, 'Alphonso Runte');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (199, 'Edward Farrell');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (112, 'Jennings Goldner');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (176, 'Bella Schinner');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (172, 'Delfina Smitham');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (109, 'Mrs. Lucie Pfannerstill');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (195, 'Mrs. Carolyn Kuvalis');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (159, 'Tomasa Ledner DVM');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (171, 'Austin Walter');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (190, 'Thurman Considine');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (135, 'Prof. Silas Mills');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (182, 'Anderson O\'Reilly');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (127, 'Thora Ward');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (138, 'Dr. Nova Lehner');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (144, 'Jonathon Herman');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (185, 'Mr. Kyle Keebler IV');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (169, 'Clementina Berge');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (186, 'Edna Altenwerth');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (101, 'Prof. Glennie Cummings DDS');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (175, 'Mr. Xavier Veum V');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (179, 'Mr. Alexis Goyette');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (133, 'Mr. Jamaal Ledner MD');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (180, 'Itzel Hoeger');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (160, 'Stephan Morissette');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (178, 'Myrtie Douglas');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (137, 'Dr. Adelle Lindgren');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (155, 'Emmy Kozey');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (107, 'Francisco Altenwerth');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (106, 'Norene Collins');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (117, 'Jaqueline Robel');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (146, 'Mr. Hipolito Prohaska');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (197, 'Paxton Davis');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (194, 'Ms. Dannie Toy');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (124, 'Granville Hartmann DVM');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (131, 'Dr. Olin Prosacco');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (153, 'Keeley Lehner');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (114, 'Prof. Jerrell Cronin Sr.');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (161, 'Miss Dina Rodriguez IV');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (150, 'Leola Thompson DDS');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (121, 'Evan Emard');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (140, 'Prof. Cordelia Casper');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (170, 'Elliot Schulist');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (147, 'Prof. Deshaun Durgan');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (183, 'Mrs. Donna Padberg Jr.');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (158, 'Leta Corkery');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (120, 'Ms. Haven Sanford I');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (196, 'Dr. Lavonne Morar');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (130, 'Prof. Antone Gerlach Jr.');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (148, 'Dr. Amari Brakus III');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (167, 'Ashlynn Herzog');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (102, 'Wilhelm Cole');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (134, 'Carlos Mann');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (103, 'Elaina Wehner');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (193, 'Prof. Vivian Cremin');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (126, 'Nicole Mertz');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (104, 'Mr. Diego Terry Sr.');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (162, 'Miss Arianna McDermott II');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (157, 'Russ Murray DVM');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (174, 'Mr. Sterling Mayer');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (123, 'Mr. Ellsworth Konopelski');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (105, 'Ericka Barrows');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (154, 'Arielle Douglas');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (129, 'Mr. Olen Feeney IV');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (187, 'Miss Nya Howe');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (111, 'Mrs. Domenica Stroman');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (115, 'Dr. Alberta Hodkiewicz');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (177, 'Miss Rosetta Buckridge');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (116, 'Prof. Gina Swift V');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (149, 'Emma Block');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (166, 'Mrs. Bridget Mills');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (163, 'Giovanni Greenfelder');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (142, 'Mrs. Elza Brakus');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (164, 'Mrs. Jazmin Abernathy I');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (168, 'Camille Trantow DDS');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (173, 'Johann Leannon');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (119, 'Chelsea Stroman');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (108, 'Brady Emard');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (189, 'Prof. Skye Hansen');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (110, 'Jerel Schinner');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (200, 'Edwina Nolan');
-INSERT INTO `Owner` (`Owner_id`, `Owner_name`) VALUES (181, 'Claudine Feest');
 
 
 #
