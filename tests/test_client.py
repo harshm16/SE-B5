@@ -6,6 +6,15 @@ from flask import url_for
 class TestApp:
 
 	# Canteen View Start
+	
+	def test_form_customer(self, client):
+		res = client.get(url_for('canteen.customer_form'))
+		assert res.status_code == 200
+	
+	def test_form_owner(self, client):
+		res = client.get(url_for('canteen.owner_form'))
+		assert res.status_code == 200
+	
 	def test_index(self, client):
 		res = client.get(url_for('canteen.customer_owner_index'))
 		assert res.status_code == 302
