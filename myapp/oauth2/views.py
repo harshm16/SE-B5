@@ -140,9 +140,11 @@ def authorized_type(provider, user_type):
         print("auth:", user_type)
         login_user(user)
         flash('Signed in successfully.', 'info')
-        if(user_type == 'canteen'):
+        if(user_type == 'customer'):
+            session['try'] = True
             return redirect(url_for('canteen.customer_owner_index'))
         if(user_type == 'owner'):
+            session['try'] = True
             return redirect(url_for('canteen.canteen_owner_owner_index'))
 
     else:

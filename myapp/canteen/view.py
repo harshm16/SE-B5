@@ -179,13 +179,14 @@ def customer_elements():
 @login_required
 def customer_owner_index():
 	# print(session['username'])
+	print(session['try'])
+	print(session['user_type'])
 	return render_template('customer/index.html')
 
 @canteen.route('/')
 @login_required
 def index():
-	# print(session['username'])
-	print(session['user_type'])
+	
 	return redirect(url_for('canteen.customer_owner_index'))
 
 
