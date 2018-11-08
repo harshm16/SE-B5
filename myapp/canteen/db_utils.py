@@ -114,3 +114,60 @@ def get_order(db_name, hash=None, id=None):
 		items[i]['quantity'] = item['Quantity']
 
 	return items
+
+def user_exists(db_name, social_id, user_type):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	if(user_type == 'customer'):
+		cursor.execute('select * from Users where Social_id=%s'%social_id)
+		try:
+			return cursor.fetchall()[0]
+		except(IndexError):
+			return False
+	if(user_type == 'owner'):
+		cursor.execute('select * from Owner where Social_id=%s'%social_id)
+		try:
+			return cursor.fetchall()[0]
+		except(IndexError):
+			return False
+
+def insert_customer(db_name, data):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	cursor.execute("insert into Users(`User_name`, `Gender`, `Semester`, `Department`, `Email`, `Social_id`) values('%s', '%s', '%s', '%s', '%s', '%s')"%(data['User_name'], data['Gender'], data['Semester'], data['Department'], data['Email'], data['Social_id']))
+	conn.commit()
+	cursor.execute("select User_id from Users where `Social_id`='%s'"%data['Social_id'])
+	return int(cursor.fetchall()[0]['User_id'])
+
+def insert_owner(db_name, data):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	
+	cursor.execute("insert into Owner(`Owner_name`, `Social_id`, `Email`) values('%s', '%s', '%s')"%(data['Owner_name'], data['Social_id'], data['Email']))
+	conn.commit()
+	
+	cursor.execute("select Owner_id from Owner where `Social_id`='%s'"%data['Social_id'])
+	owner_id = int(cursor.fetchall()[0]['Owner_id'])
+	
+	cursor.execute("insert into Canteen(`Canteen_name`, `Owner_id`) values('%s', '%d')"%(data['Canteen_name'], owner_id))
+	conn.commit()
+	
+	return owner_id
+	
