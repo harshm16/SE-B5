@@ -1,9 +1,9 @@
 import sys
 import pytest
-from flaskr.app import create_app
+from myapp import create_app
 
 @pytest.fixture
 def app():
-    app = create_app()
+    app = create_app("development")
     app.debug = True
     return app
