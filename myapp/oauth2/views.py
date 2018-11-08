@@ -72,6 +72,37 @@ def signin_customer():
         title='Sign in to continue - MYAPP',
         form=form)
 
+@oauth2.route('/sign-in/owner', methods=['GET', 'POST'])
+def signin_owner():
+    """ Default route that allows you to sign in to your account. """
+
+    form = SignInForm()
+
+    # HTTP POST
+    if form.validate_on_submit():
+        # # Validate and sign in the user.
+        user = User.query.filter_by(
+            email_address=form.email_address.data).first()
+        if (user is not None and user.verify_password(form.password.data)):
+            # Flask-Login login_user() function to record the user is logged in
+            # for the user session.
+            login_user(user)
+            flash('Signed in successfully.', 'info')
+            # Post/Redirect/Get pattern, so a redirect but two possible
+            # destinations. The next query string argument is used when
+            # the login form was used to prevent unauthorized access.
+            # session['user_type'] = 'customer'
+            return redirect(request.args.get('next') or url_for('main.index'))
+
+        flash('Invalid username or password.', 'error')
+        # Return back to homepage
+
+    # HTTP GET
+    return render_template(
+        'oauth2/oauth2_owner.html',
+        title='Sign in to continue - MYAPP',
+        form=form)
+
 # http://localhost:5000/oauth2/sign-in/<provider>
 @oauth2.route('/sign-in/<provider>')
 def oauth2_signin(provider):
@@ -103,12 +134,16 @@ def authorized_type(provider, user_type):
                 )
             db.session.add(user)
             db.session.commit()
+            print("new")
         # Flask-Login login_user() function to record the user is logged in
         # for the user session.
         print("auth:", user_type)
         login_user(user)
         flash('Signed in successfully.', 'info')
-        return redirect(url_for('canteen.index'))
+        if(user_type == 'canteen'):
+            return redirect(url_for('canteen.customer_owner_index'))
+        if(user_type == 'owner'):
+            return redirect(url_for('canteen.canteen_owner_owner_index'))
 
     else:
         flash('Authentication failed!', 'error')
