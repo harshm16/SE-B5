@@ -17,3 +17,4 @@ pycrypto==2.6.1
 coverage==4.5.1
 argon2==0.1.10
 argon2-cffi==18.3.0
+mysql-connector-python-rf==2.2.2
