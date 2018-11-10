@@ -81,7 +81,19 @@ def payment():
 @csrf.exempt
 def status():
 	if request.method=='POST' or request.method=='GET':
-		pass
+		hash = get_hash('canteen', session['purchase_id'])
+		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+		s.connect(("8.8.8.8", 80))
+		ip_addr = (s.getsockname()[0])
+		qr_code = ("http://"+ip_addr+":5000/canteen/canteen_owner/qr/"+hash)
+		# qr_code = ("http://"+ip_addr+":8000/customer/index.html")
+		img = qrcode.make(qr_code).get_image()
+		
+		buffered = BytesIO()
+		img.save(buffered, format="JPEG")
+		img_str = base64.b64encode(buffered.getvalue()).decode()
+		# print(img_str)
+		return render_template('payment/qr.html', data={'base':img_str, 'id':session['purchase_id']})
 
 @canteen.route('customer/process_order/',methods=['POST','GET'])
 @csrf.exempt
@@ -96,22 +108,13 @@ def process_order():
 	# 		'User_id':366}
 	
 	cost = get_cost('canteen', data['item_ids'], data['quantity'])
-	# hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
-	hash = 'aba6a632901803216855a180d6221622481064b4'
+	hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
+	# hash = 'aba6a632901803216855a180d6221622481064b4'
 	# Update Purchases, Transactions
-	
-	session['purchase_id'] = 366
-	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	s.connect(("8.8.8.8", 80))
-	ip_addr = (s.getsockname()[0])
-	qr_code = ("http://"+ip_addr+":8000/canteen_owner/qr/"+hash)
-	# qr_code = ("http://"+ip_addr+":8000/customer/index.html")
-	img = qrcode.make(qr_code).get_image()
-	
-	buffered = BytesIO()
-	img.save(buffered, format="JPEG")
-	img_str = base64.b64encode(buffered.getvalue()).decode()
-	# print(img_str)
+	data['cost'] = cost
+	data['hash'] = hash
+	purchase_id = update_transction('canteen', data)
+	session['purchase_id'] = purchase_id
 	return url_for('.selectpayment', cost = cost)
 
 @canteen.route('/canteen_owner/qr/<hash>')
