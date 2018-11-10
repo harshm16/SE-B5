@@ -179,14 +179,14 @@
 							then(
 								function success(response)
 								{
-									console.log(response);
+									location.href=response.data;
 								},
 								function error(err)
 								{
 									console.log(err);
 								}
 							);
-						console.log(final_orders);
+						// console.log(final_orders);
 					}
 
 
