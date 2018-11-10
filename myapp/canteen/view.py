@@ -69,6 +69,7 @@ def payment():
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'WEBSTAGING',
 			'CHANNEL_ID':'WEB',
+			'CALLBACK_URL':'http://localhost:5000/payment.status'
 		}
 		param_dict = data_dict  
 		param_dict['CHECKSUMHASH'] =generate_checksum(data_dict, MERCHANT_KEY)
