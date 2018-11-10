@@ -62,22 +62,22 @@ def selectpayment(cost):
 @csrf.exempt
 def payment():
 	if request.method=='POST':
-		MERCHANT_KEY = 'tG89dKDNQQWsrWjO';
+		MERCHANT_KEY = '@WL!6umDo4oZu%oU';
 		data_dict = {
-			'MID':'SEB5St30591402404816',
-			'ORDER_ID':'124d589',
+			'MID':'Instaf41556599010081',
+			'ORDER_ID':'124ddfs5assaasf89',
 			'TXN_AMOUNT':request.form['TXN_AMOUNT'],
 			'CUST_ID':request.form['CUST_ID'],
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'WEBSTAGING',
 			'CHANNEL_ID':'WEB',
-			'CALLBACK_URL':'http://localhost:5000/payment.status'
+			'CALLBACK_URL':'http://localhost:5000/canteen/payment.status'
 		}
 		param_dict = data_dict  
 		param_dict['CHECKSUMHASH'] =generate_checksum(data_dict, MERCHANT_KEY)
 		return render_template('payment/redirect.html',data=param_dict)
 
-@canteen.route('/payment.status/',methods=['POST','GET'])
+@canteen.route('/payment.status',methods=['POST','GET'])
 @csrf.exempt
 def status():
 	if request.method=='POST' or request.method=='GET':
@@ -113,7 +113,8 @@ def process_order():
 	# Update Purchases, Transactions
 	data['cost'] = cost
 	data['hash'] = hash
-	purchase_id = update_transction('canteen', data)
+	purchase_id = update_transaction('canteen', data)
+	print(purchase_id)
 	session['purchase_id'] = purchase_id
 	return url_for('.selectpayment', cost = cost)
 
