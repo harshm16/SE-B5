@@ -99,6 +99,7 @@ def process_order():
 	# hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
 	hash = 'aba6a632901803216855a180d6221622481064b4'
 	# Update Purchases, Transactions
+	
 	session['purchase_id'] = 366
 	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	s.connect(("8.8.8.8", 80))
