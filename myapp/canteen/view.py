@@ -225,8 +225,14 @@ def index():
 ###End changed
 
 ##test
-@canteen.route('/customer/test',methods=['POST'])
-def test():
+@canteen.route('/customer/put_items',methods=['POST'])
+def put_items():
+	data = json.loads(request.data)
+	print(data)
+	return "{status: 200, msg:ok}"
+
+@canteen.route('/customer/put_favorites',methods=['POST'])
+def put_favorites():
 	data = json.loads(request.data)
 	print(data)
 	return "{status: 200, msg:ok}"

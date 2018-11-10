@@ -90,7 +90,9 @@
 		</div>
 	<!-- END MAIN CONTENT -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
-	<script type="text/javascript">canteen_items = {{data | tojson | safe }} ;</script>
+	<script type="text/javascript">canteen_items = {{data | tojson | safe }} ;
+									console.log(canteen_items);
+	</script>
 	<script type="text/javascript" src="{{url_for('static', filename='customer/customer_angular.js')}}"></script>
 	<style type="text/css">
 		.isfav
