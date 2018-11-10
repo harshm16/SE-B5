@@ -131,149 +131,7 @@ INSERT INTO `Canteen` VALUES ('1','Aidan Courts','22'),
 
 
 
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
-
-#
-# TABLE STRUCTURE FOR: Has
-#
-
-DROP TABLE IF EXISTS `Has`;
-
-CREATE TABLE `Has` (
-  `Canteen_id` int(11) DEFAULT NULL,
-  `Items_id` int(11) DEFAULT NULL,
-  `Has_quantity` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (99, 266, 41);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (88, 249, 40);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (96, 294, 21);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (56, 244, 26);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (27, 220, 32);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (68, 219, 18);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (42, 229, 18);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (45, 221, 11);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (63, 234, 49);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (75, 253, 21);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (18, 250, 30);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (85, 283, 40);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (57, 269, 42);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (67, 300, 3);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (51, 264, 8);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (95, 207, 34);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (11, 248, 1);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (74, 226, 19);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (41, 246, 34);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (55, 272, 14);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (72, 235, 19);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (5, 257, 43);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (31, 203, 39);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (86, 267, 40);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (64, 279, 17);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (2, 214, 11);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (23, 289, 9);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (36, 245, 23);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (37, 288, 22);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (60, 201, 32);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (92, 225, 34);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (94, 268, 48);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (54, 241, 36);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (65, 224, 43);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (30, 297, 22);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (82, 287, 2);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (78, 282, 7);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (10, 216, 49);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (48, 254, 24);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (28, 205, 34);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (81, 204, 39);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (34, 261, 3);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (53, 258, 37);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (39, 208, 36);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (46, 285, 38);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (84, 211, 38);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (90, 222, 19);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (89, 209, 30);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (73, 243, 31);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (98, 233, 41);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (20, 276, 12);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (47, 293, 27);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (77, 263, 29);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (4, 228, 13);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (71, 218, 15);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (1, 278, 13);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (24, 238, 50);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (76, 213, 42);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (59, 274, 7);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (91, 270, 21);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (16, 231, 8);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (49, 252, 18);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (44, 239, 15);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (83, 202, 6);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (40, 255, 47);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (3, 215, 32);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (14, 265, 2);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (93, 273, 7);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (7, 237, 32);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (29, 291, 4);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (19, 295, 17);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (43, 232, 11);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (100, 271, 4);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (32, 284, 48);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (97, 259, 48);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (70, 242, 14);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (87, 296, 28);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (25, 281, 11);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (52, 286, 44);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (12, 212, 44);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (50, 299, 42);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (26, 223, 27);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (58, 240, 13);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (21, 227, 35);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (15, 277, 2);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (62, 217, 45);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (79, 280, 32);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (61, 247, 7);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (22, 298, 27);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (17, 292, 12);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (66, 262, 48);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (13, 290, 30);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (9, 206, 28);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (33, 210, 7);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (35, 236, 13);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (8, 256, 1);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (69, 230, 16);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (6, 251, 42);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (38, 275, 42);
-INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (80, 260, 42);
-
-
-#
-# TABLE STRUCTURE FOR: Items
-#
-
--- Generation time: Fri, 02 Nov 2018 15:26:23 +0000
--- Host: mysql.hostinger.ro
--- DB name: u574849695_22
-/*!40030 SET NAMES UTF8 */;
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
--- Generation time: Fri, 02 Nov 2018 15:43:26 +0000
+-- Generation time: Sat, 10 Nov 2018 09:51:56 +0000
 -- Host: mysql.hostinger.ro
 -- DB name: u574849695_24
 /*!40030 SET NAMES UTF8 */;
@@ -286,6 +144,525 @@ INSERT INTO `Has` (`Canteen_id`, `Items_id`, `Has_quantity`) VALUES (80, 260, 42
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+DROP TABLE IF EXISTS `Has`;
+CREATE TABLE `Has` (
+  `Canteen_id` int(11) DEFAULT NULL,
+  `Items_id` int(11) DEFAULT NULL,
+  `Has_quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `Has` VALUES ('90','257','50'),
+('17','244','1'),
+('93','298','20'),
+('66','292','6'),
+('73','204','1'),
+('54','212','24'),
+('4','253','12'),
+('34','240','43'),
+('50','223','45'),
+('47','265','34'),
+('69','243','11'),
+('99','234','8'),
+('12','213','9'),
+('21','202','7'),
+('58','254','8'),
+('65','240','2'),
+('49','212','44'),
+('58','231','24'),
+('37','248','18'),
+('46','275','17'),
+('41','288','46'),
+('18','213','14'),
+('95','207','27'),
+('34','251','30'),
+('84','228','47'),
+('69','254','32'),
+('67','279','3'),
+('59','233','39'),
+('79','260','13'),
+('26','212','31'),
+('22','218','42'),
+('73','253','38'),
+('24','259','19'),
+('23','236','15'),
+('63','295','11'),
+('31','258','30'),
+('21','292','49'),
+('28','203','45'),
+('13','207','45'),
+('49','295','16'),
+('56','203','21'),
+('93','220','3'),
+('99','227','3'),
+('88','243','1'),
+('61','247','33'),
+('33','211','46'),
+('17','272','33'),
+('5','293','31'),
+('53','222','35'),
+('25','241','7'),
+('18','293','27'),
+('24','246','27'),
+('34','207','33'),
+('76','245','31'),
+('32','262','25'),
+('73','274','47'),
+('34','289','35'),
+('74','237','3'),
+('95','280','4'),
+('2','265','9'),
+('6','217','22'),
+('5','226','14'),
+('29','272','11'),
+('38','223','10'),
+('13','266','33'),
+('86','278','19'),
+('56','217','38'),
+('50','267','1'),
+('30','205','42'),
+('23','202','19'),
+('92','285','33'),
+('87','203','17'),
+('24','221','29'),
+('25','243','7'),
+('89','246','21'),
+('6','239','43'),
+('10','239','42'),
+('94','257','16'),
+('8','213','26'),
+('43','280','25'),
+('25','287','34'),
+('83','270','25'),
+('12','211','33'),
+('67','244','9'),
+('91','218','34'),
+('72','243','22'),
+('54','298','18'),
+('39','248','16'),
+('80','297','41'),
+('47','270','47'),
+('19','296','26'),
+('68','263','22'),
+('57','210','8'),
+('51','259','14'),
+('62','256','9'),
+('60','261','26'),
+('19','230','49'),
+('10','228','44'),
+('76','238','21'),
+('10','213','14'),
+('72','249','26'),
+('53','281','11'),
+('43','217','38'),
+('32','256','46'),
+('39','290','19'),
+('99','225','34'),
+('50','217','18'),
+('43','227','20'),
+('26','222','49'),
+('24','254','37'),
+('11','205','40'),
+('99','225','37'),
+('36','241','19'),
+('69','206','16'),
+('82','273','3'),
+('90','207','36'),
+('38','254','26'),
+('67','263','45'),
+('88','259','22'),
+('25','240','13'),
+('49','287','6'),
+('79','258','29'),
+('55','253','1'),
+('82','241','6'),
+('62','221','12'),
+('45','263','48'),
+('40','278','42'),
+('7','225','46'),
+('39','210','28'),
+('59','294','40'),
+('18','210','26'),
+('72','258','28'),
+('36','240','35'),
+('55','226','37'),
+('30','290','11'),
+('39','225','43'),
+('74','222','38'),
+('86','265','24'),
+('90','238','3'),
+('2','260','5'),
+('73','281','34'),
+('12','289','3'),
+('81','274','30'),
+('30','238','15'),
+('77','254','39'),
+('64','275','44'),
+('12','270','7'),
+('82','222','34'),
+('58','247','5'),
+('81','234','17'),
+('61','216','42'),
+('76','238','26'),
+('18','208','44'),
+('36','217','36'),
+('93','205','20'),
+('54','233','33'),
+('96','223','44'),
+('13','300','42'),
+('85','210','34'),
+('56','275','11'),
+('2','209','8'),
+('10','266','11'),
+('16','213','24'),
+('26','278','25'),
+('70','297','18'),
+('1','229','10'),
+('71','218','50'),
+('94','289','36'),
+('33','221','34'),
+('62','216','36'),
+('35','297','6'),
+('81','241','35'),
+('96','221','10'),
+('58','275','18'),
+('75','214','42'),
+('88','210','16'),
+('16','290','12'),
+('41','246','44'),
+('32','216','1'),
+('24','232','46'),
+('64','205','26'),
+('18','229','38'),
+('16','283','22'),
+('9','229','25'),
+('13','271','2'),
+('92','289','24'),
+('79','228','36'),
+('43','291','38'),
+('48','201','25'),
+('3','268','37'),
+('27','218','10'),
+('47','293','42'),
+('70','211','2'),
+('91','222','12'),
+('12','232','11'),
+('24','207','44'),
+('98','291','3'),
+('31','231','35'),
+('24','263','49'),
+('7','298','16'),
+('34','260','30'),
+('34','209','18'),
+('94','221','33'),
+('32','256','47'),
+('11','281','4'),
+('98','223','24'),
+('85','225','5'),
+('71','250','44'),
+('11','298','9'),
+('12','223','26'),
+('93','252','2'),
+('42','226','43'),
+('81','202','22'),
+('55','235','15'),
+('18','263','23'),
+('58','286','23'),
+('55','223','19'),
+('82','204','1'),
+('84','300','9'),
+('68','283','1'),
+('8','219','36'),
+('72','212','31'),
+('39','257','4'),
+('53','229','29'),
+('26','281','25'),
+('77','233','3'),
+('98','287','44'),
+('38','248','16'),
+('27','221','42'),
+('13','221','2'),
+('14','211','5'),
+('8','278','10'),
+('12','210','48'),
+('10','223','39'),
+('97','296','42'),
+('10','208','25'),
+('95','221','3'),
+('39','259','32'),
+('49','243','24'),
+('21','227','29'),
+('94','241','43'),
+('94','285','31'),
+('30','239','47'),
+('78','240','32'),
+('84','273','36'),
+('21','275','41'),
+('55','217','41'),
+('42','288','35'),
+('86','244','36'),
+('8','215','29'),
+('47','240','14'),
+('16','211','44'),
+('43','212','48'),
+('53','231','20'),
+('62','293','14'),
+('13','218','18'),
+('47','287','49'),
+('68','281','50'),
+('36','204','7'),
+('50','244','6'),
+('62','277','47'),
+('80','225','48'),
+('29','212','13'),
+('85','224','17'),
+('93','266','7'),
+('25','267','44'),
+('9','287','11'),
+('91','247','31'),
+('97','282','43'),
+('85','223','12'),
+('96','230','24'),
+('11','265','26'),
+('16','215','10'),
+('28','236','45'),
+('19','288','19'),
+('6','216','4'),
+('90','226','37'),
+('43','238','35'),
+('63','273','27'),
+('88','281','1'),
+('1','253','24'),
+('60','291','42'),
+('10','240','40'),
+('13','300','7'),
+('95','210','7'),
+('18','224','23'),
+('48','203','15'),
+('6','283','9'),
+('37','234','6'),
+('1','218','4'),
+('17','295','46'),
+('57','273','22'),
+('73','213','16'),
+('42','300','50'),
+('100','214','14'),
+('92','276','41'),
+('73','211','23'),
+('14','257','25'),
+('73','243','43'),
+('81','271','40'),
+('50','282','39'),
+('76','206','14'),
+('88','270','29'),
+('95','278','4'),
+('8','300','22'),
+('62','276','37'),
+('37','275','6'),
+('18','206','40'),
+('33','299','7'),
+('86','226','34'),
+('36','239','6'),
+('40','201','32'),
+('76','248','9'),
+('43','291','39'),
+('62','217','2'),
+('45','255','28'),
+('39','258','18'),
+('24','230','4'),
+('39','208','20'),
+('75','298','42'),
+('15','248','44'),
+('21','243','34'),
+('93','225','35'),
+('70','203','14'),
+('75','280','36'),
+('41','220','39'),
+('26','283','43'),
+('34','206','23'),
+('34','300','39'),
+('18','271','26'),
+('85','249','27'),
+('9','289','33'),
+('15','274','27'),
+('85','231','46'),
+('41','293','15'),
+('38','250','33'),
+('93','206','25'),
+('87','218','13'),
+('2','269','40'),
+('54','258','22'),
+('16','287','9'),
+('5','218','2'),
+('46','230','35'),
+('11','216','29'),
+('69','202','16'),
+('31','254','28'),
+('19','273','16'),
+('95','265','36'),
+('75','281','36'),
+('46','269','48'),
+('57','230','14'),
+('70','282','22'),
+('81','280','39'),
+('92','207','33'),
+('36','207','19'),
+('44','250','49'),
+('1','273','18'),
+('33','283','47'),
+('22','223','18'),
+('56','239','30'),
+('44','209','28'),
+('5','268','42'),
+('7','215','39'),
+('78','226','29'),
+('8','271','9'),
+('76','275','17'),
+('98','228','40'),
+('66','248','31'),
+('59','258','18'),
+('17','258','32'),
+('6','268','47'),
+('22','289','22'),
+('12','214','23'),
+('28','244','28'),
+('30','263','3'),
+('43','221','37'),
+('83','296','36'),
+('5','291','40'),
+('85','201','50'),
+('46','222','48'),
+('52','234','24'),
+('21','284','40'),
+('65','277','38'),
+('64','292','47'),
+('18','287','26'),
+('87','291','8'),
+('29','224','34'),
+('21','254','37'),
+('61','239','28'),
+('82','280','8'),
+('33','285','31'),
+('89','270','7'),
+('89','245','45'),
+('65','218','46'),
+('83','212','8'),
+('43','248','48'),
+('33','268','29'),
+('61','276','48'),
+('57','230','24'),
+('3','270','43'),
+('50','201','8'),
+('95','268','8'),
+('35','241','43'),
+('37','227','26'),
+('36','258','6'),
+('14','213','50'),
+('97','213','5'),
+('91','262','15'),
+('30','227','21'),
+('71','255','16'),
+('61','204','50'),
+('6','257','9'),
+('17','211','14'),
+('2','280','40'),
+('75','290','35'),
+('75','225','28'),
+('2','289','36'),
+('52','263','3'),
+('8','226','25'),
+('71','239','10'),
+('56','263','42'),
+('54','224','22'),
+('93','206','26'),
+('12','214','50'),
+('98','287','9'),
+('66','234','43'),
+('6','284','46'),
+('24','256','15'),
+('46','278','6'),
+('13','295','30'),
+('83','254','34'),
+('7','203','36'),
+('95','272','32'),
+('38','205','11'),
+('34','253','3'),
+('70','233','47'),
+('98','296','40'),
+('67','261','20'),
+('95','220','2'),
+('95','215','45'),
+('23','262','13'),
+('21','243','13'),
+('27','279','11'),
+('31','280','25'),
+('100','249','46'),
+('44','288','1'),
+('23','277','3'),
+('8','247','7'),
+('29','262','47'),
+('61','204','40'),
+('63','231','9'),
+('86','229','27'),
+('95','251','20'),
+('89','207','24'),
+('49','220','23'),
+('11','276','47'),
+('65','271','14'),
+('89','285','2'),
+('43','220','3'),
+('74','287','17'),
+('78','201','31'),
+('34','267','22'),
+('53','205','43'),
+('86','209','1'),
+('11','278','23'),
+('28','236','35'),
+('76','281','18'),
+('29','256','43'),
+('82','294','33'),
+('57','246','37'),
+('54','291','41'),
+('16','236','8'),
+('94','289','6'),
+('72','218','25'),
+('11','281','8'),
+('23','253','48'),
+('10','258','21'),
+('27','231','13'),
+('71','247','39'),
+('38','203','42'),
+('50','208','46'),
+('96','229','6'),
+('24','243','3'),
+('47','254','8'),
+('78','298','28'),
+('97','219','25'),
+('83','290','29'),
+('30','289','6'),
+('64','280','33'),
+('66','230','13'),
+('70','243','15'),
+('20','266','26'),
+('1','291','16'),
+('13','231','2'),
+('90','277','41'),
+('2','234','47'),
+('93','224','40'),
+('55','207','24'),
+('83','273','42'),
+('59','238','41'); 
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 DROP TABLE IF EXISTS `Items`;
 CREATE TABLE `Items` (

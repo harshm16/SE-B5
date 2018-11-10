@@ -81,10 +81,13 @@ def status():
 	if request.method=='POST' or request.method=='GET':
 		pass
 
-@canteen.route('/process_order/',methods=['POST','GET'])
+@canteen.route('customer/process_order/',methods=['POST','GET'])
+@csrf.exempt
 def process_order():
 	# Load request details
 	# Assume request is:
+	print(request.get_json())
+	print(session['User_id'])
 	data = {'item_ids':[214, 223, 250, 254, 261, 267, 268, 278, 279, 285, 291, 292],
 			'quantity':[27, 3, 25, 25, 13, 39, 28, 48, 19, 23, 42, 42],
 			'User_id':366}
@@ -104,7 +107,7 @@ def process_order():
 	buffered = BytesIO()
 	img.save(buffered, format="JPEG")
 	img_str = base64.b64encode(buffered.getvalue()).decode()
-	print(img_str)
+	# print(img_str)
 	return render_template("payment/qr.html", img={'base':img_str})
 
 @canteen.route('/canteen_owner/qr/<hash>')
