@@ -1,4 +1,5 @@
 import mysql.connector
+from datetime import datetime
 
 def replace_key(old_list, new_key, old_key):
 	new_list = list()
@@ -110,7 +111,7 @@ def get_order(db_name, hash=None, id=None):
 			)
 	cursor = conn.cursor(dictionary=True)
 	transaction_id = id
-
+	print('id', transaction_id)
 	if(hash is not None):
 		cursor.execute("select Transaction_id from Transactions where Hash='%s'"%hash)
 		transaction_id = cursor.fetchall()[0]['Transaction_id']
@@ -181,4 +182,38 @@ def insert_owner(db_name, data):
 	conn.commit()
 	
 	return owner_id
+
+def update_transaction(db_name, data):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+	cursor.execute("insert into Transactions(`Transaction_timestamp`, `Transaction_amount`, `Hash`) values('%s', %d, '%s')"%(timestamp, data['cost'], data['hash']))
+	conn.commit()
 	
+	cursor.execute("select Transaction_id from Transactions where Hash='%s'"%data['hash'])
+	transaction_id = cursor.fetchall()[0]['Transaction_id']
+
+	for item_id, quantity in zip(data['item_ids'], data['quantity']):
+		cursor.execute("insert into Purchases(`Item_id`, `Quantity`, `User_id`, `Purchase_basket_id`, `Canteen_id`) values('%s', '%s', '%s', '%s', '%s')"%(item_id, quantity, data['User_id'], transaction_id ,data['canteen_id']))
+		conn.commit()
+	
+
+	return transaction_id
+
+def get_hash(db_name, transaction_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	
+	cursor.execute('select Hash from Transactions where Transaction_id=%d'%transaction_id)
+
+	return cursor.fetchall()[0]['Hash']
