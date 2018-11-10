@@ -65,7 +65,7 @@ def payment():
 		MERCHANT_KEY = 'tG89dKDNQQWsrWjO';
 		data_dict = {
 			'MID':'SEB5St30591402404816',
-			'ORDER_ID':'124589',
+			'ORDER_ID':'124d589',
 			'TXN_AMOUNT':request.form['TXN_AMOUNT'],
 			'CUST_ID':request.form['CUST_ID'],
 			'INDUSTRY_TYPE_ID':'Retail',
