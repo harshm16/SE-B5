@@ -171,9 +171,10 @@ def items_index():
 
 
 #Changed 
-@canteen.route('/customer/typography.html')
+@canteen.route('/customer/typography.html', methods=['GET'])
 def customer_typography():
-	return render_template('customer/typography.html', data = get_items('Items', 'canteen'))
+	canteen_id = int(request.args.get('canteen'))
+	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))
 
 @canteen.route('/customer/icons.html')
 def customer_icons():
@@ -181,7 +182,7 @@ def customer_icons():
 
 @canteen.route('/customer/tables.html')
 def customer_tables():
-	return render_template('customer/tables.html')
+	return render_template('customer/tables.html', data = get_items('Canteen', 'canteen'))
 
 @canteen.route('/customer/parent_template.html')
 def customer_parent_template():
