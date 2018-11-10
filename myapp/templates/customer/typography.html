@@ -91,6 +91,13 @@
 
 
 			<script type="text/javascript">
+				$.urlParam = function(name){
+				    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+				    if (results==null) {
+				       return null;
+				    }
+				    return decodeURI(results[1]) || 0;
+				}
 
 				//Replace double flower  with {a a} for angular becuase it conflicts with jinja
 				var app=angular.module('fosapp',[]);
@@ -160,28 +167,26 @@
 
 					this.placeorder = function()
 					{
-						var final_orders = [];
+						var final_orders = {'item_ids':[], 'quantity':[], 'canteen_id':$.urlParam('canteen')};
 
 						angular.forEach(this.cart,function(value,key)
 						{
-							var each_order = {};
-							each_order['Items_id'] = value.Items_id;
-							each_order['Item_count'] = value.count;
-							final_orders.push(each_order);
+							final_orders['item_ids'].push(value.Items_id);
+							final_orders['quantity'].push(value.count);
 						});
 
-						$http.post("/customer/test",final_orders).
+						$http.post("{{ url_for('.process_order') }}" ,final_orders).
 							then(
 								function success(response)
 								{
-									console.log(response);
+									location.href=response.data;
 								},
 								function error(err)
 								{
 									console.log(err);
 								}
 							);
-						console.log(final_orders);
+						// console.log(final_orders);
 					}
 
 

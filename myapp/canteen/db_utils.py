@@ -34,6 +34,17 @@ def get_items(table_name, db_name, item_count = None, key = None):
 
 	return sorted(cursor.fetchall(), key = lambda i: i[key], reverse=True)[:item_count]
 
+def get_items_canteen(db_name, canteen_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	cursor.execute('select * from Items where Items_id in (select Items_id from Has where Canteen_id=%d)' % canteen_id)
+
+	return cursor.fetchall()
 
 def get_canteen_details(db_name):
 	conn = mysql.connector.connect(

@@ -57,7 +57,7 @@ class TestApp:
 	
 	def test_typography(self, client):
 		res = client.get(url_for('canteen.customer_typography'))
-		assert res.status_code == 200
+		assert res.status_code == 302
 	# Canteen View Start
 
 	
