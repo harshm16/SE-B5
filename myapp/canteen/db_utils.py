@@ -294,3 +294,31 @@ def get_user_orders(db_name,User_id):
 		items[i]['Purchase_date'] = item['Purchase_date']
 		items[i]['Transaction_amount'] = item['Transaction_amount']
 	return items
+
+
+
+#067
+def get_users(db_name):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	cursor.execute("select Item_id, Gender,Semester,Department from Users natural join Purchases")
+	return cursor.fetchall()
+
+#067
+def get_user_info(db_name,User_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	cursor.execute("select Gender,Semester,Department from Users where User_id = %d"%User_id)
+	return cursor.fetchall()
