@@ -207,7 +207,7 @@ def customer_panels():
 
 @canteen.route('/customer/elements.html')
 def customer_elements():
-	return render_template('customer/elements.html')
+	return render_template('customer/elements.html',data=get_user_orders('canteen',341))
 
 @canteen.route('/customer/index.html')
 #@login_required
@@ -224,13 +224,8 @@ def index():
 
 ###End changed
 
-##test
-@canteen.route('/put_items',methods=['POST'])
-@csrf.exempt
-def put_items():
-	data = json.loads(request.data)
-	print(data)
-	return "{status: 200, msg:ok}"
+##favs
+
 
 @canteen.route('/customer/put_favorites',methods=['POST'])
 @csrf.exempt
@@ -238,8 +233,7 @@ def put_favorites():
 	if(request.method == "POST"):
 		data = json.loads(request.data)
 		update_favorites('canteen',327,data)
-		print("------------------------")
-		return "{status: 302, msg:ok}"
+	
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))

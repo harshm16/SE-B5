@@ -231,14 +231,15 @@ def get_user_orders(db_name,User_id):
 				database=db_name
 			)
 	cursor = conn.cursor(dictionary=True)
-	cursor.execute("select Item_id,Quantity,Purchase_date,Transaction_amount from Purchases join Transactions on Transaction_id = Purchase_basket_id where Status = 1 and User_id=%s" % User_id)	
+	cursor.execute("select Item_id,Quantity,Purchase_date,Transaction_amount from Purchases join Transactions on Transaction_id = Purchase_basket_id where Status = '1' and User_id=%s" % User_id)	
 	items = list()
 
 	for i, item in enumerate(cursor.fetchall()):
-		cursor.execute("select * from Items where Items_id=%d"%item['Item_id'])
+		cursor.execute("select Items_name, Price from Items where Items_id=%d"%item['Item_id'])
 		items.append(cursor.fetchall()[0])
-		items[i]['quantity'] = item['Quantity']
-
+		items[i]['Quantity'] = item['Quantity']
+		items[i]['Purchase_date'] = item['Purchase_date']
+		items[i]['Transaction_amount'] = item['Transaction_amount']
 	return items
 
-#067
+
