@@ -18,7 +18,7 @@ echo 'Starting myapp'
 flask db-create
 flask db-load-users
 echo 'Starting web server'
-flask run
+flask run --host=0.0.0.0
 
 # Python Virtual Environment using virtualenv
 # source venv/bin/activate

@@ -65,7 +65,7 @@ def payment():
 		MERCHANT_KEY = '@WL!6umDo4oZu%oU';
 		data_dict = {
 			'MID':'Instaf41556599010081',
-			'ORDER_ID':'124ddfs5assaasf89',
+			'ORDER_ID':get_hash('canteen', session['purchase_id']),
 			'TXN_AMOUNT':request.form['TXN_AMOUNT'],
 			'CUST_ID':request.form['CUST_ID'],
 			'INDUSTRY_TYPE_ID':'Retail',
