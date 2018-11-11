@@ -151,23 +151,23 @@ def canteen_owner_panels():
 
 @canteen.route('/canteen_owner/elements.html')
 def canteen_owner_elements():
-	return render_template('canteen_owner/elements.html', data = get_items('Items', 'canteen'))
+	return render_template('canteen_owner/elements.html', data=get_user_orders('canteen', 327))
 
 @canteen.route('/canteen_owner/index.html')
 def canteen_owner_owner_index():
 	return render_template('canteen_owner/index.html')
 
-@canteen.route('/customer/items')
+"""@canteen.route('/customer/items')
 def items_index():
 	#table_name = 'Items'
 	# cursor = get_conn('canteen')
 	return render_template('customer/oldindex.html', data = get_items('Items', 'canteen'))
-
+"""
 
 #Changed 
 @canteen.route('/customer/typography.html')
 def customer_typography():
-	return render_template('customer/typography.html', data = get_items('Items', 'canteen'))
+	return render_template('customer/typography.html', data = {'items':get_items('Items', 'canteen'),'fav':get_favorites('canteen',327)})
 
 @canteen.route('/customer/icons.html')
 def customer_icons():
@@ -201,9 +201,9 @@ def customer_page_login():
 def customer_page_profile():
 	return render_template('customer/page-profile.html')
 
-@canteen.route('/customer/panels.html')
+@canteen.route('/customer/panels.html',methods=['GET'])
 def customer_panels():
-	return render_template('customer/panels.html')
+	return render_template('customer/panels.html',data={'items': get_favorites_item_list('canteen',327),'fav':get_favorites('canteen',327)})
 
 @canteen.route('/customer/elements.html')
 def customer_elements():
@@ -225,17 +225,21 @@ def index():
 ###End changed
 
 ##test
-@canteen.route('/customer/put_items',methods=['POST'])
+@canteen.route('/put_items',methods=['POST'])
+@csrf.exempt
 def put_items():
 	data = json.loads(request.data)
 	print(data)
 	return "{status: 200, msg:ok}"
 
 @canteen.route('/customer/put_favorites',methods=['POST'])
+@csrf.exempt
 def put_favorites():
-	data = json.loads(request.data)
-	print(data)
-	return "{status: 200, msg:ok}"
+	if(request.method == "POST"):
+		data = json.loads(request.data)
+		update_favorites('canteen',327,data)
+		print("------------------------")
+		return "{status: 302, msg:ok}"
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))
