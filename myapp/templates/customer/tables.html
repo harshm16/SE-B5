@@ -11,24 +11,30 @@
 				<div class="container-fluid"> <h3 class="page-title">Select canteen</h3>
 					<div class="row">
 						<!--MENU FOR THE DAY-->
+						{% for d in data %}
 						<div class="col-md-4" >
-						<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">Canteen name</h3>
-									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
-								</div>
-								<div data-toggle="toggle" class="panel-body">
-									<p>Canteen description</p>
-									<button type="button" class="btn btn-default btn-block"><i class="fa fa-plus-square"></i> Select </button>	
-								</div>
+							<div class="panel">
+									<div class="panel-heading">
+										<h3 class="panel-title">{{d.Canteen_name}}</h3>
+										<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
+									</div>
+									<div data-toggle="toggle" class="panel-body">
+										<p class = "canteen-id">{{ d.Canteen_id }}</p>
+										<button type="button" class="btn btn-default selectcanteen"><i class="fa fa-plus-square"></i> Select </button>	
+									</div>
+							
+							</div>
 						</div>
-						</div>
+						{% endfor %}
 					</div>
 					<button type="checkbox" class="btn btn-success selectitems" style="float:right;"><i class="fa fa-check-circle" ></i> Select items </button>
 					<script type="text/javascript">
-						$(".selectitems").click(function()
-							{
-								location.href="typography.html";
+						$(".selectcanteen").click(function()
+							{	
+								
+								url = "typography.html?canteen="+$(this).siblings().text()
+								// alert(url)
+								location.href=url;
 							});
 					</script>
 				</div>

@@ -19,6 +19,7 @@ import time
 import qrcode
 import socket
 import base64
+import json
 from io import BytesIO
 
 @canteen.route('/customer_form')
@@ -53,53 +54,69 @@ def parse_owner_form():
 	session['Owner_id'] = insert_owner('canteen', data)
 	return str(session)
 
-@canteen.route('/selectpayment/')
-def selectpayment():
+@canteen.route('/selectpayment/<cost>')
+def selectpayment(cost):
 	return render_template('payment/payment.html')
 
 @canteen.route('/payment/', methods=['POST','GET'])
+@csrf.exempt
 def payment():
 	if request.method=='POST':
-		MERCHANT_KEY = 'tG89dKDNQQWsrWjO';
+		MERCHANT_KEY = '@WL!6umDo4oZu%oU';
 		data_dict = {
-			'MID':'SEB5St30591402404816',
-			'ORDER_ID':'seb5336',
+			'MID':'Instaf41556599010081',
+			'ORDER_ID':'124ddfs5assaasf89',
 			'TXN_AMOUNT':request.form['TXN_AMOUNT'],
 			'CUST_ID':request.form['CUST_ID'],
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'WEBSTAGING',
 			'CHANNEL_ID':'WEB',
+			'CALLBACK_URL':'http://localhost:5000/canteen/payment.status'
 		}
 		param_dict = data_dict  
 		param_dict['CHECKSUMHASH'] =generate_checksum(data_dict, MERCHANT_KEY)
 		return render_template('payment/redirect.html',data=param_dict)
 
-@canteen.route('/payment.status/',methods=['POST','GET'])
+@canteen.route('/payment.status',methods=['POST','GET'])
+@csrf.exempt
 def status():
 	if request.method=='POST' or request.method=='GET':
-		# Load request details
-		# Assume request is:
-		data = {'item_ids':[214, 223, 250, 254, 261, 267, 268, 278, 279, 285, 291, 292],
-				'quantity':[27, 3, 25, 25, 13, 39, 28, 48, 19, 23, 42, 42],
-				'User_id':366}
-		
-		cost = get_cost('canteen', data['item_ids'], data['quantity'])
-		# hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
-		hash = 'aba6a632901803216855a180d6221622481064b4'
-		# Update Purchases, Transactions
-		
+		hash = get_hash('canteen', session['purchase_id'])
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		s.connect(("8.8.8.8", 80))
 		ip_addr = (s.getsockname()[0])
-		qr_code = ("http://"+ip_addr+":8000/canteen_owner/qr/"+hash)
+		qr_code = ("http://"+ip_addr+":5000/canteen/canteen_owner/qr/"+hash)
 		# qr_code = ("http://"+ip_addr+":8000/customer/index.html")
 		img = qrcode.make(qr_code).get_image()
 		
 		buffered = BytesIO()
 		img.save(buffered, format="JPEG")
 		img_str = base64.b64encode(buffered.getvalue()).decode()
-		print(img_str)
-		return render_template("payment/qr.html", img={'base':img_str})
+		# print(img_str)
+		return render_template('payment/qr.html', data={'base':img_str, 'id':session['purchase_id']})
+
+@canteen.route('customer/process_order/',methods=['POST','GET'])
+@csrf.exempt
+def process_order():
+	# Load request details
+	# Assume request is:
+	data = request.get_json()
+	data['User_id'] = session['User_id']
+	print(data)
+	# data = {'item_ids':[214, 223, 250, 254, 261, 267, 268, 278, 279, 285, 291, 292],
+	# 		'quantity':[27, 3, 25, 25, 13, 39, 28, 48, 19, 23, 42, 42],
+	# 		'User_id':366}
+	
+	cost = get_cost('canteen', data['item_ids'], data['quantity'])
+	hash = hashlib.sha512((str(data)+str(time.time())).encode('utf-8')).hexdigest()
+	# hash = 'aba6a632901803216855a180d6221622481064b4'
+	# Update Purchases, Transactions
+	data['cost'] = cost
+	data['hash'] = hash
+	purchase_id = update_transaction('canteen', data)
+	print(purchase_id)
+	session['purchase_id'] = purchase_id
+	return url_for('.selectpayment', cost = cost)
 
 @canteen.route('/canteen_owner/qr/<hash>')
 def canteen_owner_process_order_hash(hash):
@@ -165,10 +182,18 @@ def items_index():
 """
 
 #Changed 
+<<<<<<< HEAD
 @canteen.route('/customer/typography.html')
 @login_required
 def customer_typography():
 	return render_template('customer/typography.html', data = {'items':get_items('Items', 'canteen'),'fav':get_favorites('canteen',int(session['User_id']))})
+=======
+@canteen.route('/customer/typography.html', methods=['GET'])
+@login_required
+def customer_typography():
+	canteen_id = int(request.args.get('canteen'))
+	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))
+>>>>>>> 99d9ea5be9502f537113f51b47504e160c79962d
 
 @canteen.route('/customer/icons.html')
 def customer_icons():
@@ -176,7 +201,7 @@ def customer_icons():
 
 @canteen.route('/customer/tables.html')
 def customer_tables():
-	return render_template('customer/tables.html')
+	return render_template('customer/tables.html', data = get_items('Canteen', 'canteen'))
 
 @canteen.route('/customer/parent_template.html')
 def customer_parent_template():
