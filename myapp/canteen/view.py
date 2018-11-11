@@ -182,18 +182,19 @@ def items_index():
 """
 
 #Changed 
-<<<<<<< HEAD
-@canteen.route('/customer/typography.html')
-@login_required
-def customer_typography():
-	return render_template('customer/typography.html', data = {'items':get_items('Items', 'canteen'),'fav':get_favorites('canteen',int(session['User_id']))})
-=======
+
 @canteen.route('/customer/typography.html', methods=['GET'])
 @login_required
 def customer_typography():
 	canteen_id = int(request.args.get('canteen'))
-	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))
->>>>>>> 99d9ea5be9502f537113f51b47504e160c79962d
+	return render_template('customer/typography.html', data = {'items':get_items_canteen('canteen', canteen_id),'fav':get_favorites('canteen',int(session['User_id']))})
+
+"""@canteen.route('/customer/typography.html', methods=['GET'])
+@login_required
+def customer_typography():
+	canteen_id = int(request.args.get('canteen'))
+	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))"""
+
 
 @canteen.route('/customer/icons.html')
 def customer_icons():
@@ -259,7 +260,9 @@ def index():
 @csrf.exempt
 def put_favorites():
 	if(request.method == "POST"):
-		data = json.loads(request.data)
+		#print("-----------------------------------",request.data)
+		data = json.loads(request.data.decode("utf-8"))
+		print("-----------------------------------",data)
 		update_favorites('canteen',int(session['User_id']),data)
 	return "{'status':200,'msg':'ok'}"
 

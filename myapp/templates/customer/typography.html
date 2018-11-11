@@ -91,6 +91,15 @@
 	<!-- END MAIN CONTENT -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
 	<script type="text/javascript">
+
+		$.urlParam = function(name)
+		{
+				    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+				    if (results==null) {
+				       return null;
+				    }
+				    return decodeURI(results[1]) || 0;
+		}
 		canteen_items = {{data | tojson | safe }} ;
 		console.log(canteen_items);
 
@@ -98,8 +107,8 @@
 		var app=angular.module('fosapp',[]);
 		app.config(['$interpolateProvider',function($interpolateProvider)
 		{
-		$interpolateProvider.startSymbol('{a');
-		$interpolateProvider.endSymbol('a}');
+			$interpolateProvider.startSymbol('{a');
+			$interpolateProvider.endSymbol('a}');
 		}]);
 
 		app.controller('fosctrl',['$http',function($http)
@@ -119,8 +128,11 @@
 			{
 					//console.log(value,key)
 					var index = this.items.findIndex(item=>item.Items_id == value);
-					var each_item  = this.items[index];
-					each_item.isfavorite = true;
+					if(index > 0)
+					{
+						var each_item  = this.items[index];
+						each_item.isfavorite = true;
+					}
 					add_remove_favorities[value.toString()] = 1;
 			},this);
 
@@ -213,6 +225,7 @@
 			function sendfavorites()
 			{
 				// body...
+				console.log("sendfavorites",add_remove_favorities);
 				$http.post("{{url_for('.put_favorites')}}",add_remove_favorities).then(
 					function success(response)
 					{
@@ -222,13 +235,9 @@
 					function error(err)
 					{
 						console.log(err);
-							total  += value.Price * value.count ;	
-						});
-						this.carttotal=total;
-						
-					}
+					});
 
-					);
+				
 			}
 
 

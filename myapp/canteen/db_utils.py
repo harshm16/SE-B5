@@ -182,7 +182,43 @@ def insert_owner(db_name, data):
 	conn.commit()
 	
 	return owner_id
-<<<<<<< HEAD
+
+
+def update_transaction(db_name, data):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+	cursor.execute("insert into Transactions(`Transaction_timestamp`, `Transaction_amount`, `Hash`) values('%s', %d, '%s')"%(timestamp, data['cost'], data['hash']))
+	conn.commit()
+	
+	cursor.execute("select Transaction_id from Transactions where Hash='%s'"%data['hash'])
+	transaction_id = cursor.fetchall()[0]['Transaction_id']
+
+	for item_id, quantity in zip(data['item_ids'], data['quantity']):
+		cursor.execute("insert into Purchases(`Item_id`, `Quantity`, `User_id`, `Purchase_basket_id`, `Canteen_id`) values('%s', '%s', '%s', '%s', '%s')"%(item_id, quantity, data['User_id'], transaction_id ,data['canteen_id']))
+		conn.commit()
+	
+
+	return transaction_id
+
+
+def get_hash(db_name, transaction_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	cursor.execute('select Hash from Transactions where Transaction_id=%d'%transaction_id)
+
+	return cursor.fetchall()[0]['Hash']
 	
 ###Favorites 067
 def get_favorites(db_name,User_id):
@@ -199,6 +235,7 @@ def get_favorites(db_name,User_id):
 	for each_item in favs:
 		new_list.append(each_item['Item_id'])
 	return new_list
+
 #067
 def get_favorites_item_list(db_name,User_id):
 
@@ -212,12 +249,9 @@ def get_favorites_item_list(db_name,User_id):
 	cursor.execute("select * from Items join Favorites on Items.Items_id = Favorites.Item_id where User_id=%s" % User_id)
 	return cursor.fetchall()
 
+
 #067
 def update_favorites(db_name,User_id,Items_id):
-=======
-
-def update_transaction(db_name, data):
->>>>>>> 99d9ea5be9502f537113f51b47504e160c79962d
 	conn = mysql.connector.connect(
 				host="localhost",
 				user="root",
@@ -225,8 +259,8 @@ def update_transaction(db_name, data):
 				database=db_name
 			)
 	cursor = conn.cursor(dictionary=True)
-<<<<<<< HEAD
 	
+
 	cursor.execute("select Item_id from Favorites where User_id = %d"% User_id)
 	previous_item_list= cursor.fetchall()
 	previous_item_list = [item['Item_id'] for item in previous_item_list]
@@ -242,23 +276,6 @@ def update_transaction(db_name, data):
 #067
 def get_user_orders(db_name,User_id):
 
-=======
-	timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-	cursor.execute("insert into Transactions(`Transaction_timestamp`, `Transaction_amount`, `Hash`) values('%s', %d, '%s')"%(timestamp, data['cost'], data['hash']))
-	conn.commit()
-	
-	cursor.execute("select Transaction_id from Transactions where Hash='%s'"%data['hash'])
-	transaction_id = cursor.fetchall()[0]['Transaction_id']
-
-	for item_id, quantity in zip(data['item_ids'], data['quantity']):
-		cursor.execute("insert into Purchases(`Item_id`, `Quantity`, `User_id`, `Purchase_basket_id`, `Canteen_id`) values('%s', '%s', '%s', '%s', '%s')"%(item_id, quantity, data['User_id'], transaction_id ,data['canteen_id']))
-		conn.commit()
-	
-
-	return transaction_id
-
-def get_hash(db_name, transaction_id):
->>>>>>> 99d9ea5be9502f537113f51b47504e160c79962d
 	conn = mysql.connector.connect(
 				host="localhost",
 				user="root",
@@ -266,7 +283,7 @@ def get_hash(db_name, transaction_id):
 				database=db_name
 			)
 	cursor = conn.cursor(dictionary=True)
-<<<<<<< HEAD
+
 	cursor.execute("select Item_id,Quantity,Purchase_date,Transaction_amount from Purchases join Transactions on Transaction_id = Purchase_basket_id where Status = '1' and User_id=%s" % User_id)	
 	items = list()
 
@@ -277,11 +294,3 @@ def get_hash(db_name, transaction_id):
 		items[i]['Purchase_date'] = item['Purchase_date']
 		items[i]['Transaction_amount'] = item['Transaction_amount']
 	return items
-
-
-=======
-	
-	cursor.execute('select Hash from Transactions where Transaction_id=%d'%transaction_id)
-
-	return cursor.fetchall()[0]['Hash']
->>>>>>> 99d9ea5be9502f537113f51b47504e160c79962d
