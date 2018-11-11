@@ -4,46 +4,91 @@
 {% block content %}
 	
 		<!-- MAIN -->
-		<div class="main">
-						<!-- MAIN CONTENT -->
-						<div class="main-content">
-							<div class="container-fluid"> <h3 class="page-title">Orders per item</h3>
-								<div class="row">
-									<!--ORDERS LIST-->
-									<div class="col-md-14" >
-									<div class="panel">
-											<div class="panel-heading">
-												<h3 class="panel-title">Order List</h3>
-											</div>
-											<div class="panel-body table-responsive">
-												<table class="table table-striped">
-													<thead>
-														<tr>
-															<th>Item </th>
-															<th>Item Name</th>
-															<th>Orders</th>
-															<th>Paid</th>
-															<th>Unpaid</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td><img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" style="width:100px;height:80px;"></td>
-															<td></td>
-															<td></td>
-															<td></td>
-															<td></td>
-														</tr>	
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
-									<!--END ORDERS LIST-->	
+		<div class="main" ng-app="fosapp">
+		<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="container-fluid"> 
+				<h3 class="page-title">Select items 
+					<!-- Search -->
+					<form class="form-inline" style="float:right;">
+					<input class="form-control form-control-sm mr-3 w-75" type="text" ng-model="search" placeholder="Search items">
+					<i class="fa fa-search" aria-hidden="true"></i>
+					<!-- Search end -->
+				</form></h3>
+
+				<div class="row"  ng-controller="fosctrl as ctrl">
+					<!--item-->
+					<div class="col-md-9">
+						<div class="col-md-4" ng-repeat="item in ctrl.items | filter : search">
+						<div class="panel" >
+								<div class="panel-heading">
+									<h3 class="panel-title" >{a item.Items_name a}</h3>
+									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
 								</div>
-							</div>
+								<div class="panel-body">
+									<p style="height: 25px;overflow-y: scroll;">{a item.Description a}</p>
+									<p><span class="icon"><i class="fa fa-inr"></i></span>{a item.Price a}</p>
+									<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(item)" ng-disabled="item.disabled">Add to cart</button>
+								</div>
 						</div>
-						<!-- END MAIN CONTENT -->
+						</div>
+					</div>
+					<!--item end-->
+					<!--your orders-->
+					<div class="col-md-3">
+					<div class="panel" >
+							<div class="panel-heading">
+								<h3 class="panel-title">Your orders</h3>
+							</div>
+							<div class="panel-body" >
+								<div ng-repeat="item in ctrl.cart">
+									<!--ng-repear template -->
+									<p> {a item.Items_name a}</p> 
+									<div class="btn-group btn-block" style="display:inline-block">
+									  	<button class="btn btn-secondary btn-info" 
+									  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
+									  	<button class="btn btn-secondary" >{a item.count a}</button> 
+									 	<button class="btn btn-secondary btn-info" 
+									 			ng-click="item.count < item.Max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
+								 	</div>
+								 	<p> 
+								 		<span class="icon"  >
+								 		<i class="fa fa-inr"></i>
+								 		{a item.Price a} 
+								 		</span> 
+								 		<span class="icon" style="float: right;">
+								 		<i class="fa fa-inr"></i> {a item.Price * item.count a} 
+								 		</span> 
+								 		
+								 	</p>
+								 	<button type="button" 
+								 			class="btn btn-danger" 
+								 			ng-click="ctrl.removeFromcart(item)">
+								 			<i class="lnr lnr-trash"></i>
+								 	</button>
+								 	<hr>
+								 	<!--ng-repeat end-->
+							 	</div>	
+							</div>
+							<!--panel footer -->
+							<div class="panel-footer">
+								<h4>Total price <span class="icon" style="float: right;"><i class="fa fa-inr"></i>{a ctrl.carttotal a}</span>	
+							 	</h4>
+							</div>
+					</div>
+					<button class="btn btn-success btn-block"  ng-click="ctrl.placeorder()" style="float:right;"><i class="fa fa-check-circle"></i> Place order 
+					</button>
+					</div>
+					<!--your orders end here -->
+				</div>
+				
+			</div>
+		</div>
+			<!-- END MAIN CONTENT -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
+		<script type="text/javascript">canteen_items = {{data | tojson | safe }}; 
+		console.log(canteen_items);</script>
+		<script type="text/javascript" src="{{url_for('static', filename='customer/customer_angular.js')}}"></script>
 		</div>
 		<!-- END MAIN -->
 {% endblock %}

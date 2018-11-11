@@ -168,25 +168,33 @@ def canteen_owner_panels():
 
 @canteen.route('/canteen_owner/elements.html')
 def canteen_owner_elements():
-	return render_template('canteen_owner/elements.html', data = get_items('Items', 'canteen'))
+	return render_template('canteen_owner/elements.html', data=get_items('Items','canteen'))
 
 @canteen.route('/canteen_owner/index.html')
 def canteen_owner_owner_index():
 	return render_template('canteen_owner/index.html')
 
-@canteen.route('/customer/items')
+"""@canteen.route('/customer/items')
 def items_index():
 	#table_name = 'Items'
 	# cursor = get_conn('canteen')
 	return render_template('customer/oldindex.html', data = get_items('Items', 'canteen'))
-
+"""
 
 #Changed 
+
 @canteen.route('/customer/typography.html', methods=['GET'])
 @login_required
 def customer_typography():
 	canteen_id = int(request.args.get('canteen'))
-	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))
+	return render_template('customer/typography.html', data = {'items':get_items_canteen('canteen', canteen_id),'fav':get_favorites('canteen',int(session['User_id']))})
+
+"""@canteen.route('/customer/typography.html', methods=['GET'])
+@login_required
+def customer_typography():
+	canteen_id = int(request.args.get('canteen'))
+	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))"""
+
 
 @canteen.route('/customer/icons.html')
 def customer_icons():
@@ -220,13 +228,15 @@ def customer_page_login():
 def customer_page_profile():
 	return render_template('customer/page-profile.html')
 
-@canteen.route('/customer/panels.html')
+@canteen.route('/customer/panels.html',methods=['GET'])
+@login_required
 def customer_panels():
-	return render_template('customer/panels.html')
+	return render_template('customer/panels.html',data={'items': get_favorites_item_list('canteen',int(session['User_id'])),'fav':get_favorites('canteen',int(session['User_id']))})
 
 @canteen.route('/customer/elements.html')
+@login_required
 def customer_elements():
-	return render_template('customer/elements.html')
+	return render_template('customer/elements.html',data=get_user_orders('canteen',int(session['User_id'])))
 
 @canteen.route('/customer/index.html')
 @login_required
@@ -236,19 +246,25 @@ def customer_owner_index():
 	return render_template('customer/index.html')
 
 @canteen.route('/')
-@login_required
+#@login_required
 def index():
 	return redirect(url_for('canteen.customer_owner_index'))
 
 
 ###End changed
 
-##test
-@canteen.route('/customer/test',methods=['POST'])
-def test():
-	data = json.loads(request.data)
-	print(data)
-	return "{status: 200, msg:ok}"
+##favs
+
+
+@canteen.route('/customer/put_favorites',methods=['POST'])
+@csrf.exempt
+def put_favorites():
+	if(request.method == "POST"):
+		#print("-----------------------------------",request.data)
+		data = json.loads(request.data.decode("utf-8"))
+		print("-----------------------------------",data)
+		update_favorites('canteen',int(session['User_id']),data)
+	return "{'status':200,'msg':'ok'}"
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))

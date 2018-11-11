@@ -21,11 +21,11 @@ class TestApp:
 	
 	def test_elements(self, client):
 		res = client.get(url_for('canteen.customer_elements'))
-		assert res.status_code == 200
+		assert res.status_code == 302
 	
 	def test_panels(self, client):
 		res = client.get(url_for('canteen.customer_panels'))
-		assert res.status_code == 200
+		assert res.status_code == 302
 		
 	def test_page_profile(self, client):
 		res = client.get(url_for('canteen.customer_page_profile'))

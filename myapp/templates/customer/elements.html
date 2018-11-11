@@ -3,7 +3,7 @@
 
 {% block content %}
 		<!-- MAIN -->
-		<div class="main">
+		<div class="main" >
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid"> <h3 class="page-title">Order History</h3>
@@ -31,7 +31,6 @@
 													<th>Item Name</th>
 													<th>Quantity</th>
 													<th>Price</th>
-													<th>Order id</th>
 													<th>Ordered on</th>
 													<th>Total price</th>
 												</tr>
@@ -40,17 +39,12 @@
 								
 												{% for d in data %}
 												<tr>
-													<td><input type="text" class="form-control" placeholder="Item Name" value={{d.Items_name}}></td>
-													<td><input type="number" class="form-control" placeholder="0" value={{d.Items_id}}></td>
-													<td><input type="number" class="form-control" placeholder="0" value={{d.Price}}></td>
-													<td>
-														<textarea id="text" class="form-control" placeholder="Item Description" rows="1">{{d.Description}}</textarea>
-													</td>
-													<td><input type="text" class="form-control" placeholder="Item Name" value={{d.Items_name}}></td>
-													<td>
-															<button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button>
+													<td>{{d.Items_name}}</td>
+													<td>{{d.Quantity}}</td>
+													<td>{{d.Price}}</td>
+													<td>{{d.Purchase_date}}</td>
+													<td>{{d.Transaction_amount}}</td>
 															
-													</td>
 												</tr>
 												{% endfor %}
 											</tbody>

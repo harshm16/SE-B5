@@ -3,197 +3,259 @@
 
 {% block content %}
 		<!-- MAIN -->
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
-		<div class="main" ng-app="fosapp">
-			
-			<!-- MAIN CONTENT -->
-			<div class="main-content">
-				<div class="container-fluid"> 
-					<h3 class="page-title">Select items </h3>
-					<div class="row"  ng-controller="fosctrl as ctrl">
-						
-						<!--item-->
-						<div class="col-md-9">
-							<div class="col-md-4" ng-repeat="item in ctrl.items">
-							<div class="panel" >
-									<div class="panel-heading">
-										<h3 class="panel-title" >{a item.Items_name a}</h3>
-										<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
-									</div>
-									<div class="panel-body">
-										<p style="height: 25px;overflow-y: scroll;">{a item.Description a}</p>
-										<p><span class="icon"><i class="fa fa-inr"></i></span>{a item.Price a}</p>
-										<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(item.Items_id)" ng-disabled="item.disabled">Add to cart</button>
-									</div>
-							</div>
-							</div>
-						</div>
-						<!--item end-->
+		
+	<div class="main" ng-app="fosapp">
+	<!-- MAIN CONTENT -->
+		<div class="main-content">
+			<div class="container-fluid"> 
+				<h3 class="page-title">Select items 
+					<!-- Search -->
+					<form class="form-inline" style="float:right;">
+					<input class="form-control form-control-sm mr-3 w-75" type="text" ng-model="search" placeholder="Search items">
+					<i class="fa fa-search" aria-hidden="true"></i>
+					<!-- Search end -->
+				</form></h3>
 
-						<!--your orders "
-							col-md-3  style="width:inherit;position:fixed;right:0;"
-							panel  style="max-height: 1500px;"
-							panel body style="max-height:200px;overflow-y:scroll;"
-						-->
-
-						<div class="col-md-3">
+				<div class="row"  ng-controller="fosctrl as ctrl">
+					<!--item-->
+					<div class="col-md-9">
+						<div class="col-md-4" ng-repeat="item in ctrl.items | filter : search">
 						<div class="panel" >
 								<div class="panel-heading">
-									<h3 class="panel-title">Your orders</h3>
+									<h3 class="panel-title" >{a item.Items_name a}
+										<button style="float: right;" ng-click="ctrl.isfavorites(item) ">
+											<span><i class="fa fa-heart" ng-class="{'isfav' : item.isfavorite, 'isnotfav' : !item.isfavorite}"></i></span>
+										</button>
+									</h3>
+									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
 								</div>
-								<div class="panel-body" >
-									<div ng-repeat="item in ctrl.cart">
-										<!--ng-repear template -->
-										<p> {a item.Items_name a}</p> 
-										<div class="btn-group btn-block" style="display:inline-block">
-										  	<button class="btn btn-secondary btn-info" 
-										  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
-										  	<button class="btn btn-secondary" >{a item.count a}</button> 
-										 	<button class="btn btn-secondary btn-info" 
-										 			ng-click="item.count < item.Max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
-									 	</div>
-									 	<p> 
-									 		<span class="icon"  >
-									 		<i class="fa fa-inr"></i>
-									 		{a item.Price a} 
-									 		</span> 
-									 		<span class="icon" style="float: right;">
-									 		<i class="fa fa-inr"></i> {a item.Price * item.count a} 
-									 		</span> 
-									 		
-									 	</p>
-									 	<button type="button" 
-									 			class="btn btn-danger" 
-									 			ng-click="ctrl.removeFromcart(item.Items_id)">
-									 			<i class="lnr lnr-trash"></i>
-									 	</button>
-									 	<hr>
-									 	<!--ng-repeat end-->
-								 	</div>	
-								</div>
-
-								<!--panel footer -->
-								<div class="panel-footer">
-									<h4>Total price <span class="icon" style="float: right;"><i class="fa fa-inr"></i>{a ctrl.carttotal a}</span>
-										
-								 	</h4>
+								<div class="panel-body">
+									<p style="height: 25px;overflow-y: scroll;">{a item.Description a}</p>
+									<p><span class="icon"><i class="fa fa-inr"></i></span>{a item.Price a}</p>
+									<button class="btn btn-default btn-block" ng-click="ctrl.addTocart(item)" ng-disabled="item.disabled">Add to cart</button>
 								</div>
 						</div>
-						<button class="btn btn-success btn-block"  ng-click="ctrl.placeorder()" style="float:right;"><i class="fa fa-check-circle"></i> Place order 
-						</button>
 						</div>
-						<!--your orders end here -->
 					</div>
-					
+					<!--item end-->
+					<!--your orders-->
+					<div class="col-md-3">
+					<div class="panel" >
+							<div class="panel-heading">
+								<h3 class="panel-title">Your orders</h3>
+							</div>
+							<div class="panel-body" >
+								<div ng-repeat="item in ctrl.cart">
+									<!--ng-repear template -->
+									<p> {a item.Items_name a}</p> 
+									<div class="btn-group btn-block" style="display:inline-block">
+									  	<button class="btn btn-secondary btn-info" 
+									  			ng-click="item.count > 1 ? item.count=item.count-1:nothing ; ctrl.total() ">-</button> 
+									  	<button class="btn btn-secondary" >{a item.count a}</button> 
+									 	<button class="btn btn-secondary btn-info" 
+									 			ng-click="item.count < item.Max ?  item.count=item.count+1:nothing;ctrl.total()">+</button> 
+								 	</div>
+								 	<p> 
+								 		<span class="icon"  >
+								 		<i class="fa fa-inr"></i>
+								 		{a item.Price a} 
+								 		</span> 
+								 		<span class="icon" style="float: right;">
+								 		<i class="fa fa-inr"></i> {a item.Price * item.count a} 
+								 		</span> 
+								 		
+								 	</p>
+								 	<button type="button" 
+								 			class="btn btn-danger" 
+								 			ng-click="ctrl.removeFromcart(item)">
+								 			<i class="lnr lnr-trash"></i>
+								 	</button>
+								 	<hr>
+								 	<!--ng-repeat end-->
+							 	</div>	
+							</div>
+							<!--panel footer -->
+							<div class="panel-footer">
+								<h4>Total price <span class="icon" style="float: right;"><i class="fa fa-inr"></i>{a ctrl.carttotal a}</span>	
+							 	</h4>
+							</div>
+					</div>
+					<button class="btn btn-success btn-block"  ng-click="ctrl.placeorder()" style="float:right;"><i class="fa fa-check-circle"></i> Place order 
+					</button>
+					</div>
+					<!--your orders end here -->
 				</div>
+				
 			</div>
-			<!-- END MAIN CONTENT -->
+		</div>
+	<!-- END MAIN CONTENT -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
+	<script type="text/javascript">
 
-
-			<script type="text/javascript">
-				$.urlParam = function(name){
+		$.urlParam = function(name)
+		{
 				    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
 				    if (results==null) {
 				       return null;
 				    }
 				    return decodeURI(results[1]) || 0;
-				}
+		}
+		canteen_items = {{data | tojson | safe }} ;
+		console.log(canteen_items);
 
-				//Replace double flower  with {a a} for angular becuase it conflicts with jinja
-				var app=angular.module('fosapp',[]);
-				app.config(['$interpolateProvider',function($interpolateProvider)
-				{
-					$interpolateProvider.startSymbol('{a');
-					$interpolateProvider.endSymbol('a}');
-				}]);
+		//Replace double flower  with {a a} for angular becuase it conflicts with jinja
+		var app=angular.module('fosapp',[]);
+		app.config(['$interpolateProvider',function($interpolateProvider)
+		{
+			$interpolateProvider.startSymbol('{a');
+			$interpolateProvider.endSymbol('a}');
+		}]);
 
-				app.controller('fosctrl',['$http',function($http)
-				{
-						
-					//Global items
-					this.items = {{data|tojson|safe}};
-					this.cart = [];
-					this.carttotal = 0;
+		app.controller('fosctrl',['$http',function($http)
+		{
 
+			//Global items used by view 
+			this.items = window.canteen_items['items'];
+			this.favorites = window.canteen_items['fav'];
+			this.cart = [];
+			this.carttotal = 0;
 
-					this.addTocart  = function(itemindex)
+			//local to controller
+			var add_remove_favorities = {}
+
+			//initialize previous favorities
+			angular.forEach(this.favorites,function(value,key)
+			{
+					//console.log(value,key)
+					var index = this.items.findIndex(item=>item.Items_id == value);
+					if(index > 0)
 					{
-						
-						//disable add button
-						var index = this.items.findIndex(item=>item.Items_id == itemindex);
-						var item  = this.items[index];
-						item.disabled = true;
-
-						//Add item to cart
-						this.cart.push(item);
-
-
-						//Since added to cart initial items is 1
-						var length = this.cart.length - 1;
-						this.cart[length].count = 1; 
-
-						//find total price initiallly
-						this.total();
-
+						var each_item  = this.items[index];
+						each_item.isfavorite = true;
 					}
+					add_remove_favorities[value.toString()] = 1;
+			},this);
 
-					this.removeFromcart = function(itemindex)
-					{
-						
-						//enable add button
-						var index = this.items.findIndex(item=>item.Items_id == itemindex);
-						var item = this.items[index];
-						item.disabled = false;
+			this.addTocart  = function(item)
+			{
+				//disable add button
+				item.disabled = true;
 
-						//delete item from cart
-						var cartindex = this.cart.findIndex(cart=>cart.Items_id == itemindex);
-						this.cart.splice(cartindex);
+				//Add item to cart
+				this.cart.push(item);
 
-						//find total price after removing
-						this.total();
-					}
+				//Since added to cart initial items is 1
+				var length = this.cart.length - 1;
+				this.cart[length].count = 1; 
 
-					this.total=function()
-					{
-						
-						var total =0;
-						angular.forEach(this.cart, function(value,key)
-						{
-							total  += value.Price * value.count ;	
-						});
-						this.carttotal=total;
-						
-					}
+				//find total price initiallly
+				this.total();
 
-					this.placeorder = function()
-					{
-						var final_orders = {'item_ids':[], 'quantity':[], 'canteen_id':$.urlParam('canteen')};
+			}
 
-						angular.forEach(this.cart,function(value,key)
-						{
-							final_orders['item_ids'].push(value.Items_id);
-							final_orders['quantity'].push(value.count);
-						});
-
-						$http.post("{{ url_for('.process_order') }}" ,final_orders).
-							then(
-								function success(response)
-								{
-									location.href=response.data;
-								},
-								function error(err)
-								{
-									console.log(err);
-								}
-							);
-						// console.log(final_orders);
-					}
-
-
-				}]);
+			this.removeFromcart = function(item)
+			{
 				
-			</script>
-			
-		</div>
+				//enable add button
+				item.disabled = false;
+
+				//delete item from cart
+				var cartindex = this.cart.findIndex(cart=>cart.Items_id == item.Items_id);
+				this.cart.splice(cartindex,1);
+
+				//find total price after removing
+				this.total();
+			}
+
+			this.total=function()
+			{
+				
+				var total =0;
+				angular.forEach(this.cart, function(value,key)
+				{
+					total  += value.Price * value.count ;	
+				});
+				this.carttotal=total;
+				
+			}
+			this.placeorder = function()
+			{
+				var final_orders = {'item_ids':[], 'quantity':[], 'canteen_id':$.urlParam('canteen')};
+
+				angular.forEach(this.cart,function(value,key)
+				{
+					final_orders['item_ids'].push(value.Items_id);
+					final_orders['quantity'].push(value.count);
+				});
+
+				$http.post("{{ url_for('.process_order') }}" ,final_orders).
+					then(
+						function success(response)
+						{
+							location.href=response.data;
+						},
+						function error(err)
+						{
+							console.log(err);
+						}
+					);
+				// console.log(final_orders);
+
+			}
+
+			this.isfavorites  = function (item)
+			{
+				item.isfavorite = !item.isfavorite;
+				if(item.isfavorite)
+				{
+					this.favorites.push(item.Items_id);
+					add_remove_favorities[item.Items_id] = 1;
+				}
+				else
+				{
+					//var favindex = this.favorites.findIndex(fav => fav.Items_id == item.Items_id);
+					var favindex = this.favorites.indexOf(item.Items_id);
+					add_remove_favorities[item.Items_id] = 0;
+					this.favorites.splice(favindex,1);
+				}
+				console.log("favs",add_remove_favorities);
+				sendfavorites();
+			}
+
+			function sendfavorites()
+			{
+				// body...
+				console.log("sendfavorites",add_remove_favorities);
+				$http.post("{{url_for('.put_favorites')}}",add_remove_favorities).then(
+					function success(response)
+					{
+						console.log(response);
+					},
+					
+					function error(err)
+					{
+						console.log(err);
+					});
+
+				
+			}
+
+
+		}]);
+	</script>
+	<!--script type="text/javascript" src="{{url_for('static', filename='customer/customer_angular.js')}}"></script-->
+
+
+	<style type="text/css">
+		.isfav
+		{
+			color:red;
+		}
+		.isnotfav
+		{
+			color:grey;
+		}
+	</style>
+	</div>
 		<!--END MAIN -->
 {% endblock %}
