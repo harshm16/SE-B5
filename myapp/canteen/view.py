@@ -151,7 +151,7 @@ def canteen_owner_panels():
 
 @canteen.route('/canteen_owner/elements.html')
 def canteen_owner_elements():
-	return render_template('canteen_owner/elements.html', data=get_user_orders('canteen', 327))
+	return render_template('canteen_owner/elements.html', data=get_items('Items','canteen'))
 
 @canteen.route('/canteen_owner/index.html')
 def canteen_owner_owner_index():
@@ -166,8 +166,9 @@ def items_index():
 
 #Changed 
 @canteen.route('/customer/typography.html')
+@login_required
 def customer_typography():
-	return render_template('customer/typography.html', data = {'items':get_items('Items', 'canteen'),'fav':get_favorites('canteen',327)})
+	return render_template('customer/typography.html', data = {'items':get_items('Items', 'canteen'),'fav':get_favorites('canteen',int(session['User_id']))})
 
 @canteen.route('/customer/icons.html')
 def customer_icons():
@@ -202,15 +203,17 @@ def customer_page_profile():
 	return render_template('customer/page-profile.html')
 
 @canteen.route('/customer/panels.html',methods=['GET'])
+@login_required
 def customer_panels():
-	return render_template('customer/panels.html',data={'items': get_favorites_item_list('canteen',327),'fav':get_favorites('canteen',327)})
+	return render_template('customer/panels.html',data={'items': get_favorites_item_list('canteen',int(session['User_id'])),'fav':get_favorites('canteen',int(session['User_id']))})
 
 @canteen.route('/customer/elements.html')
+@login_required
 def customer_elements():
-	return render_template('customer/elements.html',data=get_user_orders('canteen',341))
+	return render_template('customer/elements.html',data=get_user_orders('canteen',int(session['User_id'])))
 
 @canteen.route('/customer/index.html')
-#@login_required
+@login_required
 def customer_owner_index():
 	# print(session['username'])
 	print(session)
@@ -232,8 +235,8 @@ def index():
 def put_favorites():
 	if(request.method == "POST"):
 		data = json.loads(request.data)
-		update_favorites('canteen',327,data)
-	
+		update_favorites('canteen',int(session['User_id']),data)
+	return "{'status':200,'msg':'ok'}"
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))
