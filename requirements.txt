@@ -21,4 +21,3 @@ mysql-connector-python-rf==2.2.2
 numpy==1.15.4
 scikit-learn==0.20.0
 pandas==0.23.4
-pickle==4.0
