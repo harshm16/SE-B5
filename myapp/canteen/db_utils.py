@@ -201,7 +201,7 @@ def update_transaction(db_name, data):
 	transaction_id = cursor.fetchall()[0]['Transaction_id']
 
 	for item_id, quantity in zip(data['item_ids'], data['quantity']):
-		cursor.execute("insert into Purchases(`Item_id`, `Quantity`, `User_id`, `Purchase_basket_id`, `Canteen_id`) values('%s', '%s', '%s', '%s', '%s')"%(item_id, quantity, data['User_id'], transaction_id ,data['canteen_id']))
+		cursor.execute("insert into Purchases(`Item_id`, `Quantity`, `User_id`, `Purchase_basket_id`, `Canteen_id`, `Purchase_date`) values('%s', '%s', '%s', '%s', '%s', '%s')"%(item_id, quantity, data['User_id'], transaction_id ,data['canteen_id'], timestamp))
 		conn.commit()
 	
 

@@ -20,6 +20,8 @@ import qrcode
 import socket
 import base64
 import json
+import random
+import string
 from io import BytesIO
 
 @canteen.route('/customer_form')
@@ -65,7 +67,7 @@ def payment():
 		MERCHANT_KEY = '@WL!6umDo4oZu%oU';
 		data_dict = {
 			'MID':'Instaf41556599010081',
-			'ORDER_ID':get_hash('canteen', session['purchase_id']),
+			'ORDER_ID':''.join(random.choices(string.ascii_uppercase + string.digits, k=10)),
 			'TXN_AMOUNT':request.form['TXN_AMOUNT'],
 			'CUST_ID':request.form['CUST_ID'],
 			'INDUSTRY_TYPE_ID':'Retail',
