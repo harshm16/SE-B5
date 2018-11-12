@@ -322,3 +322,17 @@ def get_user_info(db_name,User_id):
 
 	cursor.execute("select Gender,Semester,Department from Users where User_id = %d"%User_id)
 	return cursor.fetchall()
+
+def get_items_from_id(db_name,items_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	items = list()
+	for i, item in enumerate(items_id):
+		cursor.execute("select * from Items where Items_id = %d" % item)
+		items.append(cursor.fetchall()[0])
+	return items

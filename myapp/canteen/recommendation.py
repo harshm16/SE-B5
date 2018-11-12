@@ -1,13 +1,13 @@
 import numpy as np
 from sklearn.svm import SVC
-from db_utils import get_users
-from db_utils import get_user_info
+from .db_utils import get_users
+from .db_utils import get_user_info
+from .db_utils import get_items_from_id
 import pandas as pd
 
 User_details = ['Gender','Semester','Department']
 max_value=0
 lookup = {}
-
 
 
 def convert_to_numericals(df):
@@ -26,12 +26,13 @@ def matrisize(df):
 
 def transform_test(user_list):
 	test_X = {}
-	print(user_list)
+
 	for attr,value in user_list.items():
 		test_X[attr] = list(lookup[attr]).index(value)
-		
+
 	test_X = np.array(list(test_X.values()))/max_value
-	return test_X.reshape(1,-1)
+	ncols = test_X.shape[0]
+	return np.reshape(test_X,(-1,ncols))
 
 def preprocess(df):
 	data = convert_to_numericals(df)
@@ -45,16 +46,19 @@ def train(train_X,train_Y):
 
 def test(test_X, model,m=5):
 	predictions =  model.predict_proba(test_X)
-	predictions = pd.DataFrame(predictions)
+	predictions = pd.DataFrame(predictions,columns = model.classes_)
 	results = [predictions.T[col].nlargest(m).index.tolist() for n,col in enumerate(predictions.T)]
 	return results
 	
 
 def recommend(db_name,User_id,n):
-
 	df = pd.DataFrame(get_users(db_name))
 	train_X, train_Y = preprocess(df)
 	model = train(train_X,train_Y)
 	test_X = transform_test(get_user_info(db_name,User_id)[0])
-	results = test(test_X,model,n)	
-	return results
+	results = test(test_X,model,n)
+	items  = get_items_from_id(db_name,results[0])	
+	return items
+
+
+

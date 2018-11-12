@@ -21,6 +21,7 @@ import socket
 import base64
 import json
 from io import BytesIO
+from .recommendation import recommend
 
 @canteen.route('/customer_form')
 def customer_form():
@@ -196,9 +197,9 @@ def customer_typography():
 	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))"""
 
 
-@canteen.route('/customer/icons.html')
+@canteen.route('/customer/icons.html',methods=['GET'])
 def customer_icons():
-	return render_template('customer/icons.html')
+	return render_template('customer/icons.html', data = recommend('canteen',int(session['User_id']),4))
 
 @canteen.route('/customer/tables.html')
 def customer_tables():

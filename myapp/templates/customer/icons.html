@@ -1,5 +1,5 @@
 {% extends 'customer/parent_template.html' %}
-<title > {% block title %} Canteens {% endblock %} </title>
+<title > {% block title %} Recommendation {% endblock %} </title>
 
 {% block content %}
 		<!-- MAIN -->
@@ -19,18 +19,17 @@
 									<img src="{{url_for('static', filename='canteen-owner/img/default_food.jpg')}}" class="img-fluid img-responsive img-thumbnail">
 								</div>
 								<div class="panel-body">
-									<p style="height: 25px;overflow-y: scroll;">{{} item.Description }}</p>
+									<p style="height: 25px;overflow-y: scroll;">{{ item.Description }}</p>
 									<p><span class="icon"><i class="fa fa-inr"></i></span>{{ item.Price }}</p>
 								</div>
 						</div>
 						</div>
-					<!--item-->
+					
 					{% endfor %}
 					</div>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
-			
 		</div>
 		<!--END MAIN -->
 {% endblock %}
