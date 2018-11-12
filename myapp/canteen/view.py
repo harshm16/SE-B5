@@ -197,7 +197,8 @@ def customer_typography():
 	return render_template('customer/typography.html', data = get_items_canteen('canteen', canteen_id))"""
 
 
-@canteen.route('/customer/icons.html',methods=['GET'])
+@canteen.route('/customer/icons.html')
+@login_required
 def customer_icons():
 	return render_template('customer/icons.html', data = recommend('canteen',int(session['User_id']),4))
 

@@ -50,7 +50,7 @@ def preprocess(df):
 def train(train_X,train_Y):
 	model = SVC(gamma='auto',probability=True)
 	model.fit(train_X,train_Y)
-	store_model(model,"../../db/recommendation_model/rmodel")
+	#store_model(model,"rmodel")
 	return model
 
 def test(test_X, model,m=5):
@@ -63,11 +63,11 @@ def test(test_X, model,m=5):
 def recommend(db_name,User_id,n):
 
 	#--------------to train uncomment -----------------
-	#df = pd.DataFrame(get_users(db_name))
-	#train_X, train_Y = preprocess(df)
-	#model = train(train_X,train_Y)
+	df = pd.DataFrame(get_users(db_name))
+	train_X, train_Y = preprocess(df)
+	model = train(train_X,train_Y)
 	#--------------------------------------------------
-	model = load_model("../../db/recommendation_model/rmodel")
+	#model = load_model("rmodel")
 	test_X = transform_test(get_user_info(db_name,User_id)[0])
 	results = test(test_X,model,n)
 	items  = get_items_from_id(db_name,results[0])	
