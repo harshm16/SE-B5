@@ -3,9 +3,9 @@
 
 {% block content %}
 		<!-- MAIN -->
-		<div class="main">
+		<div class="main" ng-app="fosapp">
 			<!-- MAIN CONTENT -->
-			<div class="main-content">
+			<div class="main-content" ng-controller="fosctrl as ctrl">
 				<div class="container-fluid"> <h3 class="page-title">ORDER</h3>
 					<div class="row">
 						<!--MENU FOR THE DAY-->
@@ -53,8 +53,13 @@
 						</div>
 						<!--END MENU FOR THE DAY-->
 						<div class="col-md-14">
-								<button type="button"  class="btn btn-default AddItem"><i class="fa fa-plus-square"></i> Add Item </button>
-								<button type="button"  class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Continue </button>
+								{% if status==False%}
+									<button class="btn btn-success btn-block"  ng-click="ctrl.completeorder()" style="float:right;"><i class="fa fa-check-circle"></i> Complete Order 
+									</button>
+								{% else %}
+									<button class="btn btn-success btn-block disabled" style="float:right;"><i class="fa fa-check-circle"></i> Completed Order 
+									</button>
+								{%endif%}
 						</div>
 					</div>
 				</div>
@@ -62,4 +67,33 @@
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
+		<script type="text/javascript">
+			var app=angular.module('fosapp',[]);
+			app.config(['$interpolateProvider',function($interpolateProvider)
+			{
+				$interpolateProvider.startSymbol('{a');
+				$interpolateProvider.endSymbol('a}');
+			}]);
+			app.controller('fosctrl',['$http',function($http)
+			{
+					this.completeorder = function()
+					{
+						$http.post("{{ url_for('.complete_order') }}" ,{{transaction_id}}).
+							then(
+								function success(response)
+								{
+									location.href=response.data;
+								},
+								function error(err)
+								{
+									console.log(err);
+								}
+							);
+						// console.log(final_orders);
+
+					}
+			}
+			]);
+		</script>
 {% endblock %}

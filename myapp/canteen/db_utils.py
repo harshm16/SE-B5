@@ -112,9 +112,14 @@ def get_order(db_name, hash=None, id=None):
 	cursor = conn.cursor(dictionary=True)
 	transaction_id = id
 	print('id', transaction_id)
+
 	if(hash is not None):
 		cursor.execute("select Transaction_id from Transactions where Hash='%s'"%hash)
 		transaction_id = cursor.fetchall()[0]['Transaction_id']
+	
+	else:
+		cursor.execute("select Status from Transactions where Transaction_id=%d"%transaction_id)
+		status = cursor.fetchall()[0]['Status']
 
 	cursor.execute('select Item_id, Quantity from Purchases where Purchase_basket_id=%d'%transaction_id)
 
@@ -125,7 +130,7 @@ def get_order(db_name, hash=None, id=None):
 		items.append(cursor.fetchall()[0])
 		items[i]['quantity'] = item['Quantity']
 
-	return items
+	return items, bool(status), transaction_id
 
 def user_exists(db_name, social_id, user_type):
 	conn = mysql.connector.connect(
@@ -201,7 +206,7 @@ def update_transaction(db_name, data):
 	transaction_id = cursor.fetchall()[0]['Transaction_id']
 
 	for item_id, quantity in zip(data['item_ids'], data['quantity']):
-		cursor.execute("insert into Purchases(`Item_id`, `Quantity`, `User_id`, `Purchase_basket_id`, `Canteen_id`) values('%s', '%s', '%s', '%s', '%s')"%(item_id, quantity, data['User_id'], transaction_id ,data['canteen_id']))
+		cursor.execute("insert into Purchases(`Item_id`, `Quantity`, `User_id`, `Purchase_basket_id`, `Canteen_id`, `Purchase_date`) values('%s', '%s', '%s', '%s', '%s', '%s')"%(item_id, quantity, data['User_id'], transaction_id ,data['canteen_id'], timestamp))
 		conn.commit()
 	
 
@@ -294,3 +299,15 @@ def get_user_orders(db_name,User_id):
 		items[i]['Purchase_date'] = item['Purchase_date']
 		items[i]['Transaction_amount'] = item['Transaction_amount']
 	return items
+
+def update_order_complete(db_name, transaction_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+
+	cursor.execute("update Transactions set Status=1 where Transaction_id=%d"%transaction_id)
+	conn.commit()
