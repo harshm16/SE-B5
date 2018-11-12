@@ -56,8 +56,9 @@ def parse_owner_form():
 	session['Owner_id'] = insert_owner('canteen', data)
 	return str(session)
 
-@canteen.route('/selectpayment/<cost>')
-def selectpayment(cost):
+@canteen.route('/selectpayment/', methods=['POST'])
+def selectpayment():
+	print(request.form['cost'])
 	return render_template('payment/payment.html')
 
 @canteen.route('/payment/', methods=['POST','GET'])
