@@ -1,8 +1,8 @@
 import numpy as np
 from sklearn.svm import SVC
-from db_utils import get_users
-from db_utils import get_user_info
-from db_utils import get_items_from_id
+from .db_utils import get_users
+from .db_utils import get_user_info
+from .db_utils import get_items_from_id
 import pandas as pd
 import pickle
 
