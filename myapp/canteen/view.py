@@ -23,6 +23,7 @@ import json
 import random
 import string
 from io import BytesIO
+from .recommendation import recommend
 
 @canteen.route('/customer_form')
 def customer_form():
@@ -210,8 +211,9 @@ def customer_typography():
 
 
 @canteen.route('/customer/icons.html')
+@login_required
 def customer_icons():
-	return render_template('customer/icons.html')
+	return render_template('customer/icons.html', data = recommend('canteen',int(session['User_id']),4))
 
 @canteen.route('/customer/tables.html')
 def customer_tables():

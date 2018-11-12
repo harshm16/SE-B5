@@ -53,7 +53,7 @@ class TestApp:
 		
 	def test_icons(self, client):
 		res = client.get(url_for('canteen.customer_icons'))
-		assert res.status_code == 200
+		assert res.status_code == 302
 	
 	def test_typography(self, client):
 		res = client.get(url_for('canteen.customer_typography'))
