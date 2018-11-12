@@ -4,19 +4,19 @@ from .db_utils import get_users
 from .db_utils import get_user_info
 from .db_utils import get_items_from_id
 import pandas as pd
-import pickle
+# import pickle
 
 User_details = ['Gender','Semester','Department']
 max_value=0
 lookup = {}
 
 
-def store_model(model,filename):
-	pickle.dump(model,open(filename,'wb'))
+# def store_model(model,filename):
+# 	pickle.dump(model,open(filename,'wb'))
 
 
-def load_model(filename):
-	return pickle.load(open(filename,'rb'))
+# def load_model(filename):
+# 	return pickle.load(open(filename,'rb'))
 
 def convert_to_numericals(df):
 	global lookup

@@ -289,7 +289,7 @@ def get_user_orders(db_name,User_id):
 			)
 	cursor = conn.cursor(dictionary=True)
 
-	cursor.execute("select Item_id,Quantity,Purchase_date,Transaction_amount from Purchases join Transactions on Transaction_id = Purchase_basket_id where Status = '1' and User_id=%s" % User_id)	
+	cursor.execute("select Item_id,Quantity,Purchase_date,Transaction_amount from Purchases join Transactions on Transaction_id = Purchase_basket_id where Transactions.Status = '1' and User_id=%s" % User_id)	
 	items = list()
 
 	for i, item in enumerate(cursor.fetchall()):
