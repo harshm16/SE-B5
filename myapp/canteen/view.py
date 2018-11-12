@@ -56,10 +56,10 @@ def parse_owner_form():
 	session['Owner_id'] = insert_owner('canteen', data)
 	return str(session)
 
-@canteen.route('/selectpayment/', methods=['POST'])
-def selectpayment():
-	print(request.form['cost'])
-	return render_template('payment/payment.html')
+@canteen.route('/selectpayment/<cost>')
+def selectpayment(cost):
+	print(cost)
+	return render_template('payment/payment.html', cost=cost)
 
 @canteen.route('/payment/', methods=['POST','GET'])
 @csrf.exempt
@@ -70,7 +70,7 @@ def payment():
 			'MID':'Instaf41556599010081',
 			'ORDER_ID':''.join(random.choices(string.ascii_uppercase + string.digits, k=10)),
 			'TXN_AMOUNT':request.form['TXN_AMOUNT'],
-			'CUST_ID':request.form['CUST_ID'],
+			'CUST_ID':'CUSTINSTAFOOD',
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'WEBSTAGING',
 			'CHANNEL_ID':'WEB',

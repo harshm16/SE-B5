@@ -4,10 +4,15 @@
 	<title>payment</title>
 </head>
 <body>
-	<form action={{url_for('canteen.payment')}} method="post">
-		<label>Customer id:<input type="text" name="CUST_ID"/></label>
-		<label>Trasaction id:<input type="test" name="TXN_AMOUNT"/></label>
+	<form action={{url_for('canteen.payment')}} method="post" id="payform">
+		<!-- <label>Customer id:<input type="text" name="CUST_ID"/></label> -->
+		<label>Trasaction id:<input type="test" name="TXN_AMOUNT" value = "{{cost}}"/></label>
 		<input type="submit">
 	</form>
+	<script type="text/javascript">
+	    window.onload=function(){
+	          document.getElementById("payform").submit();
+	    }
+	</script>
 </body>
 </html>
