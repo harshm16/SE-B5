@@ -117,17 +117,27 @@ def process_order():
 	data['cost'] = cost
 	data['hash'] = hash
 	purchase_id = update_transaction('canteen', data)
-	print(purchase_id)
+	# print(purchase_id)
 	session['purchase_id'] = purchase_id
 	return url_for('.selectpayment', cost = cost)
 
 @canteen.route('/canteen_owner/qr/<hash>')
 def canteen_owner_process_order_hash(hash):
-	return render_template('canteen_owner/order.html', data=get_order('canteen', hash=hash))	
+	(data, status, transaction_id)=get_order('canteen', hash=hash)
+	return render_template('canteen_owner/order.html', data = data, status=status, transaction_id=transaction_id)	
 
 @canteen.route('/canteen_owner/id/<int:id>')
 def canteen_owner_process_order_id(id):
-	return render_template('canteen_owner/order.html', data=get_order('canteen', id=id))	
+	(data, status, transaction_id)=get_order('canteen', id=id)
+	return render_template('canteen_owner/order.html', data = data, status=status, transaction_id=transaction_id)	
+
+@canteen.route('/canteen_owner/complete_order', methods=["POST"])
+@csrf.exempt
+def complete_order():
+	transaction_id = int(request.get_json())
+	print('transaction_id', transaction_id)
+	update_order_complete('canteen', transaction_id)
+	return url_for('.canteen_owner_owner_index')
 
 @canteen.route('/canteen_owner/typography.html')
 def canteen_owner_typography():

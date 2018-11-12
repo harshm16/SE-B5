@@ -1561,10 +1561,11 @@ CREATE TABLE `Transactions` (
   `Transaction_timestamp` datetime DEFAULT NULL,
   `Transaction_amount` decimal(10,0) DEFAULT NULL,
   `Hash` text DEFAULT NULL,
+  `Status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`Transaction_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `Transactions` VALUES ('1','1988-09-15 01:07:49','2285','cf75b619801f1d7bc43414247d6da02f7f65862f'),
+INSERT INTO `Transactions`(`Transaction_id`, `Transaction_timestamp`, `Transaction_amount`, `Hash`) VALUES ('1','1988-09-15 01:07:49','2285','cf75b619801f1d7bc43414247d6da02f7f65862f'),
 ('2','2002-03-18 23:29:40','190','8ee3579bd339316c24734f45d05ea8f0c674e5b2'),
 ('3','1998-06-28 18:15:05','2991','53da9028305c78f3da11decc9340d8a8ba7f8799'),
 ('4','2018-02-17 11:28:19','99','eecdf279749844ad129dcc3a8b4a6b40f9417b60'),
