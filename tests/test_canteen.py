@@ -16,10 +16,6 @@ class TestApp:
 	def test_menu_for_day(self,client):
 		res = client.get(url_for('canteen.menu_for_day'))
 		assert res.status_code == 302
-
-	def test_set_menu_for_day(self,client):
-		res = client.get(url_for('canteen.set_menu_for_day'))
-		assert res.status_code == 302
 	
 	def test_panels(self, client):
 		res = client.get(url_for('canteen.canteen_owner_panels'))
