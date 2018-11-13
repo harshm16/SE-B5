@@ -60,7 +60,7 @@ def test(test_X, model,m=5):
 	return results
 	
 
-def recommend(db_name,User_id,n):
+def recommend(db_name,User_id,user_info=None,n=5):
 
 	#--------------to train uncomment -----------------
 	df = pd.DataFrame(get_users(db_name))
@@ -68,7 +68,10 @@ def recommend(db_name,User_id,n):
 	model = train(train_X,train_Y)
 	#--------------------------------------------------
 	#model = load_model("rmodel")
-	test_X = transform_test(get_user_info(db_name,User_id)[0])
+	if(User_id != -1):
+		test_X = transform_test(get_user_info(db_name,User_id)[0])
+	else:
+		test_X = transform_test(user_info)
 	results = test(test_X,model,n)
 	items  = get_items_from_id(db_name,results[0])	
 	return items
