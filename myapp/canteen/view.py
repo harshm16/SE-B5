@@ -25,6 +25,23 @@ import string
 from io import BytesIO
 from .recommendation import recommend
 
+
+#route to fetch menu for the day
+@canteen.route('canteen_owner/menu_for_day')
+@login_required
+def menu_for_day():
+	data=get_menu_for_day('Items', 'canteen',session['Owner_id'])
+	return jsonify(data)
+
+#route to update menu for the day
+@canteen.route('canteen_owner/set_menu_for_day',methods=['POST'])
+@login_required
+@csrf.exempt
+def set_menu_for_day():
+	if request.method=="POST":
+		data=request.get_json()
+		return jsonify(update_menu_for_day("Items","canteen",session['Owner_id'],data))
+
 @canteen.route('/customer_form')
 def customer_form():
 	return render_template('customer/customer_form.html')
@@ -181,8 +198,9 @@ def canteen_owner_panels():
 	return render_template('canteen_owner/panels.html')
 
 @canteen.route('/canteen_owner/elements.html')
+@login_required
 def canteen_owner_elements():
-	return render_template('canteen_owner/elements.html', data=get_items('Items','canteen'))
+	return render_template('canteen_owner/elements.html')
 
 @canteen.route('/canteen_owner/index.html')
 def canteen_owner_owner_index():

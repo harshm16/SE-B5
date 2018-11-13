@@ -3,11 +3,14 @@
 
 {% block content %}
 		<!-- MAIN -->
-		<div class="main">
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>	
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.js"></script>	
+		<div class="main" ng-app='menu'>
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid"> <h3 class="page-title">Menu</h3>
-					<div class="row">
+					<form id='form' name='form' novalidate>
+					<div class="row" ng-controller='menuCtrl'>
 						<!--MENU FOR THE DAY-->
 						<div class="col-md-14" >
 							<div class="panel">
@@ -15,7 +18,7 @@
 										<h3 class="panel-title">Menu for the day</h3>
 									</div>
 									<div class="panel-body table-responsive">
-										<table class="table" >
+										<table class="table">
 											<style type="text/css"> 
 												input[type="text"],
 												input[type="number"],textarea#text
@@ -36,21 +39,33 @@
 												</tr>
 											</thead>
 											<tbody>
-								
-												{% for d in data %}
-												<tr>
-													<td><input type="text" class="form-control" placeholder="Item Name" value={{d.Items_name}}></td>
-													<td><input type="number" class="form-control" placeholder="0" value={{d.Items_id}}></td>
-													<td><input type="number" class="form-control" placeholder="0" value={{d.Price}}></td>
-													<td>
-														<textarea id="text" class="form-control" placeholder="Item Description" rows="1">{{d.Description}}</textarea>
+
+												<tr ng-repeat="item in menu track by $index">
+													<td><input type="text" name="ItemName_{a$indexa}" class="form-control" placeholder="Item Name" ng-model="item.Items_name" required>
+													<span style="color:red" ng-show="form.ItemName_{a$indexa}.$error.required">Name required</span>
+													</td>
+
+													<td><input type="number" name="Max_{a$indexa}" name="class="form-control" placeholder="0" ng-model=item.Max required>
+													<span style="color:red" ng-show="form.Max_{a$indexa}.$error.required">Quantity required</span>
+													</td>
+													<td><input type="number" name="ItemPrice_{a$indexa}" class="form-control" placeholder="0" ng-model=item.Price required>
+													<span style="color:red" ng-show="form.ItemPrice_{a$indexa}.$error.required">Price required</span>
 													</td>
 													<td>
-															<button type="button" class="btn btn-danger delete"><i class="lnr lnr-trash"></i></button>
+														<textarea id="text" class="form-control" placeholder="Item Description" rows="1" ng-model=item.Description ></textarea>
+													</td>
+													<td>
+															<button type="button" class="btn btn-danger" ng-click='remove(item)'><i class="lnr lnr-trash"></i></button>
 															
 													</td>
 												</tr>
-												{% endfor %}
+
+
+												
+												
+												
+												
+												
 											</tbody>
 										</table>
 									</div>
@@ -58,13 +73,105 @@
 						</div>
 						<!--END MENU FOR THE DAY-->
 						<div class="col-md-14">
-								<button type="button"  class="btn btn-default AddItem"><i class="fa fa-plus-square"></i> Add Item </button>
-								<button type="button"  class="btn btn-success SaveList" style="float:right;"><i class="fa fa-check-circle"></i> Continue </button>
+								<button type="button"  class="btn btn-default" ng-click="insertitem()"><i class="fa fa-plus-square"></i> Add Item </button>
+								<button ng-disabled="form.$invalid" type="submit"  class="btn btn-success" ng-click="savemenu()" style="float:right;"><i class="fa fa-check-circle"></i> Continue </button>
 						</div>
 					</div>
+					</form>
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
 		</div>
 		<!-- END MAIN -->
+		<script type="text/javascript">
+			var menu;
+
+			var app= angular.module('menu',['ngMessages']);
+			
+			app.config(['$interpolateProvider',function($interpolateProvider)
+			{
+				$interpolateProvider.startSymbol('{a');
+				$interpolateProvider.endSymbol('a}');
+			}]);
+
+			app.controller('menuCtrl',function($scope,$http){
+				
+				$scope.update=[];
+				$scope.insert=[];
+				$scope.menu=[];
+
+				$http.get('menu_for_day').then(
+						function success(response)
+						{
+							menu=response.data;
+							angular.copy(menu,$scope.menu);
+							angular.copy(menu,$scope.update);
+							//console.log($scope.menu);
+						},
+						function error(error)
+						{
+							console.log(error.status);
+						}
+
+					);
+
+				$scope.remove=function (item)
+				{
+					$scope.menu.splice($scope.menu.indexOf(item),1);
+					
+					if(item.hasOwnProperty('Items_id'))
+					{
+						
+						$scope.update.splice($scope.update.indexOf(item),1);
+					}
+					else
+					{
+						$scope.insert.splice($scope.insert.indexOf(item),1);
+					}
+					
+					
+				}
+
+				$scope.insertitem=function ()
+				{
+					var item={Items_name:'',Max:1, Price:'',Description:'',Dates:''};
+					$scope.menu.push(item);
+					$scope.insert.push(item);
+					//alert(jsonify(item));
+
+				}
+
+				$scope.savemenu=function()
+				{
+					var send=[$scope.update, $scope.insert];
+
+					
+					$http.post('set_menu_for_day',send).then(
+						function success(response)
+						{
+							menu=response.data;
+							angular.copy(menu,$scope.menu);
+							angular.copy(menu,$scope.update);
+							$scope.insert=[];
+							//console.log($scope.menu);
+						},
+						function error(error)
+						{
+							console.log(error.status);
+						} 
+
+
+					);
+										
+					//console.log($scope.menu);
+					//console.log($scope.insert);
+					//console.log(menu);
+				}
+
+
+			});
+
+			
+
+		</script>
 {% endblock %}
