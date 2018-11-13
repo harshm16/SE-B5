@@ -20,6 +20,8 @@ import qrcode
 import socket
 import base64
 import json
+import random
+import string
 from io import BytesIO
 from .recommendation import recommend
 
@@ -57,7 +59,8 @@ def parse_owner_form():
 
 @canteen.route('/selectpayment/<cost>')
 def selectpayment(cost):
-	return render_template('payment/payment.html')
+	print(cost)
+	return render_template('payment/payment.html', cost=cost)
 
 @canteen.route('/payment/', methods=['POST','GET'])
 @csrf.exempt
@@ -66,9 +69,9 @@ def payment():
 		MERCHANT_KEY = '@WL!6umDo4oZu%oU';
 		data_dict = {
 			'MID':'Instaf41556599010081',
-			'ORDER_ID':'124ddfs5assaasf89',
+			'ORDER_ID':''.join(random.choices(string.ascii_uppercase + string.digits, k=10)),
 			'TXN_AMOUNT':request.form['TXN_AMOUNT'],
-			'CUST_ID':request.form['CUST_ID'],
+			'CUST_ID':'CUSTINSTAFOOD',
 			'INDUSTRY_TYPE_ID':'Retail',
 			'WEBSITE':'WEBSTAGING',
 			'CHANNEL_ID':'WEB',
@@ -121,11 +124,22 @@ def process_order():
 
 @canteen.route('/canteen_owner/qr/<hash>')
 def canteen_owner_process_order_hash(hash):
-	return render_template('canteen_owner/order.html', data=get_order('canteen', hash=hash))	
+	(data, status, transaction_id)=get_order('canteen', hash=hash)
+	return render_template('canteen_owner/order.html', data = data, status=status, transaction_id=transaction_id)	
 
 @canteen.route('/canteen_owner/id/<int:id>')
 def canteen_owner_process_order_id(id):
-	return render_template('canteen_owner/order.html', data=get_order('canteen', id=id))	
+	(data, status, transaction_id)=get_order('canteen', id=id)
+	return render_template('canteen_owner/order.html', data = data, status=status, transaction_id=transaction_id)	
+
+@canteen.route('/canteen_owner/complete_order', methods=["POST"])
+@csrf.exempt
+def complete_order():
+	transaction_id = int(request.get_json())
+	print('transaction_id', transaction_id)
+	update_order_complete('canteen', transaction_id)
+	return url_for('.canteen_owner_owner_index')
+
 
 @canteen.route('/canteen_owner/typography.html')
 def canteen_owner_typography():
