@@ -11,7 +11,11 @@ class TestApp:
 	
 	def test_elements(self, client):
 		res = client.get(url_for('canteen.canteen_owner_elements'))
-		assert res.status_code == 200
+		assert res.status_code == 302
+
+	def test_menu_for_day(self,client):
+		res = client.get(url_for('canteen.menu_for_day'))
+		assert res.status_code == 302
 	
 	def test_panels(self, client):
 		res = client.get(url_for('canteen.canteen_owner_panels'))

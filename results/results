@@ -1,0 +1,786 @@
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   1) import os
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   2) import click
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   3) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   4) from config import config
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   5) from myapp import create_app
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   6) from myapp.logger import setup_logging
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   7) from myapp.models.db_orm import db
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   8) from myapp.models.db_data import load_users_from_json
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   9) from myapp.models.db_data import load_countries_from_json
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  10) from myapp.models.db_data import load_distribution_centers_from_json
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  11) from myapp.models.db_data import load_stores_status_from_json
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  12) from myapp.models.db_data import load_stores_from_json
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  13) from myapp.models.db_data import load_store_components_from_json
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  14) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  15) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  16) # Flask - Command Line Interface
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  17) # As Flask-Script is no longer maintained, we'll use Flasks built-in CLI tool
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  18) # http://flask.pocoo.org/docs/0.12/cli/
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  19) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  20) # We are using factory functions to create the application, so the flask
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  21) # command cannot work with them directly. The application gets instantiated
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  22) # by this separate file 'autoapp.py' (alternative is using custom scripts).
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  23) # http://flask.pocoo.org/docs/0.12/cli/
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  24) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  25) # Use the flask command as follows:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  26) # export MYAPP_CONFIG=/path/to/config.py
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  27) # export FLASK_APP=`pwd`/autoapp.py
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  28) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  29) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  30) # Determine config settings from environment variables.
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  31) config_name = os.environ.get('MYAPP_CONFIG')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  32) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  33) # If none given, we'll set it to development
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  34) if config_name not in config:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  35)     config_name = 'development'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  36) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  37) # Setup logging levels
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  38) setup_logging(config_name=config_name)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  39) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  40) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  41) # Create the application object
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  42) app = create_app(config_name=config_name)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  43) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  44) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  45) # CLI Commands
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  46) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  47) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  48) def test():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  49)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  50)     Run Unit Tests.
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  51)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  52)     import unittest
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  53)     tests = unittest.TestLoader().discover('tests')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  54)     unittest.TextTestRunner(verbosity=2).run(tests)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  55) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  56) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  57) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  58) def test_with_coverage():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  59)     """ Runs the Unit Tests with Coverage. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  60)     # Configure Code Coverage Reports
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  61)     if app.config.get('FLASK_COVERAGE'):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  62)         from coverage import Coverage
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  63)         # Start coverage engine, enable branch coverage analytics
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  64)         # Limit analysis to files inside application package.
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  65)         cov = Coverage(branch=True, include='myapp/*')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  66)         cov.start()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  67)         import unittest
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  68)         tests = unittest.TestLoader().discover('tests')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  69)         unittest.TextTestRunner(verbosity=2).run(tests)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  70)         cov.stop()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  71)         cov.save()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  72)         print('Coverage Summary')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  73)         cov.report()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  74)         cov.html_report(directory='covhtml')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  75)         cov.erase()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  76) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  77) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  78) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  79) def db_create(drop_first=True):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  80)     """ Creating database. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  81)     click.echo('Starting db_create')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  82)     if drop_first:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  83)         db.drop_all()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  84)     db.create_all()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  85) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  86) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  87) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  88) def db_load_users():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  89)     """ Importing JSON data to table users. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  90)     click.echo('Starting db_load_users')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  91)     load_users_from_json()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  92) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  93) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  94) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  95) def db_load_countries():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  96)     """ Importing JSON data to table countries. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  97)     click.echo('Starting db_load_countries')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  98)     load_countries_from_json()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  99) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 100) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 101) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 102) def db_load_distribution_centers():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 103)     """ Importing JSON data to table distribution_centers. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 104)     click.echo('Starting db_load_distribution_centers')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 105)     load_distribution_centers_from_json()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 106) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 107) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 108) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 109) def db_load_store_status():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 110)     """ Importing JSON data to table store_status. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 111)     click.echo('Starting db_load_store_status')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 112)     load_stores_status_from_json()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 113) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 114) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 115) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 116) def db_load_stores():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 117)     """ Importing JSON data to table stores. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 118)     click.echo('Starting db_load_stores')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 119)     load_stores_from_json()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 120) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 121) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 122) @app.cli.command()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 123) def db_load_store_components():
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 124)     """ Importing JSON data to table store_components. """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 125)     click.echo('Starting db_load_store_components')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 126)     load_store_components_from_json()
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   1) import os
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   2) import json
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   3) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   4) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   5) basedir = os.path.abspath(os.path.dirname(__file__))
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   6) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   7) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   8) def get_secrets_from_json(provider_name, filename):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530   9)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  10)     Reads the providers client_secrets.json file
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  11) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  12)     Args:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  13)         provider_name: string, OAuth2 provider (Google, Facebook)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  14)         filename: string, File name of client secrets.
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  15)     Returns:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  16)         id, secret: string
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  17)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  18)     id, secret = None, None
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  19)     try:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  20)         with open(filename, 'r', encoding='utf-8') as f:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  21)             json_object = json.load(f)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  22)             # print(json_object)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  23)             if provider_name == 'google':
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  24)                 id = json_object['web'].get('client_id')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  25)                 secret = json_object['web'].get('client_secret')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  26)             elif provider_name == 'facebook':
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  27)                 id = json_object['web'].get('app_id')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  28)                 secret = json_object['web'].get('app_secret')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  29)             else:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  30)                 print('Unknown provider for get_secrets_from_json')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  31)     except FileNotFoundError:
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  32)         print('Unknown client_secrets.json file')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  33) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  34)     return id, secret
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  35) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  36) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  37) class BaseConfig(object):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  38) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  39)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  40)     BaseConfig holds the default configuration for myapp
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  41)     Use environmental variables, consider autoenv
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  42)     export APP_SETTINGS="config.DevConfig"
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  43)     app.config.from_object(os.environ['APP_SETTINGS'])
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  44)     http://flask.pocoo.org/docs/0.12/config/
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  45)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  46) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  47)     # Flask debug mode
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  48)     DEBUG = False
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  49)     TESTING = False
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  50) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  51)     # Secret key needs to be randomly generated (you can use os.urandom(24))
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  52)     SECRET_KEY = os.environ.get(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  53)         'SECRET_KEY',
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  54)         '\xa6TQ5\xc9\xf942\x9cx\x9b\xed\xa4\xc7\x95\xcc\xfd\xb8Q\xa1\x80\x99Z%')  # noqa
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  55)     # Separate token for CSRF protection (by default it uses secret key)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  56)     # Random data for generating secure tokens.
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  57)     WTF_CSRF_SECRET_KEY = os.environ.get(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  58)         'WTF_CSRF_SECRET_KEY',
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  59)         '\xc9\xcc\x91{\xd9\x9a\x18\x92\xaa\xb4\x9e\x80\x07\x13\x92-\x1ciH\x86\xecz:[')  # noqa
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  60) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  61)     # Turn off Flask-SQLAlchemy event system
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  62)     SQLALCHEMY_TRACK_MODIFICATIONS = False
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  63) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  64)     # SQLAlchemy database location
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  65)     # PostgreSQL - postgresql://username:password@hostname/database
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  66)     # MySQL - mysql://username:password@hostname/database
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  67)     # SQLite - sqlite:////absolute/path/to/database
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  68)     # Create the default db/sqlite directory if it doesn't exist
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  69)     # Avoid sqlalchemy.exc.OperationalError: (sqlite3.OperationalError)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  70)     if not os.path.isdir('db/sqlite'):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  71)         os.makedirs('db/sqlite')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  72)     SQLALCHEMY_DATABASE_URI = os.environ.get(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  73)         'DATABASE_URL',
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  74)         'sqlite:///' + os.path.join(basedir, 'db/sqlite/myapp.db'))
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  75) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  76)     # Flask-OAuthlib - OAuth 2.0 Credentials
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  77)     # https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  78)     google_client_id, google_client_secret = get_secrets_from_json(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  79)         provider_name='google',
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  80)         filename=os.path.join(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  81)             basedir, 'myapp/oauth2/google_client_secrets.json'))
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  82)     facebook_app_id, facebook_app_secret = get_secrets_from_json(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  83)         provider_name='facebook',
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  84)         filename=os.path.join(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  85)             basedir, 'myapp/oauth2/facebook_client_secrets.json'))
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  86)     # We use the same names for our OAUTH2_PROVIDERS as used by Flask-OAuthlib
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  87)     # http://flask-oauthlib.readthedocs.io/en/latest/api.html
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  88)     OAUTH2_PROVIDERS = {
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  89)         'google': {
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  90)             'client_id': google_client_id,
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  91)             'client_secret': google_client_secret
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  92)         },
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  93)         'facebook': {
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  94)             'client_id': facebook_app_id,
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  95)             'client_secret': facebook_app_secret
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  96)         }
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  97)     }
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  98)     # print(OAUTH2_PROVIDERS)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  99) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 100) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 101) class DevelopmentConfig(BaseConfig):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 102)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 103)     DevelopmentConfig holds development configuration for myapp
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 104)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 105)     # Flask debug mode
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 106)     DEBUG = True
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 107)     # Flask-DebugToolbar - Disable intercept redirects
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 108)     DEBUG_TB_INTERCEPT_REDIRECTS = False
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 109)     # SQLAlchemy database location
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 110)     # PostgreSQL - postgresql://username:password@hostname/database
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 111)     # MySQL - mysql://username:password@hostname/database
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 112)     # SQLite - sqlite:////absolute/path/to/database
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 113)     SQLALCHEMY_DATABASE_URI = os.environ.get(
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 114)         'DATABASE_DEV_URL',
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 115)         'sqlite:///' + os.path.join(basedir, 'db/sqlite/dev_myapp.db'))
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 116)     # OAuth 2.0 - OpenID connect
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 117)     # OAuthLib will raise an InsecureTransportError if you attempt to use
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 118)     # OAuth2 over HTTP, rather than HTTPS. This is mostly useful for local
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 119)     # testing, or automated tests. Never set this variable in production.
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 120)     # Prevent OAuth 2 MUST utilize https on Development / Test server
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 121)     # OAUTHLIB_INSECURE_TRANSPORT = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 122)     # OAUTHLIB_RELAX_TOKEN_SCOPE = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 123)     # DEBUG = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 124)     # os.environ['DEBUG'] = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 125) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 126) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 127) class ProductionConfig(BaseConfig):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 128)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 129)     ProdConfig holds production configuration for myapp
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 130)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 131)     # SQLAlchemy database location: keep the default sqlite
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 132)     # Flask-Login - Session Protection
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 133)     SESSION_PROTECTION = 'strong'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 134)     # Run publicly - app.run(host='0.0.0.0')
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 135)     HOST = '0.0.0.0'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 136)     # Change the listening port - app.run(port=5001)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 137)     PORT = '5001'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 138) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 139) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 140) class TestingConfig(BaseConfig):
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 141)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 142)     TestingConfig holds the testing configuration for myapp
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 143)     """
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 144)     TESTING = True
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 145)     # Code Coverage Reports
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 146)     FLASK_COVERAGE = True
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 147)     # Setting a SERVER_NAME also by default enables URL generation without
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 148)     # a request context but with an application context.
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 149)     SERVER_NAME = 'localhost:5000'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 150)     # Disable CSRF protection in the testing configuration
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 151)     WTF_CSRF_ENABLED = False
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 152)     # For testing we can use an in memory database
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 153)     SQLALCHEMY_DATABASE_URI = 'sqlite://'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 154)     # OAuth 2.0 - OpenID connect
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 155)     # OAuthLib will raise an InsecureTransportError if you attempt to use
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 156)     # OAuth2 over HTTP, rather than HTTPS. This is mostly useful for local
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 157)     # testing, or automated tests. Never set these in production!
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 158)     # Prevent OAuth 2 MUST utilize https on Development / Test server
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 159)     # OAUTHLIB_INSECURE_TRANSPORT = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 160)     # OAUTHLIB_RELAX_TOKEN_SCOPE = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 161)     # DEBUG = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 162)     # os.environ['DEBUG'] = '1'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 163) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 164) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 165) config = {
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 166)     'default': BaseConfig,
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 167)     'development': DevelopmentConfig,
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 168)     'production': ProductionConfig,
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 169)     'testing': TestingConfig
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 170) }
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   1) Attribution-ShareAlike 4.0 International
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   2) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   3) =======================================================================
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   4) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   5) Creative Commons Corporation ("Creative Commons") is not a law firm and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   6) does not provide legal services or legal advice. Distribution of
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   7) Creative Commons public licenses does not create a lawyer-client or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   8) other relationship. Creative Commons makes its licenses and related
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530   9) information available on an "as-is" basis. Creative Commons gives no
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  10) warranties regarding its licenses, any material licensed under their
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  11) terms and conditions, or any related information. Creative Commons
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  12) disclaims all liability for damages resulting from their use to the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  13) fullest extent possible.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  14) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  15) Using Creative Commons Public Licenses
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  16) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  17) Creative Commons public licenses provide a standard set of terms and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  18) conditions that creators and other rights holders may use to share
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  19) original works of authorship and other material subject to copyright
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  20) and certain other rights specified in the public license below. The
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  21) following considerations are for informational purposes only, are not
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  22) exhaustive, and do not form part of our licenses.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  23) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  24)      Considerations for licensors: Our public licenses are
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  25)      intended for use by those authorized to give the public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  26)      permission to use material in ways otherwise restricted by
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  27)      copyright and certain other rights. Our licenses are
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  28)      irrevocable. Licensors should read and understand the terms
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  29)      and conditions of the license they choose before applying it.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  30)      Licensors should also secure all rights necessary before
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  31)      applying our licenses so that the public can reuse the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  32)      material as expected. Licensors should clearly mark any
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  33)      material not subject to the license. This includes other CC-
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  34)      licensed material, or material used under an exception or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  35)      limitation to copyright. More considerations for licensors:
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  36) 	wiki.creativecommons.org/Considerations_for_licensors
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  37) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  38)      Considerations for the public: By using one of our public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  39)      licenses, a licensor grants the public permission to use the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  40)      licensed material under specified terms and conditions. If
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  41)      the licensor's permission is not necessary for any reason--for
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  42)      example, because of any applicable exception or limitation to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  43)      copyright--then that use is not regulated by the license. Our
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  44)      licenses grant only permissions under copyright and certain
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  45)      other rights that a licensor has authority to grant. Use of
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  46)      the licensed material may still be restricted for other
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  47)      reasons, including because others have copyright or other
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  48)      rights in the material. A licensor may make special requests,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  49)      such as asking that all changes be marked or described.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  50)      Although not required by our licenses, you are encouraged to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  51)      respect those requests where reasonable. More_considerations
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  52)      for the public:
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  53) 	wiki.creativecommons.org/Considerations_for_licensees
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  54) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  55) =======================================================================
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  56) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  57) Creative Commons Attribution-ShareAlike 4.0 International Public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  58) License
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  59) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  60) By exercising the Licensed Rights (defined below), You accept and agree
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  61) to be bound by the terms and conditions of this Creative Commons
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  62) Attribution-ShareAlike 4.0 International Public License ("Public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  63) License"). To the extent this Public License may be interpreted as a
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  64) contract, You are granted the Licensed Rights in consideration of Your
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  65) acceptance of these terms and conditions, and the Licensor grants You
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  66) such rights in consideration of benefits the Licensor receives from
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  67) making the Licensed Material available under these terms and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  68) conditions.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  69) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  70) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  71) Section 1 -- Definitions.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  72) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  73)   a. Adapted Material means material subject to Copyright and Similar
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  74)      Rights that is derived from or based upon the Licensed Material
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  75)      and in which the Licensed Material is translated, altered,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  76)      arranged, transformed, or otherwise modified in a manner requiring
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  77)      permission under the Copyright and Similar Rights held by the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  78)      Licensor. For purposes of this Public License, where the Licensed
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  79)      Material is a musical work, performance, or sound recording,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  80)      Adapted Material is always produced where the Licensed Material is
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  81)      synched in timed relation with a moving image.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  82) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  83)   b. Adapter's License means the license You apply to Your Copyright
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  84)      and Similar Rights in Your contributions to Adapted Material in
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  85)      accordance with the terms and conditions of this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  86) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  87)   c. BY-SA Compatible License means a license listed at
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  88)      creativecommons.org/compatiblelicenses, approved by Creative
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  89)      Commons as essentially the equivalent of this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  90) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  91)   d. Copyright and Similar Rights means copyright and/or similar rights
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  92)      closely related to copyright including, without limitation,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  93)      performance, broadcast, sound recording, and Sui Generis Database
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  94)      Rights, without regard to how the rights are labeled or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  95)      categorized. For purposes of this Public License, the rights
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  96)      specified in Section 2(b)(1)-(2) are not Copyright and Similar
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  97)      Rights.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  98) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  99)   e. Effective Technological Measures means those measures that, in the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 100)      absence of proper authority, may not be circumvented under laws
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 101)      fulfilling obligations under Article 11 of the WIPO Copyright
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 102)      Treaty adopted on December 20, 1996, and/or similar international
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 103)      agreements.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 104) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 105)   f. Exceptions and Limitations means fair use, fair dealing, and/or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 106)      any other exception or limitation to Copyright and Similar Rights
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 107)      that applies to Your use of the Licensed Material.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 108) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 109)   g. License Elements means the license attributes listed in the name
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 110)      of a Creative Commons Public License. The License Elements of this
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 111)      Public License are Attribution and ShareAlike.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 112) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 113)   h. Licensed Material means the artistic or literary work, database,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 114)      or other material to which the Licensor applied this Public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 115)      License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 116) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 117)   i. Licensed Rights means the rights granted to You subject to the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 118)      terms and conditions of this Public License, which are limited to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 119)      all Copyright and Similar Rights that apply to Your use of the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 120)      Licensed Material and that the Licensor has authority to license.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 121) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 122)   j. Licensor means the individual(s) or entity(ies) granting rights
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 123)      under this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 124) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 125)   k. Share means to provide material to the public by any means or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 126)      process that requires permission under the Licensed Rights, such
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 127)      as reproduction, public display, public performance, distribution,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 128)      dissemination, communication, or importation, and to make material
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 129)      available to the public including in ways that members of the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 130)      public may access the material from a place and at a time
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 131)      individually chosen by them.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 132) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 133)   l. Sui Generis Database Rights means rights other than copyright
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 134)      resulting from Directive 96/9/EC of the European Parliament and of
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 135)      the Council of 11 March 1996 on the legal protection of databases,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 136)      as amended and/or succeeded, as well as other essentially
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 137)      equivalent rights anywhere in the world.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 138) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 139)   m. You means the individual or entity exercising the Licensed Rights
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 140)      under this Public License. Your has a corresponding meaning.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 141) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 142) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 143) Section 2 -- Scope.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 144) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 145)   a. License grant.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 146) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 147)        1. Subject to the terms and conditions of this Public License,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 148)           the Licensor hereby grants You a worldwide, royalty-free,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 149)           non-sublicensable, non-exclusive, irrevocable license to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 150)           exercise the Licensed Rights in the Licensed Material to:
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 151) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 152)             a. reproduce and Share the Licensed Material, in whole or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 153)                in part; and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 154) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 155)             b. produce, reproduce, and Share Adapted Material.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 156) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 157)        2. Exceptions and Limitations. For the avoidance of doubt, where
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 158)           Exceptions and Limitations apply to Your use, this Public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 159)           License does not apply, and You do not need to comply with
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 160)           its terms and conditions.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 161) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 162)        3. Term. The term of this Public License is specified in Section
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 163)           6(a).
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 164) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 165)        4. Media and formats; technical modifications allowed. The
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 166)           Licensor authorizes You to exercise the Licensed Rights in
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 167)           all media and formats whether now known or hereafter created,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 168)           and to make technical modifications necessary to do so. The
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 169)           Licensor waives and/or agrees not to assert any right or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 170)           authority to forbid You from making technical modifications
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 171)           necessary to exercise the Licensed Rights, including
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 172)           technical modifications necessary to circumvent Effective
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 173)           Technological Measures. For purposes of this Public License,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 174)           simply making modifications authorized by this Section 2(a)
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 175)           (4) never produces Adapted Material.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 176) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 177)        5. Downstream recipients.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 178) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 179)             a. Offer from the Licensor -- Licensed Material. Every
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 180)                recipient of the Licensed Material automatically
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 181)                receives an offer from the Licensor to exercise the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 182)                Licensed Rights under the terms and conditions of this
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 183)                Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 184) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 185)             b. Additional offer from the Licensor -- Adapted Material.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 186)                Every recipient of Adapted Material from You
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 187)                automatically receives an offer from the Licensor to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 188)                exercise the Licensed Rights in the Adapted Material
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 189)                under the conditions of the Adapter's License You apply.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 190) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 191)             c. No downstream restrictions. You may not offer or impose
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 192)                any additional or different terms or conditions on, or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 193)                apply any Effective Technological Measures to, the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 194)                Licensed Material if doing so restricts exercise of the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 195)                Licensed Rights by any recipient of the Licensed
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 196)                Material.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 197) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 198)        6. No endorsement. Nothing in this Public License constitutes or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 199)           may be construed as permission to assert or imply that You
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 200)           are, or that Your use of the Licensed Material is, connected
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 201)           with, or sponsored, endorsed, or granted official status by,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 202)           the Licensor or others designated to receive attribution as
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 203)           provided in Section 3(a)(1)(A)(i).
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 204) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 205)   b. Other rights.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 206) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 207)        1. Moral rights, such as the right of integrity, are not
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 208)           licensed under this Public License, nor are publicity,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 209)           privacy, and/or other similar personality rights; however, to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 210)           the extent possible, the Licensor waives and/or agrees not to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 211)           assert any such rights held by the Licensor to the limited
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 212)           extent necessary to allow You to exercise the Licensed
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 213)           Rights, but not otherwise.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 214) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 215)        2. Patent and trademark rights are not licensed under this
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 216)           Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 217) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 218)        3. To the extent possible, the Licensor waives any right to
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 219)           collect royalties from You for the exercise of the Licensed
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 220)           Rights, whether directly or through a collecting society
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 221)           under any voluntary or waivable statutory or compulsory
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 222)           licensing scheme. In all other cases the Licensor expressly
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 223)           reserves any right to collect such royalties.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 224) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 225) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 226) Section 3 -- License Conditions.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 227) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 228) Your exercise of the Licensed Rights is expressly made subject to the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 229) following conditions.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 230) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 231)   a. Attribution.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 232) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 233)        1. If You Share the Licensed Material (including in modified
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 234)           form), You must:
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 235) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 236)             a. retain the following if it is supplied by the Licensor
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 237)                with the Licensed Material:
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 238) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 239)                  i. identification of the creator(s) of the Licensed
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 240)                     Material and any others designated to receive
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 241)                     attribution, in any reasonable manner requested by
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 242)                     the Licensor (including by pseudonym if
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 243)                     designated);
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 244) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 245)                 ii. a copyright notice;
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 246) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 247)                iii. a notice that refers to this Public License;
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 248) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 249)                 iv. a notice that refers to the disclaimer of
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 250)                     warranties;
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 251) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 252)                  v. a URI or hyperlink to the Licensed Material to the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 253)                     extent reasonably practicable;
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 254) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 255)             b. indicate if You modified the Licensed Material and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 256)                retain an indication of any previous modifications; and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 257) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 258)             c. indicate the Licensed Material is licensed under this
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 259)                Public License, and include the text of, or the URI or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 260)                hyperlink to, this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 261) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 262)        2. You may satisfy the conditions in Section 3(a)(1) in any
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 263)           reasonable manner based on the medium, means, and context in
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 264)           which You Share the Licensed Material. For example, it may be
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 265)           reasonable to satisfy the conditions by providing a URI or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 266)           hyperlink to a resource that includes the required
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 267)           information.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 268) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 269)        3. If requested by the Licensor, You must remove any of the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 270)           information required by Section 3(a)(1)(A) to the extent
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 271)           reasonably practicable.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 272) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 273)   b. ShareAlike.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 274) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 275)      In addition to the conditions in Section 3(a), if You Share
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 276)      Adapted Material You produce, the following conditions also apply.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 277) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 278)        1. The Adapter's License You apply must be a Creative Commons
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 279)           license with the same License Elements, this version or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 280)           later, or a BY-SA Compatible License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 281) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 282)        2. You must include the text of, or the URI or hyperlink to, the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 283)           Adapter's License You apply. You may satisfy this condition
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 284)           in any reasonable manner based on the medium, means, and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 285)           context in which You Share Adapted Material.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 286) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 287)        3. You may not offer or impose any additional or different terms
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 288)           or conditions on, or apply any Effective Technological
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 289)           Measures to, Adapted Material that restrict exercise of the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 290)           rights granted under the Adapter's License You apply.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 291) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 292) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 293) Section 4 -- Sui Generis Database Rights.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 294) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 295) Where the Licensed Rights include Sui Generis Database Rights that
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 296) apply to Your use of the Licensed Material:
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 297) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 298)   a. for the avoidance of doubt, Section 2(a)(1) grants You the right
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 299)      to extract, reuse, reproduce, and Share all or a substantial
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 300)      portion of the contents of the database;
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 301) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 302)   b. if You include all or a substantial portion of the database
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 303)      contents in a database in which You have Sui Generis Database
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 304)      Rights, then the database in which You have Sui Generis Database
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 305)      Rights (but not its individual contents) is Adapted Material,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 306) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 307)      including for purposes of Section 3(b); and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 308)   c. You must comply with the conditions in Section 3(a) if You Share
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 309)      all or a substantial portion of the contents of the database.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 310) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 311) For the avoidance of doubt, this Section 4 supplements and does not
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 312) replace Your obligations under this Public License where the Licensed
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 313) Rights include other Copyright and Similar Rights.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 314) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 315) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 316) Section 5 -- Disclaimer of Warranties and Limitation of Liability.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 317) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 318)   a. UNLESS OTHERWISE SEPARATELY UNDERTAKEN BY THE LICENSOR, TO THE
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 319)      EXTENT POSSIBLE, THE LICENSOR OFFERS THE LICENSED MATERIAL AS-IS
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 320)      AND AS-AVAILABLE, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 321)      ANY KIND CONCERNING THE LICENSED MATERIAL, WHETHER EXPRESS,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 322)      IMPLIED, STATUTORY, OR OTHER. THIS INCLUDES, WITHOUT LIMITATION,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 323)      WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 324)      PURPOSE, NON-INFRINGEMENT, ABSENCE OF LATENT OR OTHER DEFECTS,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 325)      ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 326)      KNOWN OR DISCOVERABLE. WHERE DISCLAIMERS OF WARRANTIES ARE NOT
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 327)      ALLOWED IN FULL OR IN PART, THIS DISCLAIMER MAY NOT APPLY TO YOU.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 328) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 329)   b. TO THE EXTENT POSSIBLE, IN NO EVENT WILL THE LICENSOR BE LIABLE
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 330)      TO YOU ON ANY LEGAL THEORY (INCLUDING, WITHOUT LIMITATION,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 331)      NEGLIGENCE) OR OTHERWISE FOR ANY DIRECT, SPECIAL, INDIRECT,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 332)      INCIDENTAL, CONSEQUENTIAL, PUNITIVE, EXEMPLARY, OR OTHER LOSSES,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 333)      COSTS, EXPENSES, OR DAMAGES ARISING OUT OF THIS PUBLIC LICENSE OR
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 334)      USE OF THE LICENSED MATERIAL, EVEN IF THE LICENSOR HAS BEEN
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 335)      ADVISED OF THE POSSIBILITY OF SUCH LOSSES, COSTS, EXPENSES, OR
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 336)      DAMAGES. WHERE A LIMITATION OF LIABILITY IS NOT ALLOWED IN FULL OR
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 337)      IN PART, THIS LIMITATION MAY NOT APPLY TO YOU.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 338) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 339)   c. The disclaimer of warranties and limitation of liability provided
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 340)      above shall be interpreted in a manner that, to the extent
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 341)      possible, most closely approximates an absolute disclaimer and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 342)      waiver of all liability.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 343) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 344) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 345) Section 6 -- Term and Termination.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 346) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 347)   a. This Public License applies for the term of the Copyright and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 348)      Similar Rights licensed here. However, if You fail to comply with
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 349)      this Public License, then Your rights under this Public License
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 350)      terminate automatically.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 351) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 352)   b. Where Your right to use the Licensed Material has terminated under
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 353)      Section 6(a), it reinstates:
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 354) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 355)        1. automatically as of the date the violation is cured, provided
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 356)           it is cured within 30 days of Your discovery of the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 357)           violation; or
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 358) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 359)        2. upon express reinstatement by the Licensor.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 360) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 361)      For the avoidance of doubt, this Section 6(b) does not affect any
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 362)      right the Licensor may have to seek remedies for Your violations
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 363)      of this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 364) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 365)   c. For the avoidance of doubt, the Licensor may also offer the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 366)      Licensed Material under separate terms or conditions or stop
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 367)      distributing the Licensed Material at any time; however, doing so
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 368)      will not terminate this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 369) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 370)   d. Sections 1, 5, 6, 7, and 8 survive termination of this Public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 371)      License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 372) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 373) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 374) Section 7 -- Other Terms and Conditions.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 375) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 376)   a. The Licensor shall not be bound by any additional or different
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 377)      terms or conditions communicated by You unless expressly agreed.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 378) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 379)   b. Any arrangements, understandings, or agreements regarding the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 380)      Licensed Material not stated herein are separate from and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 381)      independent of the terms and conditions of this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 382) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 383) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 384) Section 8 -- Interpretation.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 385) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 386)   a. For the avoidance of doubt, this Public License does not, and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 387)      shall not be interpreted to, reduce, limit, restrict, or impose
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 388)      conditions on any use of the Licensed Material that could lawfully
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 389)      be made without permission under this Public License.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 390) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 391)   b. To the extent possible, if any provision of this Public License is
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 392)      deemed unenforceable, it shall be automatically reformed to the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 393)      minimum extent necessary to make it enforceable. If the provision
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 394)      cannot be reformed, it shall be severed from this Public License
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 395)      without affecting the enforceability of the remaining terms and
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 396)      conditions.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 397) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 398)   c. No term or condition of this Public License will be waived and no
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 399)      failure to comply consented to unless expressly agreed to by the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 400)      Licensor.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 401) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 402)   d. Nothing in this Public License constitutes or may be interpreted
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 403)      as a limitation upon, or waiver of, any privileges and immunities
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 404)      that apply to the Licensor or You, including from the legal
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 405)      processes of any jurisdiction or authority.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 406) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 407) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 408) =======================================================================
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 409) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 410) Creative Commons is not a party to its public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 411) licenses. Notwithstanding, Creative Commons may elect to apply one of
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 412) its public licenses to material it publishes and in those instances
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 413) will be considered the “Licensor.” The text of the Creative Commons
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 414) public licenses is dedicated to the public domain under the CC0 Public
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 415) Domain Dedication. Except for the limited purpose of indicating that
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 416) material is shared under a Creative Commons public license or as
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 417) otherwise permitted by the Creative Commons policies published at
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 418) creativecommons.org/policies, Creative Commons does not authorize the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 419) use of the trademark "Creative Commons" or any other trademark or logo
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 420) of Creative Commons without its prior written consent including,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 421) without limitation, in connection with any unauthorized modifications
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 422) to any of its public licenses or any other arrangements,
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 423) understandings, or agreements concerning use of licensed material. For
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 424) the avoidance of doubt, this paragraph does not form part of the
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 425) public licenses.
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 426) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530 427) Creative Commons may be contacted at creativecommons.org.
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530  1) # 7th Sem Software-Engineering Project #
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530  2) 
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  3) [![Build Status](https://travis-ci.org/ganesh-k13/SE-B5.svg?branch=master)](https://travis-ci.org/ganesh-k13/SE-B5) [![licensebuttons by-sa](https://licensebuttons.net/l/by-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-sa/4.0)
+a915bc63 (Ganesh Kathiresan 2018-10-20 11:29:15 +0530  4) 
+8fe91b8a (Ganesh K          2018-10-03 18:54:17 +0530  5) 
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530  6) ### How to contribute to the project: ###
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530  7) 
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530  8) * Fork this repo.
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530  9) * Create a branch in your Fork.
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530 10) * Push changes to your branch.
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530 11) * Once you want others to see and review your changes, create a pull request.
+f7d1c947 (ganesh            2018-08-22 10:04:17 +0530 12) * We'll go through the pull request and merge them into the master project.
+b4ce2cbe (Hari Prasad N     2018-10-02 21:42:31 +0530 13) 
+b4ce2cbe (Hari Prasad N     2018-10-02 21:42:31 +0530 14) NOTE:
+b4ce2cbe (Hari Prasad N     2018-10-02 21:42:31 +0530 15) * Always use new order_id when testing for payment gateway
+b4ce2cbe (Hari Prasad N     2018-10-02 21:42:31 +0530 16) * order_id will be taken from database later
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530  1) Flask_SQLAlchemy==2.3.2
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530  2) Flask_WTF==0.14.2
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530  3) Flask_DebugToolbar==0.10.1
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530  4) passlib==1.7.1
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530  5) Click==7.0
+b93394b9 (ganesh    2018-10-08 15:26:57 +0530  6) Flask==1.0.2
+3244fe40 (ganesh    2018-11-04 18:28:44 +0530  7) pytest==3.6.1
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530  8) Flask_Login==0.4.1
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530  9) WTForms==2.2.1
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 10) SQLAlchemy==1.2.12
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 11) requests==2.20.0
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 12) Werkzeug==0.14.1
+3244fe40 (ganesh    2018-11-04 18:28:44 +0530 13) qrcode==6.0
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 14) pytest_flask==0.13.0
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 15) Flask_OAuthlib==0.9.5
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 16) pycrypto==2.6.1
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 17) coverage==4.5.1
+c8b9fec6 (Ganesh K  2018-11-08 18:31:00 +0530 18) argon2==0.1.10
+a126a123 (Ganesh K  2018-11-08 18:41:00 +0530 19) argon2-cffi==18.3.0
+129dc167 (BhargaviV 2018-11-11 22:12:30 -0800 20) mysql-connector-python-rf==2.2.2
+129dc167 (BhargaviV 2018-11-11 22:12:30 -0800 21) numpy==1.15.4
+129dc167 (BhargaviV 2018-11-11 22:12:30 -0800 22) scikit-learn==0.20.0
+129dc167 (BhargaviV 2018-11-11 22:12:30 -0800 23) pandas==0.23.4
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  1) # Flask
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  2) export MYAPP_CONFIG='development'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  3) export FLASK_APP=autoapp.py
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  4) export FLASK_DEBUG=True
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  5) # Please generate your own random keys (you can use os.urandom(24))
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  6) export SECRET_KEY='\xa6TQ5\xc9\xf942\x9cx\x9b\xed\xa4\xc7\x95\xcc\xfd\xb8Q\xa1\x80\x99Z%'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  7) # Separate token for CSRF protection (by default it uses secret key)
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  8) export WTF_CSRF_SECRET_KEY='\xc9\xcc\x91{\xd9\x9a\x18\x92\xaa\xb4\x9e\x80\x07\x13\x92-\x1ciH\x86\xecz:['
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530  9) # Prevent OAuth 2 MUST utilize https on Development / Test server
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 10) # Friendly reminder: DO NOT USE in production
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 11) export OAUTHLIB_INSECURE_TRANSPORT=1
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 12) export OAUTHLIB_RELAX_TOKEN_SCOPE=1
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 13) export DEBUG=1
+79c9cda7 (ganesh 2018-11-08 14:34:10 +0530 14) export WTF_CSRF_ENABLED=False
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 15) echo 'Starting myapp'
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 16) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 17) # Python Virtual Environment using Pipenv
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 18) flask db-create
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 19) flask db-load-users
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 20) echo 'Starting web server'
+e0f852f9 (ganesh 2018-11-11 20:09:53 +0530 21) flask run --host=0.0.0.0
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 22) 
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 23) # Python Virtual Environment using virtualenv
+aad2b3d7 (ganesh 2018-11-08 08:36:21 +0530 24) # source venv/bin/activate

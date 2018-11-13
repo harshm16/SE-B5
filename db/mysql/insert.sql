@@ -1,24 +1,33 @@
-#
-# TABLE STRUCTURE FOR: Canteen
-#
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Nov 13, 2018 at 05:14 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.11
+
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `canteen`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Canteen`
+--
 
 DROP DATABASE IF EXISTS `canteen`;
 CREATE DATABASE `canteen`;
 USE `canteen`;
 
--- Generation time: Thu, 08 Nov 2018 12:43:08 +0000
--- Host: mysql.hostinger.ro
--- DB name: u574849695_24
-/*!40030 SET NAMES UTF8 */;
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 DROP TABLE IF EXISTS `Canteen`;
 CREATE TABLE `Canteen` (
@@ -654,145 +663,143 @@ INSERT INTO `Has` VALUES ('90','257','50'),
 ('59','238','41'); 
 
 
+-- --------------------------------------------------------
 
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+--
+-- Table structure for table `Items`
+--
 
 DROP TABLE IF EXISTS `Items`;
 CREATE TABLE `Items` (
-  `Items_id` int(11) DEFAULT NULL,
-  `Items_name` text DEFAULT NULL,
-  `Ingredients` text DEFAULT NULL,
-  `Image` text DEFAULT NULL,
-  `Description` text DEFAULT NULL,
-  `Item_type` text DEFAULT NULL,
+  `Items_id` int(11) NOT NULL,
+  `Canteen_id` int(11) DEFAULT NULL,
+  `Items_name` text,
+  `Ingredients` text,
+  `Image` text,
+  `Description` text,
+  `Item_type` text,
   `Price` int(10) DEFAULT NULL,
-  `Max` int(10) DEFAULT NULL
+  `Max` int(10) DEFAULT NULL,
+  `Times_in_menu` int(11) NOT NULL,
+  `In_menu` tinyint(1) NOT NULL DEFAULT '0',
+  `Dates` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `Items` VALUES ('262','Cyan','embrace rich action-items','http://lorempixel.com/640/480/','Self-enabling local concept','#0adaad','62','8'),
-('205','Khaki','evolve scalable experiences','http://lorempixel.com/640/480/','Inverse 5thgeneration interface','#0e7008','48','1'),
-('238','GreenYellow','visualize cutting-edge portals','http://lorempixel.com/640/480/','Managed transitional middleware','#ca2782','17','20'),
-('266','PaleGreen','transition mission-critical e-commerce','http://lorempixel.com/640/480/','Managed client-driven policy','#ba1f32','99','2'),
-('246','AntiqueWhite','target efficient convergence','http://lorempixel.com/640/480/','Enterprise-wide intermediate focusgroup','#a093ce','47','1'),
-('256','Violet','orchestrate magnetic supply-chains','http://lorempixel.com/640/480/','Mandatory asynchronous ability','#328b65','143','18'),
-('270','Bisque','deliver dot-com users','http://lorempixel.com/640/480/','Multi-tiered disintermediate product','#53207b','29','13'),
-('278','OrangeRed','monetize virtual networks','http://lorempixel.com/640/480/','De-engineered stable help-desk','#8e4899','31','14'),
-('292','SpringGreen','envisioneer transparent synergies','http://lorempixel.com/640/480/','Reverse-engineered motivating knowledgebase','#11c6cc','13','1'),
-('254','Yellow','architect dot-com architectures','http://lorempixel.com/640/480/','Switchable secondary array','#041d5c','59','3'),
-('252','Green','monetize world-class solutions','http://lorempixel.com/640/480/','Multi-channelled asynchronous migration','#fb4f42','22','19'),
-('290','Cornsilk','deploy seamless e-tailers','http://lorempixel.com/640/480/','Automated regional middleware','#d59727','115','9'),
-('294','Thistle','generate rich webservices','http://lorempixel.com/640/480/','Advanced coherent challenge','#b3edbd','145','10'),
-('241','SteelBlue','matrix proactive models','http://lorempixel.com/640/480/','Integrated impactful protocol','#2f3d01','124','7'),
-('204','SandyBrown','redefine 24/7 content','http://lorempixel.com/640/480/','Decentralized high-level instructionset','#9b9472','147','4'),
-('261','CornflowerBlue','unleash extensible e-business','http://lorempixel.com/640/480/','Programmable multimedia service-desk','#e18851','66','9'),
-('229','DarkGray','syndicate viral niches','http://lorempixel.com/640/480/','Facetoface 24/7 portal','#9c1159','51','19'),
-('202','LightBlue','mesh revolutionary applications','http://lorempixel.com/640/480/','Open-architected asynchronous application','#157f46','31','20'),
-('285','LavenderBlush','grow end-to-end methodologies','http://lorempixel.com/640/480/','Reduced coherent focusgroup','#e9ca00','55','17'),
-('218','NavajoWhite','leverage out-of-the-box experiences','http://lorempixel.com/640/480/','Versatile multi-tasking array','#50ddba','107','10'),
-('206','LightSteelBlue','incubate dot-com ROI','http://lorempixel.com/640/480/','Implemented clear-thinking support','#f8bf2d','30','13'),
-('209','LightSlateGray','target visionary platforms','http://lorempixel.com/640/480/','Extended exuding concept','#518ae6','72','20'),
-('258','OliveDrab','mesh world-class experiences','http://lorempixel.com/640/480/','Digitized incremental parallelism','#dbbae5','69','11'),
-('260','Purple','monetize value-added web-readiness','http://lorempixel.com/640/480/','Realigned intangible focusgroup','#cc8936','16','2'),
-('223','WhiteSmoke','envisioneer mission-critical channels','http://lorempixel.com/640/480/','Centralized intangible framework','#1e125c','93','9'),
-('225','LawnGreen','cultivate proactive metrics','http://lorempixel.com/640/480/','User-centric heuristic hierarchy','#a5c1a7','29','15'),
-('220','RosyBrown','morph proactive e-business','http://lorempixel.com/640/480/','Facetoface optimal toolset','#a11ec6','115','18'),
-('215','Aqua','disintermediate interactive e-markets','http://lorempixel.com/640/480/','Multi-layered modular structure','#23ec97','26','18'),
-('277','Sienna','empower visionary ROI','http://lorempixel.com/640/480/','Balanced radical hierarchy','#a8a7ef','150','1'),
-('227','Lime','e-enable cross-media infrastructures','http://lorempixel.com/640/480/','Adaptive holistic emulation','#23ca9b','102','5'),
-('250','Gold','empower revolutionary markets','http://lorempixel.com/640/480/','Public-key regional extranet','#233c70','75','3'),
-('226','MediumTurquoise','brand world-class synergies','http://lorempixel.com/640/480/','Innovative static interface','#bb491c','126','12'),
-('280','MistyRose','harness mission-critical systems','http://lorempixel.com/640/480/','Organized assymetric knowledgebase','#e0e805','52','20'),
-('268','Ivory','embrace cutting-edge e-markets','http://lorempixel.com/640/480/','Inverse solution-oriented archive','#f74ca9','140','17'),
-('228','DarkRed','streamline strategic eyeballs','http://lorempixel.com/640/480/','Quality-focused transitional methodology','#6d076c','95','19'),
-('233','DarkSlateBlue','strategize innovative users','http://lorempixel.com/640/480/','Re-engineered executive attitude','#92fea8','41','3'),
-('230','DimGrey','repurpose cutting-edge infomediaries','http://lorempixel.com/640/480/','Reactive fault-tolerant adapter','#b961eb','33','2'),
-('267','DarkKhaki','incentivize frictionless markets','http://lorempixel.com/640/480/','Networked 24/7 securedline','#f26d73','39','11'),
-('274','LightSalmon','seize global applications','http://lorempixel.com/640/480/','Profound didactic algorithm','#3c17da','21','8'),
-('286','LightCyan','seize collaborative functionalities','http://lorempixel.com/640/480/','Automated tangible knowledgebase','#db65a0','119','3'),
-('272','MediumSpringGreen','reinvent next-generation platforms','http://lorempixel.com/640/480/','Versatile discrete strategy','#3ea228','111','20'),
-('289','Coral','maximize mission-critical bandwidth','http://lorempixel.com/640/480/','Focused user-facing concept','#70ee03','34','15'),
-('291','Chartreuse','extend sticky systems','http://lorempixel.com/640/480/','Fully-configurable eco-centric standardization','#61c8ea','26','13'),
-('211','Moccasin','deploy revolutionary bandwidth','http://lorempixel.com/640/480/','Multi-channelled 24hour time-frame','#76f981','37','13'),
-('288','PowderBlue','benchmark visionary technologies','http://lorempixel.com/640/480/','Multi-layered uniform migration','#5b88b5','111','15'),
-('213','MediumVioletRed','harness distributed relationships','http://lorempixel.com/640/480/','Fundamental homogeneous knowledgeuser','#e8d6f0','19','16'),
-('219','DarkSalmon','productize back-end e-services','http://lorempixel.com/640/480/','Diverse object-oriented firmware','#8dab02','27','18'),
-('259','DarkGreen','reinvent out-of-the-box channels','http://lorempixel.com/640/480/','Re-contextualized assymetric moderator','#9e6d20','99','17'),
-('299','LimeGreen','extend B2B deliverables','http://lorempixel.com/640/480/','Mandatory bottom-line extranet','#b61072','46','11'),
-('284','Tan','empower e-business content','http://lorempixel.com/640/480/','Adaptive exuding info-mediaries','#fcae6a','18','19'),
-('210','SlateGray','innovate impactful content','http://lorempixel.com/640/480/','Centralized optimal emulation','#9637ec','84','17'),
-('269','BlanchedAlmond','unleash bleeding-edge schemas','http://lorempixel.com/640/480/','Intuitive regional collaboration','#0c624e','46','10'),
-('201','Peru','transition robust schemas','http://lorempixel.com/640/480/','Multi-lateral client-driven approach','#226fdb','90','15'),
-('275','DarkOliveGreen','mesh extensible applications','http://lorempixel.com/640/480/','Operative homogeneous product','#c82bb0','113','12'),
-('253','PaleTurquoise','productize transparent schemas','http://lorempixel.com/640/480/','Visionary local strategy','#dc46eb','78','16'),
-('257','MediumOrchid','deploy ubiquitous markets','http://lorempixel.com/640/480/','Organized 5thgeneration structure','#50fb65','92','5'),
-('283','DarkViolet','deliver collaborative metrics','http://lorempixel.com/640/480/','Total attitude-oriented initiative','#888b40','82','11'),
-('282','LemonChiffon','facilitate frictionless infomediaries','http://lorempixel.com/640/480/','Enterprise-wide executive encoding','#fe7e1f','142','18'),
-('216','LightSeaGreen','utilize open-source interfaces','http://lorempixel.com/640/480/','Adaptive multimedia ability','#984600','129','6'),
-('237','AliceBlue','harness viral systems','http://lorempixel.com/640/480/','Multi-lateral 5thgeneration GraphicInterface','#8d2a0d','96','9'),
-('245','LightSkyBlue','unleash revolutionary functionalities','http://lorempixel.com/640/480/','Integrated radical GraphicInterface','#b9d51a','99','7'),
-('247','DarkMagenta','engineer 24/365 ROI','http://lorempixel.com/640/480/','Quality-focused maximized capability','#d8221f','20','2'),
-('276','Silver','engage plug-and-play web-readiness','http://lorempixel.com/640/480/','Optional even-keeled matrix','#f703fa','132','3'),
-('236','MediumPurple','facilitate global users','http://lorempixel.com/640/480/','Monitored dynamic utilisation','#42f188','89','4'),
-('203','Turquoise','facilitate next-generation initiatives','http://lorempixel.com/640/480/','Visionary exuding benchmark','#c712a5','125','15'),
-('263','Orchid','drive ubiquitous platforms','http://lorempixel.com/640/480/','Realigned radical pricingstructure','#1b461c','138','2'),
-('235','Aquamarine','utilize robust networks','http://lorempixel.com/640/480/','Inverse methodical focusgroup','#53c55f','87','16'),
-('296','DimGray','repurpose wireless methodologies','http://lorempixel.com/640/480/','Synergized non-volatile capacity','#3640c4','16','7'),
-('208','PeachPuff','engage sexy e-business','http://lorempixel.com/640/480/','Exclusive tangible openarchitecture','#d067d7','91','9'),
-('273','DarkSeaGreen','transform best-of-breed paradigms','http://lorempixel.com/640/480/','Reactive 3rdgeneration openarchitecture','#cb19de','116','20'),
-('298','LightGray','engage next-generation e-markets','http://lorempixel.com/640/480/','Multi-lateral methodical toolset','#9ce6b4','150','8'),
-('264','OldLace','innovate vertical niches','http://lorempixel.com/640/480/','Realigned global installation','#a8ca7a','139','13'),
-('239','Blue','exploit 24/365 bandwidth','http://lorempixel.com/640/480/','Customer-focused system-worthy synergy','#8e75ac','127','17'),
-('214','DeepPink','reinvent intuitive vortals','http://lorempixel.com/640/480/','Cross-platform responsive protocol','#1cc0c3','56','14'),
-('212','DodgerBlue','seize transparent architectures','http://lorempixel.com/640/480/','Stand-alone content-based strategy','#8e59ae','101','3'),
-('243','Gray','drive interactive relationships','http://lorempixel.com/640/480/','Open-source modular complexity','#c29d9f','120','19'),
-('232','Chocolate','enable 24/7 platforms','http://lorempixel.com/640/480/','Optional analyzing data-warehouse','#188e3f','100','6'),
-('271','Beige','utilize dot-com ROI','http://lorempixel.com/640/480/','Streamlined interactive knowledgebase','#ce3c68','104','16'),
-('293','SaddleBrown','whiteboard revolutionary convergence','http://lorempixel.com/640/480/','Down-sized empowering neural-net','#703e4a','97','8'),
-('234','DarkCyan','redefine B2B bandwidth','http://lorempixel.com/640/480/','Digitized discrete extranet','#7153c6','79','4'),
-('300','MediumSlateBlue','deliver clicks-and-mortar ROI','http://lorempixel.com/640/480/','Synergistic full-range contingency','#1846c1','41','13'),
-('231','PapayaWhip','enable synergistic vortals','http://lorempixel.com/640/480/','Organized composite hierarchy','#e31c35','98','7'),
-('242','LightCoral','productize innovative communities','http://lorempixel.com/640/480/','Horizontal tangible solution','#0a696b','24','1'),
-('265','MintCream','benchmark wireless synergies','http://lorempixel.com/640/480/','Compatible clear-thinking array','#2d837d','43','9'),
-('248','LightPink','leverage enterprise vortals','http://lorempixel.com/640/480/','Vision-oriented eco-centric website','#ac1890','59','15'),
-('287','Orange','implement leading-edge portals','http://lorempixel.com/640/480/','Advanced 24hour contingency','#ace5a0','149','10'),
-('224','Navy','engineer dynamic web-readiness','http://lorempixel.com/640/480/','Ameliorated fault-tolerant concept','#baecf1','143','16'),
-('255','MidnightBlue','transform wireless eyeballs','http://lorempixel.com/640/480/','Front-line didactic portal','#3e05ee','108','15'),
-('221','Plum','matrix front-end deliverables','http://lorempixel.com/640/480/','Versatile systemic matrices','#043f1d','148','3'),
-('222','DarkOrchid','engineer frictionless solutions','http://lorempixel.com/640/480/','Fundamental impactful architecture','#51d671','24','11'),
-('279','White','monetize customized infomediaries','http://lorempixel.com/640/480/','Total value-added workforce','#c484c5','32','1'),
-('244','SeaShell','leverage killer channels','http://lorempixel.com/640/480/','Realigned transitional standardization','#072c0e','83','20'),
-('295','Indigo ','disintermediate intuitive metrics','http://lorempixel.com/640/480/','Up-sized fault-tolerant encryption','#038912','133','13'),
-('217','LightYellow','drive enterprise communities','http://lorempixel.com/640/480/','Organic real-time product','#4107be','126','2'),
-('281','DeepSkyBlue','redefine one-to-one paradigms','http://lorempixel.com/640/480/','Virtual contextually-based database','#8a798b','34','18'),
-('297','Magenta','redefine enterprise e-markets','http://lorempixel.com/640/480/','Multi-lateral solution-oriented firmware','#199910','64','19'),
-('251','ForestGreen','architect seamless mindshare','http://lorempixel.com/640/480/','Virtual object-oriented info-mediaries','#ed64ea','131','12'),
-('249','Azure','engineer dot-com niches','http://lorempixel.com/640/480/','Cloned tangible infrastructure','#a4ff06','43','1'),
-('207','PaleVioletRed','expedite proactive paradigms','http://lorempixel.com/640/480/','Persevering mission-critical policy','#1753e1','143','17'),
-('240','Salmon','reintermediate robust action-items','http://lorempixel.com/640/480/','Persistent 24/7 opensystem','#6e08cd','128','18'); 
+--
+-- Dumping data for table `Items`
+--
 
+INSERT INTO `Items` (`Items_id`, `Canteen_id`, `Items_name`, `Ingredients`, `Image`, `Description`, `Item_type`, `Price`, `Max`, `Times_in_menu`, `In_menu`, `Dates`) VALUES
+(201, NULL, 'Peru', 'transition robust schemas', 'http://lorempixel.com/640/480/', 'Multi-lateral client-driven approach', '#226fdb', 90, 15, 0, 0, ''),
+(202, 3, 'LightBlue', 'mesh revolutionary applications', 'http://lorempixel.com/640/480/', 'Open-architected asynchronous application', '#157f46', 31, 20, 0, 0, ''),
+(203, NULL, 'Turquoise', 'facilitate next-generation initiatives', 'http://lorempixel.com/640/480/', 'Visionary exuding benchmark', '#c712a5', 125, 15, 0, 0, ''),
+(204, 3, 'SandyBrown', 'redefine 24/7 content', 'http://lorempixel.com/640/480/', 'Decentralized high-level instructionset', '#9b9472', 147, 4, 0, 0, ''),
+(205, 1, 'Khaki', 'evolve scalable experiences', 'http://lorempixel.com/640/480/', 'Inverse 5thgeneration interface', '#0e7008', 48, 1, 0, 0, ''),
+(206, NULL, 'LightSteelBlue', 'incubate dot-com ROI', 'http://lorempixel.com/640/480/', 'Implemented clear-thinking support', '#f8bf2d', 30, 13, 0, 0, ''),
+(207, NULL, 'PaleVioletRed', 'expedite proactive paradigms', 'http://lorempixel.com/640/480/', 'Persevering mission-critical policy', '#1753e1', 143, 17, 0, 0, ''),
+(208, NULL, 'PeachPuff', 'engage sexy e-business', 'http://lorempixel.com/640/480/', 'Exclusive tangible openarchitecture', '#d067d7', 91, 9, 0, 0, ''),
+(209, NULL, 'LightSlateGray', 'target visionary platforms', 'http://lorempixel.com/640/480/', 'Extended exuding concept', '#518ae6', 72, 20, 0, 0, ''),
+(210, NULL, 'SlateGray', 'innovate impactful content', 'http://lorempixel.com/640/480/', 'Centralized optimal emulation', '#9637ec', 84, 17, 0, 0, ''),
+(211, NULL, 'Moccasin', 'deploy revolutionary bandwidth', 'http://lorempixel.com/640/480/', 'Multi-channelled 24hour time-frame', '#76f981', 37, 13, 0, 0, ''),
+(212, NULL, 'DodgerBlue', 'seize transparent architectures', 'http://lorempixel.com/640/480/', 'Stand-alone content-based strategy', '#8e59ae', 101, 3, 0, 0, ''),
+(213, NULL, 'MediumVioletRed', 'harness distributed relationships', 'http://lorempixel.com/640/480/', 'Fundamental homogeneous knowledgeuser', '#e8d6f0', 19, 16, 0, 0, ''),
+(214, NULL, 'DeepPink', 'reinvent intuitive vortals', 'http://lorempixel.com/640/480/', 'Cross-platform responsive protocol', '#1cc0c3', 56, 14, 0, 0, ''),
+(215, NULL, 'Aqua', 'disintermediate interactive e-markets', 'http://lorempixel.com/640/480/', 'Multi-layered modular structure', '#23ec97', 26, 18, 0, 0, ''),
+(216, NULL, 'LightSeaGreen', 'utilize open-source interfaces', 'http://lorempixel.com/640/480/', 'Adaptive multimedia ability', '#984600', 129, 6, 0, 0, ''),
+(217, NULL, 'LightYellow', 'drive enterprise communities', 'http://lorempixel.com/640/480/', 'Organic real-time product', '#4107be', 126, 2, 0, 0, ''),
+(218, NULL, 'NavajoWhite', 'leverage out-of-the-box experiences', 'http://lorempixel.com/640/480/', 'Versatile multi-tasking array', '#50ddba', 107, 10, 0, 0, ''),
+(219, NULL, 'DarkSalmon', 'productize back-end e-services', 'http://lorempixel.com/640/480/', 'Diverse object-oriented firmware', '#8dab02', 27, 18, 0, 0, ''),
+(220, NULL, 'RosyBrown', 'morph proactive e-business', 'http://lorempixel.com/640/480/', 'Facetoface optimal toolset', '#a11ec6', 115, 18, 0, 0, ''),
+(221, NULL, 'Plum', 'matrix front-end deliverables', 'http://lorempixel.com/640/480/', 'Versatile systemic matrices', '#043f1d', 148, 3, 0, 0, ''),
+(222, NULL, 'DarkOrchid', 'engineer frictionless solutions', 'http://lorempixel.com/640/480/', 'Fundamental impactful architecture', '#51d671', 24, 11, 0, 0, ''),
+(223, NULL, 'WhiteSmoke', 'envisioneer mission-critical channels', 'http://lorempixel.com/640/480/', 'Centralized intangible framework', '#1e125c', 93, 9, 0, 0, ''),
+(224, NULL, 'Navy', 'engineer dynamic web-readiness', 'http://lorempixel.com/640/480/', 'Ameliorated fault-tolerant concept', '#baecf1', 143, 16, 0, 0, ''),
+(225, NULL, 'LawnGreen', 'cultivate proactive metrics', 'http://lorempixel.com/640/480/', 'User-centric heuristic hierarchy', '#a5c1a7', 29, 15, 0, 0, ''),
+(226, NULL, 'MediumTurquoise', 'brand world-class synergies', 'http://lorempixel.com/640/480/', 'Innovative static interface', '#bb491c', 126, 12, 0, 0, ''),
+(227, NULL, 'Lime', 'e-enable cross-media infrastructures', 'http://lorempixel.com/640/480/', 'Adaptive holistic emulation', '#23ca9b', 102, 5, 0, 0, ''),
+(228, NULL, 'DarkRed', 'streamline strategic eyeballs', 'http://lorempixel.com/640/480/', 'Quality-focused transitional methodology', '#6d076c', 95, 19, 0, 0, ''),
+(229, 3, 'DarkGray', 'syndicate viral niches', 'http://lorempixel.com/640/480/', 'Facetoface 24/7 portal', '#9c1159', 51, 19, 0, 0, ''),
+(230, NULL, 'DimGrey', 'repurpose cutting-edge infomediaries', 'http://lorempixel.com/640/480/', 'Reactive fault-tolerant adapter', '#b961eb', 33, 2, 0, 0, ''),
+(231, NULL, 'PapayaWhip', 'enable synergistic vortals', 'http://lorempixel.com/640/480/', 'Organized composite hierarchy', '#e31c35', 98, 7, 0, 0, ''),
+(232, NULL, 'Chocolate', 'enable 24/7 platforms', 'http://lorempixel.com/640/480/', 'Optional analyzing data-warehouse', '#188e3f', 100, 6, 0, 0, ''),
+(233, NULL, 'DarkSlateBlue', 'strategize innovative users', 'http://lorempixel.com/640/480/', 'Re-engineered executive attitude', '#92fea8', 41, 3, 0, 0, ''),
+(234, NULL, 'DarkCyan', 'redefine B2B bandwidth', 'http://lorempixel.com/640/480/', 'Digitized discrete extranet', '#7153c6', 79, 4, 0, 0, ''),
+(235, NULL, 'Aquamarine', 'utilize robust networks', 'http://lorempixel.com/640/480/', 'Inverse methodical focusgroup', '#53c55f', 87, 16, 0, 0, ''),
+(236, NULL, 'MediumPurple', 'facilitate global users', 'http://lorempixel.com/640/480/', 'Monitored dynamic utilisation', '#42f188', 89, 4, 0, 0, ''),
+(237, NULL, 'AliceBlue', 'harness viral systems', 'http://lorempixel.com/640/480/', 'Multi-lateral 5thgeneration GraphicInterface', '#8d2a0d', 96, 9, 0, 0, ''),
+(238, 1, 'GreenYellow', 'visualize cutting-edge portals', 'http://lorempixel.com/640/480/', 'Managed transitional middleware', '#ca2782', 17, 20, 9, 1, '1538438400.0,1539043200.0,1539648000.0,1540252800.0,1540857600.0,1541462400.0,1542067200.0'),
+(239, NULL, 'Blue', 'exploit 24/365 bandwidth', 'http://lorempixel.com/640/480/', 'Customer-focused system-worthy synergy', '#8e75ac', 127, 17, 0, 0, ''),
+(240, NULL, 'Salmon', 'reintermediate robust action-items', 'http://lorempixel.com/640/480/', 'Persistent 24/7 opensystem', '#6e08cd', 128, 18, 0, 0, ''),
+(241, 3, 'SteelBlue', 'matrix proactive models', 'http://lorempixel.com/640/480/', 'Integrated impactful protocol', '#2f3d01', 124, 7, 0, 0, ''),
+(242, NULL, 'LightCoral', 'productize innovative communities', 'http://lorempixel.com/640/480/', 'Horizontal tangible solution', '#0a696b', 24, 1, 0, 0, ''),
+(243, NULL, 'Gray', 'drive interactive relationships', 'http://lorempixel.com/640/480/', 'Open-source modular complexity', '#c29d9f', 120, 19, 0, 0, ''),
+(244, NULL, 'SeaShell', 'leverage killer channels', 'http://lorempixel.com/640/480/', 'Realigned transitional standardization', '#072c0e', 83, 20, 0, 0, ''),
+(245, NULL, 'LightSkyBlue', 'unleash revolutionary functionalities', 'http://lorempixel.com/640/480/', 'Integrated radical GraphicInterface', '#b9d51a', 99, 7, 0, 0, ''),
+(246, 1, 'AntiqueWhite', 'target efficient convergence', 'http://lorempixel.com/640/480/', 'Enterprise-wide intermediate focusgroup', '#a093ce', 47, 1, 0, 0, '1538352000.0,1538524800.0,1538697600.0,1538956800.0,1539129600.0,1539302400.0,1539561600.0,1539734400.0,1539907200.0,1540166400.0,1540339200.0,1540512000.0,1540771200.0,1540944000.0,1541116800.0,1541376000.0,1541548800.0,1541721600.0,1541980800.0'),
+(247, NULL, 'DarkMagenta', 'engineer 24/365 ROI', 'http://lorempixel.com/640/480/', 'Quality-focused maximized capability', '#d8221f', 20, 2, 0, 0, ''),
+(248, NULL, 'LightPink', 'leverage enterprise vortals', 'http://lorempixel.com/640/480/', 'Vision-oriented eco-centric website', '#ac1890', 59, 15, 0, 0, ''),
+(249, NULL, 'Azure', 'engineer dot-com niches', 'http://lorempixel.com/640/480/', 'Cloned tangible infrastructure', '#a4ff06', 43, 1, 0, 0, ''),
+(250, NULL, 'Gold', 'empower revolutionary markets', 'http://lorempixel.com/640/480/', 'Public-key regional extranet', '#233c70', 75, 3, 0, 0, ''),
+(251, NULL, 'ForestGreen', 'architect seamless mindshare', 'http://lorempixel.com/640/480/', 'Virtual object-oriented info-mediaries', '#ed64ea', 131, 12, 0, 0, ''),
+(252, 2, 'Green', 'monetize world-class solutions', 'http://lorempixel.com/640/480/', 'Multi-channelled asynchronous migration', '#fb4f42', 22, 19, 0, 0, ''),
+(253, NULL, 'PaleTurquoise', 'productize transparent schemas', 'http://lorempixel.com/640/480/', 'Visionary local strategy', '#dc46eb', 78, 16, 0, 0, ''),
+(254, 2, 'Yellow', 'architect dot-com architectures', 'http://lorempixel.com/640/480/', 'Switchable secondary array', '#041d5c', 59, 3, 0, 0, ''),
+(255, NULL, 'MidnightBlue', 'transform wireless eyeballs', 'http://lorempixel.com/640/480/', 'Front-line didactic portal', '#3e05ee', 108, 15, 0, 0, ''),
+(256, 1, 'Violet', 'orchestrate magnetic supply-chains', 'http://lorempixel.com/640/480/', 'Mandatory asynchronous ability', '#328b65', 143, 18, 0, 0, ''),
+(257, NULL, 'MediumOrchid', 'deploy ubiquitous markets', 'http://lorempixel.com/640/480/', 'Organized 5thgeneration structure', '#50fb65', 92, 5, 0, 0, ''),
+(258, NULL, 'OliveDrab', 'mesh world-class experiences', 'http://lorempixel.com/640/480/', 'Digitized incremental parallelism', '#dbbae5', 69, 11, 0, 0, ''),
+(259, NULL, 'DarkGreen', 'reinvent out-of-the-box channels', 'http://lorempixel.com/640/480/', 'Re-contextualized assymetric moderator', '#9e6d20', 99, 17, 0, 0, ''),
+(260, NULL, 'Purple', 'monetize value-added web-readiness', 'http://lorempixel.com/640/480/', 'Realigned intangible focusgroup', '#cc8936', 16, 2, 0, 0, ''),
+(261, 3, 'CornflowerBlue', 'unleash extensible e-business', 'http://lorempixel.com/640/480/', 'Programmable multimedia service-desk', '#e18851', 66, 9, 0, 0, ''),
+(262, 1, 'Cyan', 'embrace rich action-items', 'http://lorempixel.com/640/480/', 'Self-enabling local concept', '#0adaad', 62, 8, 0, 0, ''),
+(263, NULL, 'Orchid', 'drive ubiquitous platforms', 'http://lorempixel.com/640/480/', 'Realigned radical pricingstructure', '#1b461c', 138, 2, 0, 0, ''),
+(264, NULL, 'OldLace', 'innovate vertical niches', 'http://lorempixel.com/640/480/', 'Realigned global installation', '#a8ca7a', 139, 13, 0, 0, ''),
+(265, NULL, 'MintCream', 'benchmark wireless synergies', 'http://lorempixel.com/640/480/', 'Compatible clear-thinking array', '#2d837d', 43, 9, 0, 0, ''),
+(266, 1, 'PaleGreen', 'transition mission-critical e-commerce', 'http://lorempixel.com/640/480/', 'Managed client-driven policy', '#ba1f32', 99, 2, 9, 1, '1538438400.0,1538611200.0,1538784000.0,1539043200.0,1539216000.0,1539388800.0,1539648000.0,1539820800.0,1539993600.0,1540252800.0,1540425600.0,1540598400.0,1540857600.0,1541030400.0,1541203200.0,1541462400.0,1541635200.0,1541808000.0,1542067200.0'),
+(267, NULL, 'DarkKhaki', 'incentivize frictionless markets', 'http://lorempixel.com/640/480/', 'Networked 24/7 securedline', '#f26d73', 39, 11, 0, 0, ''),
+(268, NULL, 'Ivory', 'embrace cutting-edge e-markets', 'http://lorempixel.com/640/480/', 'Inverse solution-oriented archive', '#f74ca9', 140, 17, 0, 0, ''),
+(269, NULL, 'BlanchedAlmond', 'unleash bleeding-edge schemas', 'http://lorempixel.com/640/480/', 'Intuitive regional collaboration', '#0c624e', 46, 10, 0, 0, ''),
+(270, 2, 'Bisque', 'deliver dot-com users', 'http://lorempixel.com/640/480/', 'Multi-tiered disintermediate product', '#53207b', 29, 13, 0, 0, ''),
+(271, NULL, 'Beige', 'utilize dot-com ROI', 'http://lorempixel.com/640/480/', 'Streamlined interactive knowledgebase', '#ce3c68', 104, 16, 0, 0, ''),
+(272, NULL, 'MediumSpringGreen', 'reinvent next-generation platforms', 'http://lorempixel.com/640/480/', 'Versatile discrete strategy', '#3ea228', 111, 20, 0, 0, ''),
+(273, NULL, 'DarkSeaGreen', 'transform best-of-breed paradigms', 'http://lorempixel.com/640/480/', 'Reactive 3rdgeneration openarchitecture', '#cb19de', 116, 20, 0, 0, ''),
+(274, NULL, 'LightSalmon', 'seize global applications', 'http://lorempixel.com/640/480/', 'Profound didactic algorithm', '#3c17da', 21, 8, 0, 0, ''),
+(275, NULL, 'DarkOliveGreen', 'mesh extensible applications', 'http://lorempixel.com/640/480/', 'Operative homogeneous product', '#c82bb0', 113, 12, 0, 0, ''),
+(276, NULL, 'Silver', 'engage plug-and-play web-readiness', 'http://lorempixel.com/640/480/', 'Optional even-keeled matrix', '#f703fa', 132, 3, 0, 0, ''),
+(277, NULL, 'Sienna', 'empower visionary ROI', 'http://lorempixel.com/640/480/', 'Balanced radical hierarchy', '#a8a7ef', 150, 1, 0, 0, ''),
+(278, 2, 'OrangeRed', 'monetize virtual networks', 'http://lorempixel.com/640/480/', 'De-engineered stable help-desk', '#8e4899', 31, 14, 0, 0, ''),
+(279, NULL, 'White', 'monetize customized infomediaries', 'http://lorempixel.com/640/480/', 'Total value-added workforce', '#c484c5', 32, 1, 0, 0, ''),
+(280, NULL, 'MistyRose', 'harness mission-critical systems', 'http://lorempixel.com/640/480/', 'Organized assymetric knowledgebase', '#e0e805', 52, 20, 0, 0, ''),
+(281, NULL, 'DeepSkyBlue', 'redefine one-to-one paradigms', 'http://lorempixel.com/640/480/', 'Virtual contextually-based database', '#8a798b', 34, 18, 0, 0, ''),
+(282, NULL, 'LemonChiffon', 'facilitate frictionless infomediaries', 'http://lorempixel.com/640/480/', 'Enterprise-wide executive encoding', '#fe7e1f', 142, 18, 0, 0, ''),
+(283, NULL, 'DarkViolet', 'deliver collaborative metrics', 'http://lorempixel.com/640/480/', 'Total attitude-oriented initiative', '#888b40', 82, 11, 0, 0, ''),
+(284, NULL, 'Tan', 'empower e-business content', 'http://lorempixel.com/640/480/', 'Adaptive exuding info-mediaries', '#fcae6a', 18, 19, 0, 0, ''),
+(285, 3, 'LavenderBlush', 'grow end-to-end methodologies', 'http://lorempixel.com/640/480/', 'Reduced coherent focusgroup', '#e9ca00', 55, 17, 0, 0, ''),
+(286, NULL, 'LightCyan', 'seize collaborative functionalities', 'http://lorempixel.com/640/480/', 'Automated tangible knowledgebase', '#db65a0', 119, 3, 0, 0, ''),
+(287, NULL, 'Orange', 'implement leading-edge portals', 'http://lorempixel.com/640/480/', 'Advanced 24hour contingency', '#ace5a0', 149, 10, 0, 0, ''),
+(288, NULL, 'PowderBlue', 'benchmark visionary technologies', 'http://lorempixel.com/640/480/', 'Multi-layered uniform migration', '#5b88b5', 111, 15, 0, 0, ''),
+(289, NULL, 'Coral', 'maximize mission-critical bandwidth', 'http://lorempixel.com/640/480/', 'Focused user-facing concept', '#70ee03', 34, 15, 0, 0, ''),
+(290, 2, 'Cornsilk', 'deploy seamless e-tailers', 'http://lorempixel.com/640/480/', 'Automated regional middleware', '#d59727', 115, 9, 0, 0, ''),
+(291, NULL, 'Chartreuse', 'extend sticky systems', 'http://lorempixel.com/640/480/', 'Fully-configurable eco-centric standardization', '#61c8ea', 26, 13, 0, 0, ''),
+(292, 2, 'SpringGreen', 'envisioneer transparent synergies', 'http://lorempixel.com/640/480/', 'Reverse-engineered motivating knowledgebase', '#11c6cc', 13, 1, 0, 0, ''),
+(293, NULL, 'SaddleBrown', 'whiteboard revolutionary convergence', 'http://lorempixel.com/640/480/', 'Down-sized empowering neural-net', '#703e4a', 97, 8, 0, 0, ''),
+(294, 2, 'Thistle', 'generate rich webservices', 'http://lorempixel.com/640/480/', 'Advanced coherent challenge', '#b3edbd', 145, 10, 0, 0, ''),
+(295, NULL, 'Indigo ', 'disintermediate intuitive metrics', 'http://lorempixel.com/640/480/', 'Up-sized fault-tolerant encryption', '#038912', 133, 13, 0, 0, ''),
+(296, NULL, 'DimGray', 'repurpose wireless methodologies', 'http://lorempixel.com/640/480/', 'Synergized non-volatile capacity', '#3640c4', 16, 7, 0, 0, ''),
+(297, NULL, 'Magenta', 'redefine enterprise e-markets', 'http://lorempixel.com/640/480/', 'Multi-lateral solution-oriented firmware', '#199910', 64, 19, 0, 0, ''),
+(298, NULL, 'LightGray', 'engage next-generation e-markets', 'http://lorempixel.com/640/480/', 'Multi-lateral methodical toolset', '#9ce6b4', 150, 8, 0, 0, ''),
+(299, NULL, 'LimeGreen', 'extend B2B deliverables', 'http://lorempixel.com/640/480/', 'Mandatory bottom-line extranet', '#b61072', 46, 11, 0, 0, ''),
+(300, NULL, 'MediumSlateBlue', 'deliver clicks-and-mortar ROI', 'http://lorempixel.com/640/480/', 'Synergistic full-range contingency', '#1846c1', 41, 13, 0, 0, ''),
+(304, 1, 'Paneer tikka', NULL, NULL, '', NULL, 1, 1, 5, 0, '1542067200.0'),
+(305, 1, 'Mushroom', NULL, NULL, '', NULL, 100, 1, 3, 0, '1542067200.0'),
+(306, 1, 'Gobi', NULL, NULL, '', NULL, 100, 1, 1, 0, '1542067200.0'),
+(307, 1, 'Mushroom manchurian', NULL, NULL, '', NULL, 10, 1, 1, 1, '1542067200.0');
 
+-- --------------------------------------------------------
 
--- Generation time: Thu, 08 Nov 2018 12:42:32 +0000
--- Host: mysql.hostinger.ro
--- DB name: u574849695_24
-/*!40030 SET NAMES UTF8 */;
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
+--
+-- Table structure for table `Owner`
+--
 DROP TABLE IF EXISTS `Owner`;
 CREATE TABLE `Owner` (
   `Owner_id` int(11) NOT NULL AUTO_INCREMENT,

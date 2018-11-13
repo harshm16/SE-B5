@@ -25,23 +25,6 @@ import string
 from io import BytesIO
 from .recommendation import recommend
 
-
-#route to fetch menu for the day
-@canteen.route('canteen_owner/menu_for_day')
-@login_required
-def menu_for_day():
-	data=get_menu_for_day('Items', 'canteen',session['Owner_id'])
-	return jsonify(data)
-
-#route to update menu for the day
-@canteen.route('canteen_owner/set_menu_for_day',methods=['POST'])
-@login_required
-@csrf.exempt
-def set_menu_for_day():
-	if request.method=="POST":
-		data=request.get_json()
-		return jsonify(update_menu_for_day("Items","canteen",session['Owner_id'],data))
-
 @canteen.route('/customer_form')
 def customer_form():
 	return render_template('customer/customer_form.html')
@@ -135,7 +118,7 @@ def process_order():
 	data['cost'] = cost
 	data['hash'] = hash
 	purchase_id = update_transaction('canteen', data)
-	print(purchase_id)
+	# print(purchase_id)
 	session['purchase_id'] = purchase_id
 	return url_for('.selectpayment', cost = cost)
 
@@ -156,7 +139,6 @@ def complete_order():
 	print('transaction_id', transaction_id)
 	update_order_complete('canteen', transaction_id)
 	return url_for('.canteen_owner_owner_index')
-
 
 @canteen.route('/canteen_owner/typography.html')
 def canteen_owner_typography():
@@ -199,9 +181,8 @@ def canteen_owner_panels():
 	return render_template('canteen_owner/panels.html')
 
 @canteen.route('/canteen_owner/elements.html')
-@login_required
 def canteen_owner_elements():
-	return render_template('canteen_owner/elements.html')
+	return render_template('canteen_owner/elements.html', data=get_items('Items','canteen'))
 
 @canteen.route('/canteen_owner/index.html')
 def canteen_owner_owner_index():
@@ -232,7 +213,7 @@ def customer_typography():
 @canteen.route('/customer/icons.html')
 @login_required
 def customer_icons():
-	return render_template('customer/icons.html', data = recommend('canteen',int(session['User_id']),n=4))
+	return render_template('customer/icons.html', data = recommend('canteen',int(session['User_id']),4))
 
 @canteen.route('/customer/tables.html')
 def customer_tables():
@@ -294,18 +275,11 @@ def index():
 @csrf.exempt
 def put_favorites():
 	if(request.method == "POST"):
+		#print("-----------------------------------",request.data)
 		data = json.loads(request.data.decode("utf-8"))
+		print("-----------------------------------",data)
 		update_favorites('canteen',int(session['User_id']),data)
 	return "{'status':200,'msg':'ok'}"
-
-
-@canteen.route('/customer/get_recommendation',methods=['POST'])
-@csrf.exempt
-def get_user_recommendation():
-	if(request.method == "POST"):
-		data = json.loads(request.data.decode("utf-8"))
-		results = recommend('canteen',-1,user_info = data)
-	return jsonify(results)
 
 if __name__ == "__main__":
 	print(os.path.abspath(__file__))

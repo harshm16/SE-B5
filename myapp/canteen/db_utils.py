@@ -1,5 +1,75 @@
 import mysql.connector
 from datetime import datetime
+from datetime import date
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+
+def get_menu_for_day(table_name, db_name,owner_id):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	cursor.execute("select Updated_on from Canteen where Owner_id=%s"%owner_id)
+	result=cursor.fetchone()
+	dt=date.today()
+	if result['Updated_on']==dt:
+		cursor.execute('select Items_id,Items_name,Description,Price,Max,Dates from %s where In_menu=1 and Canteen_id in(select Canteen_id from Canteen where Owner_id=%s)' %(table_name,owner_id))
+		return cursor.fetchall()
+	else:
+		cursor.execute('select Items_id,Items_name,Description,Price,Max,Dates from %s where Canteen_id in (select Canteen_id from Canteen where Owner_id= %s)' % (table_name,owner_id))
+		result=cursor.fetchall()
+		result1=[]
+		dt=(dt-date(1970,1,1)).total_seconds()
+		for ele in result:
+			if ele['Dates']!='':
+				dates=[float(i) for i in ele['Dates'].split(',')]
+				x=np.array([int(i) for i in range(len(dates))]).reshape(-1,1)
+				reg=LinearRegression().fit(x,dates)
+				val=reg.predict(len(x))
+				if abs((val[0]-dt)/(3600*24))<1:
+					result1.append(ele)
+		if len(result1)<1:
+			cursor.execute('select Items_id,Items_name,Description,Price,Max,Dates from %s where In_menu=1 and Canteen_id in(select Canteen_id from Canteen where Owner_id=%s)' %(table_name,owner_id))
+			return cursor.fetchall()
+		else:
+			return result1
+
+def update_menu_for_day(table_name,db_name,owner_id,data):
+	conn = mysql.connector.connect(
+				host="localhost",
+				user="root",
+				passwd="",
+				database=db_name
+			)
+	cursor = conn.cursor(dictionary=True)
+	ids=[]
+	dat=date.today()
+	timestamp=(dat-date(1970,1,1)).total_seconds()
+	query=''
+	cursor.execute('select Canteen_id from Canteen where Owner_id=%s'%(owner_id))
+	val=cursor.fetchone()
+	for ele in data[0]:
+		print(ele)
+		d=ele['Dates'].split(',')
+		if d[-1]!=str(timestamp):
+			ele['Dates']+=','+str(timestamp)
+		query+="update %s set Items_name='%s',Description='%s',Price=%s,Max=%s,Dates='%s',In_menu=1, Times_in_menu=Times_in_menu+1 where Items_id=%s;" % (table_name,ele['Items_name'],ele['Description'],ele['Price'],ele['Max'],ele['Dates'],ele['Items_id'])
+		ids.append(str(ele['Items_id']))
+	query+="update Canteen set Updated_on='%s' where Canteen_id=%s;" %(str(dat),val['Canteen_id'])
+	query+='update %s set In_menu=0 where Canteen_id=%s and Items_id not in (%s);' %(table_name,val['Canteen_id'],','.join(ids))
+	for ele in data[1]:
+		ele['Dates']=str(timestamp)
+		query+="insert into %s (Items_name,Description,Price,Max,Dates,In_menu,Times_in_menu,Canteen_id) values('%s','%s',%s,%s,'%s',%s,%s,%s);"%(table_name,ele['Items_name'],ele['Description'],ele['Price'],ele['Max'],ele['Dates'],1,1,val['Canteen_id'])
+	for result in cursor.execute(query,multi=True):
+		pass
+	conn.commit()
+	cursor.execute('select Items_id,Items_name,Description,Price,Max,Dates from %s where In_menu=1 and Canteen_id=%s' %(table_name,val['Canteen_id']))
+	return cursor.fetchall()
+
 
 def replace_key(old_list, new_key, old_key):
 	new_list = list()
