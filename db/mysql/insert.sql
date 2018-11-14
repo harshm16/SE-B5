@@ -29,120 +29,9 @@ CREATE DATABASE `canteen`;
 USE `canteen`;
 
 
-DROP TABLE IF EXISTS `Canteen`;
-CREATE TABLE `Canteen` (
-  `Canteen_id` int(11) NOT NULL AUTO_INCREMENT,
-  `Canteen_name` text DEFAULT NULL,
-  `Owner_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Canteen_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `Canteen` VALUES ('1','Aidan Courts','22'),
-('2','Reilly Fork','84'),
-('3','Mariah Roads','36'),
-('4','Kilback Skyway','39'),
-('5','Treutel Oval','76'),
-('6','Duane Ports','80'),
-('7','O\'Reilly Ports','73'),
-('8','Botsford Stravenue','86'),
-('9','Zack Lodge','9'),
-('10','Raymundo Street','54'),
-('11','Feest Camp','27'),
-('12','Noah Fords','38'),
-('13','Kris Shores','81'),
-('14','Walter Plain','75'),
-('15','Harley Plain','35'),
-('16','Batz Court','99'),
-('17','Davis Mountain','20'),
-('18','Lindgren Manors','55'),
-('19','Becker Heights','92'),
-('20','Monte Green','45'),
-('21','Gorczany Track','33'),
-('22','Maureen Plains','37'),
-('23','Erdman Throughway','72'),
-('24','Raina Curve','48'),
-('25','Stewart Crest','25'),
-('26','Reggie Squares','71'),
-('27','Leonel Lodge','51'),
-('28','Smith Stream','16'),
-('29','Osinski Mills','3'),
-('30','Murazik Cove','59'),
-('31','Bernhard Locks','32'),
-('32','Buckridge Hills','57'),
-('33','Ankunding Mall','30'),
-('34','Kadin Expressway','69'),
-('35','Lew Flat','14'),
-('36','Ankunding Inlet','62'),
-('37','Hailie Loop','85'),
-('38','Burley Cape','87'),
-('39','Windler Vista','8'),
-('40','Justine Spurs','18'),
-('41','Katheryn Falls','43'),
-('42','Benton Rue','68'),
-('43','Watsica Ferry','66'),
-('44','Kayden Rapids','70'),
-('45','Harber Crossing','49'),
-('46','Kautzer Brooks','41'),
-('47','Cathy Cliff','34'),
-('48','Kemmer Manor','90'),
-('49','Thiel Pike','23'),
-('50','Swift Prairie','24'),
-('51','Muller Trace','82'),
-('52','Emily Oval','7'),
-('53','Cletus Common','4'),
-('54','Isaiah Station','63'),
-('55','Fadel Ports','26'),
-('56','Breitenberg Forks','53'),
-('57','Wolf Motorway','79'),
-('58','Strosin Glens','21'),
-('59','Jacobi Plaza','52'),
-('60','Kovacek Motorway','97'),
-('61','Maxie Rapid','94'),
-('62','Robel Garden','31'),
-('63','Gottlieb Place','28'),
-('64','Jamarcus Gateway','11'),
-('65','Hayes Turnpike','95'),
-('66','Reece Grove','5'),
-('67','Becker Corners','89'),
-('68','Fleta Trace','47'),
-('69','Nasir Lodge','96'),
-('70','Gage Highway','61'),
-('71','Beahan Walks','78'),
-('72','Maryam Prairie','88'),
-('73','Littel Plaza','65'),
-('74','Renee Mill','67'),
-('75','Selina Meadows','77'),
-('76','Rhoda Parkway','98'),
-('77','Tristin Center','13'),
-('78','Gorczany Cliff','19'),
-('79','Jakayla Prairie','56'),
-('80','Roselyn Shoals','74'),
-('81','Ara Ramp','12'),
-('82','Nicolas Junction','100'),
-('83','Kuhlman Prairie','42'),
-('84','Carroll Centers','17'),
-('85','Mertz Crossing','93'),
-('86','Legros Forges','60'),
-('87','Wilhelm Route','15'),
-('88','Adolfo Key','50'),
-('89','Pfeffer Ford','44'),
-('90','Tillman Spring','2'),
-('91','Amaya Trace','83'),
-('92','Grimes Port','29'),
-('93','Camille Shores','46'),
-('94','Emil Skyway','40'),
-('95','Joy Isle','1'),
-('96','Johnpaul Wall','64'),
-('97','Osinski Overpass','91'),
-('98','Pasquale Port','10'),
-('99','Lynch Springs','6'),
-('100','Westley Ford','58'); 
-
-
-
--- Generation time: Sat, 10 Nov 2018 09:51:56 +0000
+-- Generation time: Wed, 14 Nov 2018 05:38:51 +0000
 -- Host: mysql.hostinger.ro
--- DB name: u574849695_24
+-- DB name: u574849695_25
 /*!40030 SET NAMES UTF8 */;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -153,6 +42,127 @@ INSERT INTO `Canteen` VALUES ('1','Aidan Courts','22'),
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+DROP TABLE IF EXISTS `Canteen`;
+CREATE TABLE `Canteen` (
+  `Canteen_id` int(11) NOT NULL AUTO_INCREMENT,
+  `Canteen_name` text DEFAULT NULL,
+  `Owner_id` int(11) DEFAULT NULL,
+  `Updated_on` date DEFAULT NULL,
+  PRIMARY KEY (`Canteen_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `Canteen` VALUES ('1','Aurelio','22','1989-01-23'),
+('2','Lamar','83','1979-04-29'),
+('3','Gianni','78','1985-06-09'),
+('4','Alek','25','1981-07-14'),
+('5','Riley','45','2004-10-28'),
+('6','Holly','36','1992-09-01'),
+('7','Ozella','63','1976-12-03'),
+('8','Cecilia','42','1978-06-25'),
+('9','Oceane','60','2004-11-03'),
+('10','Lexie','9','1990-01-18'),
+('11','Jerad','44','1992-03-30'),
+('12','Saul','81','2006-01-10'),
+('13','Dayne','75','1981-05-07'),
+('14','Muhammad','16','1979-03-04'),
+('15','Enoch','77','1996-10-08'),
+('16','Hadley','74','1997-12-30'),
+('17','Kaia','58','1992-03-18'),
+('18','Cory','11','1984-08-08'),
+('19','Naomie','88','2012-03-21'),
+('20','Elsa','52','2004-02-18'),
+('21','Asa','41','2003-09-25'),
+('22','Napoleon','12','1984-05-08'),
+('23','Shaniya','94','1988-10-31'),
+('24','Dahlia','67','2015-01-02'),
+('25','Lacey','10','1975-07-08'),
+('26','Skyla','2','1972-01-16'),
+('27','Judah','28','2009-05-15'),
+('28','Keeley','24','2014-11-13'),
+('29','Lavonne','73','2009-12-28'),
+('30','Taylor','15','1981-10-13'),
+('31','John','29','1995-10-15'),
+('32','Alize','55','1979-04-22'),
+('33','Marlin','43','1977-06-21'),
+('34','Chet','70','2004-10-12'),
+('35','Buddy','72','1993-02-02'),
+('36','Dayana','3','2005-06-07'),
+('37','Lyla','95','1994-05-03'),
+('38','Keyshawn','7','2013-12-14'),
+('39','Kayli','92','1981-09-08'),
+('40','Darien','27','2007-02-09'),
+('41','Helena','40','1996-11-06'),
+('42','Merritt','82','1972-10-01'),
+('43','Earline','62','1985-09-04'),
+('44','Frances','53','1977-10-23'),
+('45','Royce','46','2003-09-06'),
+('46','Minerva','35','1985-08-07'),
+('47','Mariano','65','1971-08-05'),
+('48','Deion','14','1993-02-23'),
+('49','Dustin','20','2016-07-17'),
+('50','Mara','19','1988-08-26'),
+('51','Turner','6','2014-08-28'),
+('52','Albertha','31','1976-11-15'),
+('53','Elna','68','2003-01-25'),
+('54','Isai','100','2017-07-18'),
+('55','Ashlee','99','2011-04-19'),
+('56','Tiana','23','1981-11-22'),
+('57','Queen','69','2015-04-25'),
+('58','Jennings','91','2017-01-27'),
+('59','Bertram','37','2003-04-19'),
+('60','Jarrett','51','1974-03-21'),
+('61','Dorian','79','1984-05-13'),
+('62','Kasandra','96','1976-06-15'),
+('63','Aylin','39','1986-06-20'),
+('64','Guy','98','1985-02-26'),
+('65','Jerad','33','1973-11-02'),
+('66','Dante','38','1977-01-27'),
+('67','Bailey','89','2015-03-10'),
+('68','Vern','34','2004-12-06'),
+('69','Jeanie','97','2018-08-26'),
+('70','Gerhard','64','1973-04-18'),
+('71','Janis','13','1989-03-03'),
+('72','Levi','50','1973-08-31'),
+('73','Benny','61','1992-09-21'),
+('74','Yadira','66','1995-06-03'),
+('75','Andreane','71','2010-12-16'),
+('76','Zula','47','2002-03-04'),
+('77','Spencer','93','1998-07-21'),
+('78','Kyler','85','2002-03-20'),
+('79','Okey','18','1995-02-07'),
+('80','Hunter','56','1975-04-27'),
+('81','Tillman','90','1998-04-29'),
+('82','Nikko','76','1987-02-06'),
+('83','Edwin','30','2003-10-15'),
+('84','Dustin','32','2014-12-30'),
+('85','Shaniya','87','1978-02-07'),
+('86','Lucio','57','2018-04-23'),
+('87','Vicenta','8','2002-08-11'),
+('88','Jerrod','54','1973-07-08'),
+('89','George','17','1980-02-11'),
+('90','Imelda','84','1982-10-27'),
+('91','Colt','1','1972-02-28'),
+('92','Cristobal','4','1973-07-29'),
+('93','Lauriane','21','1986-12-11'),
+('94','Emmett','49','1985-10-12'),
+('95','Kristin','59','1978-05-30'),
+('96','Hettie','80','2000-02-16'),
+('97','Loyce','48','1970-06-29'),
+('98','Reuben','26','2003-05-23'),
+('99','Precious','5','1972-01-03'),
+('100','Sydni','86','1980-12-23'); 
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 DROP TABLE IF EXISTS `Has`;
 CREATE TABLE `Has` (
@@ -671,7 +681,7 @@ INSERT INTO `Has` VALUES ('90','257','50'),
 
 DROP TABLE IF EXISTS `Items`;
 CREATE TABLE `Items` (
-  `Items_id` int(11) NOT NULL,
+  `Items_id` int(11) NOT NULL AUTO_INCREMENT,
   `Canteen_id` int(11) DEFAULT NULL,
   `Items_name` text,
   `Ingredients` text,
@@ -682,7 +692,8 @@ CREATE TABLE `Items` (
   `Max` int(10) DEFAULT NULL,
   `Times_in_menu` int(11) NOT NULL,
   `In_menu` tinyint(1) NOT NULL DEFAULT '0',
-  `Dates` text NOT NULL
+  `Dates` text NOT NULL,
+  PRIMARY KEY (`Items_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
